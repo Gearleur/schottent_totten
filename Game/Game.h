@@ -5,8 +5,11 @@
 #ifndef SCHOTTENT_TOTTEN_GAME_H
 #define SCHOTTENT_TOTTEN_GAME_H
 
-
+//la class game est la classe principale du jeu
+//c'est une classe singleton abstraite qui contient les fonctions principales du jeu
+//
 class Game {
+
 
 };
 
