@@ -67,6 +67,18 @@ build CMakeFiles/schottent_totten.dir/Card/card.cpp.obj: CXX_COMPILER__schottent
   OBJECT_DIR = CMakeFiles\schottent_totten.dir
   OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Card
 
+build CMakeFiles/schottent_totten.dir/Board/board.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Board/board.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Board\board.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Board
+
+build CMakeFiles/schottent_totten.dir/Player/player.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Player/player.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Player\player.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Player
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target schottent_totten
@@ -75,7 +87,7 @@ build CMakeFiles/schottent_totten.dir/Card/card.cpp.obj: CXX_COMPILER__schottent
 #############################################
 # Link the executable schottent_totten.exe
 
-build schottent_totten.exe: CXX_EXECUTABLE_LINKER__schottent_totten_Debug CMakeFiles/schottent_totten.dir/main.cpp.obj CMakeFiles/schottent_totten.dir/Game/Game.cpp.obj CMakeFiles/schottent_totten.dir/Card/card.cpp.obj
+build schottent_totten.exe: CXX_EXECUTABLE_LINKER__schottent_totten_Debug CMakeFiles/schottent_totten.dir/main.cpp.obj CMakeFiles/schottent_totten.dir/Game/Game.cpp.obj CMakeFiles/schottent_totten.dir/Card/card.cpp.obj CMakeFiles/schottent_totten.dir/Board/board.cpp.obj CMakeFiles/schottent_totten.dir/Player/player.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\schottent_totten.dir
