@@ -1,12 +1,12 @@
 //
-// Created by alexa on 10/05/2023.
+// Created by alexa on 15/05/2023.
 //
 
 #ifndef SCHOTTENT_TOTTEN_CARD_H
 #define SCHOTTENT_TOTTEN_CARD_H
 
 
-class card {
+class Card {
 
 };
 
