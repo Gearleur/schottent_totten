@@ -20,6 +20,7 @@ enum Type {
 };
 
 enum Numbered {
+    ZERO,
     ONE,
     TWO,
     THREE,

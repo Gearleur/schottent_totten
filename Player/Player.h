@@ -7,8 +7,11 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "../Utils/enums.h"
 #include "../Card/Card.h"
+
+class Card;
 
 using namespace std;
 
@@ -16,26 +19,24 @@ class Player {
     protected:
         int id;
         string name;
-        vector<Card> hand;
+        vector<Card*> hand;
 
     public:
         static int idCounter;
-        Player(const string& name, const vector<Card>& hand): name(name), hand(hand) { id = idCounter++; };
 
-        /* Getters */
+        /* constructors */
+        Player(const string& name, const vector<Card*>& hand): id(idCounter++), name(name), hand(hand){};
+
+        /* getters */
         int getId() const { return id; };
         string getName() const { return name; };
-        vector<Card> getHand() const { return hand; };
+        vector<Card*> getHand() const { return hand; };
 
-        /* Setters */
-        void setName(const string& name) { this->name = name; };
-        void setHand(const vector<Card>& hand) { this->hand = hand; };
 
-        /* Functions */
-        void addCard(const Card& card);
-        void removeCard(const Card& card);
-        void removeCard(const int& index);
-        void printHand() const;
+        /* fonctions */
+        void addCard(Card* card) { hand.push_back(card); };
+        void removeCard(Card* card) { hand.erase(find(hand.begin(), hand.end(),card)); };
+        void removeCard(int index) { hand.erase(hand.begin() + index); };
 
         /* virtual functions */
         virtual bool isAI() const = 0;

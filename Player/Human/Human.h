@@ -5,9 +5,16 @@
 #ifndef SCHOTTENT_TOTTEN_HUMAN_H
 #define SCHOTTENT_TOTTEN_HUMAN_H
 
+#pragma once
 
-class Human {
+#include "../Player.h"
 
+class Player;
+
+class Human: public Player {
+    public:
+        Human(std::string name, vector<Card*> hand): Player(name, hand){};
+        bool isAI() const override { return false; };
 };
 
 

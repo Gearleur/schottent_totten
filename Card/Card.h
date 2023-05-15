@@ -8,12 +8,13 @@
 #include "../Utils/enums.h"
 #include "../Player/Player.h"
 
+class Player;
+
 //la class card est la classe abstraite qui contient les fonctions principales pour generer une carte
 //cette classe abstraite engendre deux classe filles qui sont les deux types de cartes
 //Il y a les cartes numérotées et les cartes spéciales
 //les cartes numérotées sont les cartes de 1 à 9 et 6 couleurs différentes
 //les cartes spéciales sont des cartes avec des pouvoirs spéciaux
-//on utilise les
 class Card {
     protected:
         Numbered number;
@@ -24,7 +25,7 @@ class Card {
         Player* owner = nullptr;
 
     public:
-        Card(Numbered number, Color color, Type type, char* name, char* description, Player* owner, Effect effect):
+        Card(Numbered number, Color color, Type type, char* name= nullptr, char* description= nullptr, Player* owner= nullptr):
             number(number), color(color), type(type), name(name), description(description), owner(owner){};
 
         Card() {};
