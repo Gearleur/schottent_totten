@@ -3,14 +3,11 @@
 //
 
 #include "Deck.h"
+#include <algorithm>
+#include <iostream>
 
 Deck::Deck() {
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 13; j++) {
-            Clan clan= Clan(Numbered(i), Color(j));
-            this->deck.push_back(&clan);
-        }
-    }
+    this->deck = std::vector<Card *>();
 }
 
 Deck::~Deck() {
@@ -23,12 +20,27 @@ void Deck::shuffle() {
     std::random_shuffle(this->deck.begin(), this->deck.end());
 }
 
-Clan * Deck::draw() {
-    Clan * clan = this->deck.back();
+Card * Deck::draw() {
+    Card * card = this->deck.back();
     this->deck.pop_back();
-    return clan;
+    return card;
 }
 
-void Deck::addCard(Clan * clan) {
-    this->deck.push_back(clan);
+void Deck::addCard(Card * card) {
+    this->deck.push_back(card);
 }
+
+//rempli le deck de carte de clan
+//chaque carte est unique
+//il y a 9 cartes par couleur
+void Deck::fillClanDeck() {
+    if (this->deck.size() != 0) {
+        std::cout << "Deck is not empty" << std::endl;
+        return;
+    }
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 5; j++)
+            this->addCard(new Clan(Numbered(i), Color(j)));
+    }
+}
+

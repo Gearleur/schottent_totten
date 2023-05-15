@@ -17,7 +17,7 @@ int main() {
     clanCards.push_back(new Clan(Numbered(0), Color(2)));
     clanCards.push_back(new Clan(Numbered(0), Color(3)));
     clanCards.push_back(new Clan(Numbered(0), Color(4)));
-    clanCards.push_back(new Clan(Numbered(0), Color(5)));
+    clanCards.push_back(new Clan(Numbered(1), Color(5)));
 
     Human* player1 = new Human("Alexandre", clanCards);
 
