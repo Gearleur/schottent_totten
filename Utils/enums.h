@@ -6,17 +6,17 @@
 #define SCHOTTENT_TOTTEN_ENUMS_H
 
 enum Color {
-    RED,
-    BLUE,
-    GREEN,
-    YELLOW,
-    PURPLE,
-    ORANGE
+    RED, // 0
+    BLUE, // 1
+    GREEN, // 2
+    YELLOW, // 3
+    PURPLE, // 4
+    ORANGE // 5
 };
 
 enum Type {
-    NUMBERED,
-    SPECIAL
+    NUMBERED, // 0
+    SPECIAL // 1
 };
 
 enum Numbered {
@@ -33,9 +33,9 @@ enum Numbered {
 };
 
 enum Special {
-    EliteTroops,
-    BattleModes,
-    Tricks,
+    EliteTroops, // 0
+    BattleModes, // 1
+    Tricks, // 2
 };
 
 #endif //SCHOTTENT_TOTTEN_ENUMS_H

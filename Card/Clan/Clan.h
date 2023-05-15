@@ -6,9 +6,9 @@
 #define SCHOTTENT_TOTTEN_CLAN_H
 #include "../Card.h"
 
-class Clan: public Card{
+class Clan : public Card{
 public:
-    Clan(Numbered numbered, Color color, Type Numbered): Card(number, color, Numbered, nullptr, nullptr, nullptr){};
+    Clan(Numbered numbered, Color color): Card(number, color, Type(0), nullptr, nullptr, nullptr){};
 };
 
 

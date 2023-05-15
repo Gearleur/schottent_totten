@@ -7,8 +7,7 @@
 
 #include <vector>
 #include "../../Card/Clan/Clan.h"
-
-class Card;
+;
 class Clan;
 
 
@@ -23,21 +22,22 @@ class Deck {
     private:
         friend class Game;
         static Deck* instance;
-        vector<Card*> deck;
+        vector<Clan*> deck;
 
         Deck();
-        ~Deck()=default;
+        ~Deck();
 
     public:
         //getters
         static Deck* getInstance();
-        vector<Card*> getDeck() const { return deck; };
+        vector<Clan*> getDeck() const { return deck; };
 
         //fonctions
         void shuffle();
-        Card* draw();
-        void putBack(Card* card);
+        Clan * draw();
+        void putBack(Clan* clan);
         void isEmpty() const;
+        void addCard(Clan *clan);
 };
 
 
