@@ -61,24 +61,6 @@ build CMakeFiles/schottent_totten.dir/Game/Game.cpp.obj: CXX_COMPILER__schottent
   OBJECT_DIR = CMakeFiles\schottent_totten.dir
   OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Game
 
-build CMakeFiles/schottent_totten.dir/Board/board.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Board/board.cpp || cmake_object_order_depends_target_schottent_totten
-  DEP_FILE = CMakeFiles\schottent_totten.dir\Board\board.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\schottent_totten.dir
-  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Board
-
-build CMakeFiles/schottent_totten.dir/Player/player.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Player/player.cpp || cmake_object_order_depends_target_schottent_totten
-  DEP_FILE = CMakeFiles\schottent_totten.dir\Player\player.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\schottent_totten.dir
-  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Player
-
-build CMakeFiles/schottent_totten.dir/Border/border.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Border/border.cpp || cmake_object_order_depends_target_schottent_totten
-  DEP_FILE = CMakeFiles\schottent_totten.dir\Border\border.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\schottent_totten.dir
-  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Border
-
 build CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Utils/enums.cpp || cmake_object_order_depends_target_schottent_totten
   DEP_FILE = CMakeFiles\schottent_totten.dir\Utils\enums.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
@@ -91,6 +73,30 @@ build CMakeFiles/schottent_totten.dir/Card/Card.cpp.obj: CXX_COMPILER__schottent
   OBJECT_DIR = CMakeFiles\schottent_totten.dir
   OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Card
 
+build CMakeFiles/schottent_totten.dir/Player/Player.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Player/Player.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Player\Player.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Player
+
+build CMakeFiles/schottent_totten.dir/Board/Board.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Board/Board.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Board\Board.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Board
+
+build CMakeFiles/schottent_totten.dir/Border/Boarder.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Border/Boarder.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Border\Boarder.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Border
+
+build CMakeFiles/schottent_totten.dir/Player/Human/Human.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Player/Human/Human.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Player\Human\Human.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Player\Human
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target schottent_totten
@@ -99,7 +105,7 @@ build CMakeFiles/schottent_totten.dir/Card/Card.cpp.obj: CXX_COMPILER__schottent
 #############################################
 # Link the executable schottent_totten.exe
 
-build schottent_totten.exe: CXX_EXECUTABLE_LINKER__schottent_totten_Debug CMakeFiles/schottent_totten.dir/main.cpp.obj CMakeFiles/schottent_totten.dir/Game/Game.cpp.obj CMakeFiles/schottent_totten.dir/Board/board.cpp.obj CMakeFiles/schottent_totten.dir/Player/player.cpp.obj CMakeFiles/schottent_totten.dir/Border/border.cpp.obj CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj CMakeFiles/schottent_totten.dir/Card/Card.cpp.obj
+build schottent_totten.exe: CXX_EXECUTABLE_LINKER__schottent_totten_Debug CMakeFiles/schottent_totten.dir/main.cpp.obj CMakeFiles/schottent_totten.dir/Game/Game.cpp.obj CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj CMakeFiles/schottent_totten.dir/Card/Card.cpp.obj CMakeFiles/schottent_totten.dir/Player/Player.cpp.obj CMakeFiles/schottent_totten.dir/Board/Board.cpp.obj CMakeFiles/schottent_totten.dir/Border/Boarder.cpp.obj CMakeFiles/schottent_totten.dir/Player/Human/Human.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\schottent_totten.dir
