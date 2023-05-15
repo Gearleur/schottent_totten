@@ -1,19 +1,12 @@
 # ninja log v5
 7	228	7058577201931738	CMakeFiles/schottent_totten.dir/Game/Game.cpp.obj	2c5856becafb3a33
 37	236	7058577202041458	CMakeFiles/schottent_totten.dir/Board/Board.cpp.obj	19375dd958618d5f
-15	560	7058617396030279	CMakeFiles/schottent_totten.dir/Player/Human/Human.cpp.obj	da498b1b76810174
-7	111	7058598563481882	CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj	445aeb8ebeaaeccd
-668	801	7058617398245129	schottent_totten.exe	334f815ea7e552b2
-17	272	7058577202334238	CMakeFiles/schottent_totten.dir/Border/Boarder.cpp.obj	ecdf5640a8793b5c
-4	508	7058617395557644	CMakeFiles/schottent_totten.dir/Card/Card.cpp.obj	9e745bd563cb2b63
-20	546	7058617395887219	CMakeFiles/schottent_totten.dir/Card/Clan/Clan.cpp.obj	5df8d96ffa8c7ccd
-1	640	7058577206224480	CMakeFiles/schottent_totten.dir/main.cpp.obj	1c91c15f69d4a177
-10	668	7058617397155487	CMakeFiles/schottent_totten.dir/Player/Player.cpp.obj	8bd8d606f70ddab3
+125	707	7058635652818117	CMakeFiles/schottent_totten.dir/Player/Human/Human.cpp.obj	da498b1b76810174
 4	124	7058635646944194	CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj	445aeb8ebeaaeccd
+776	890	7058635654572676	schottent_totten.exe	ab8ab04d3dad9658
 18	136	7058635646944194	CMakeFiles/schottent_totten.dir/Border/Boarder.cpp.obj	ecdf5640a8793b5c
 12	636	7058635652101153	CMakeFiles/schottent_totten.dir/Card/Card.cpp.obj	9e745bd563cb2b63
 23	668	7058635652422476	CMakeFiles/schottent_totten.dir/Card/Clan/Clan.cpp.obj	5df8d96ffa8c7ccd
-125	707	7058635652818117	CMakeFiles/schottent_totten.dir/Player/Human/Human.cpp.obj	da498b1b76810174
-30	766	7058635653402518	CMakeFiles/schottent_totten.dir/Board/Classique_Deck/Deck.cpp.obj	16876cbc15a3aecb
+1	640	7058577206224480	CMakeFiles/schottent_totten.dir/main.cpp.obj	1c91c15f69d4a177
 8	775	7058635653499021	CMakeFiles/schottent_totten.dir/Player/Player.cpp.obj	8bd8d606f70ddab3
-776	890	7058635654572676	schottent_totten.exe	ab8ab04d3dad9658
+30	766	7058635653402518	CMakeFiles/schottent_totten.dir/Board/Classique_Deck/Deck.cpp.obj	16876cbc15a3aecb
