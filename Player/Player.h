@@ -28,9 +28,9 @@ class Player {
         Player(const string& name, const vector<Card*>& hand): id(idCounter++), name(name), hand(hand){};
 
         /* getters */
-        int getId() const { return id; };
-        string getName() const { return name; };
-        vector<Card*> getHand() const { return hand; };
+        const int& getId() const { return id; };
+        const string& getName() const { return name; };
+        const vector<Card*>& getHand() const { return hand; };
 
 
         /* fonctions */
