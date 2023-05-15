@@ -37,6 +37,7 @@ class Player {
         void addCard(Card* card) { hand.push_back(card); };
         void removeCard(Card* card) { hand.erase(find(hand.begin(), hand.end(),card)); };
         void removeCard(int index) { hand.erase(hand.begin() + index); };
+        void showHand() const;
 
         /* virtual functions */
         virtual bool isAI() const = 0;

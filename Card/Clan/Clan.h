@@ -8,7 +8,7 @@
 
 class Clan : public Card{
 public:
-    Clan(Numbered numbered, Color color): Card(number, color, Type(0), nullptr, nullptr, nullptr){};
+    Clan(Numbered number, Color color): Card(number, color, Type(0), nullptr, nullptr, nullptr){};
 };
 
 

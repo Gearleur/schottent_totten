@@ -45,6 +45,9 @@ class Card {
         void setType(Type type) { this->type = type; };
         void setOwner(Player* owner) { this->owner = owner; };
 
+        //fonctions
+        void showCard() const;
+
         //fonction
 
 };

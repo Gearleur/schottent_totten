@@ -13,7 +13,7 @@ class Player;
 
 class Human: public Player {
     public:
-        Human(std::string name, vector<Card*> hand): Player(name, hand){};
+        Human(std::string name, vector<Card *> hand): Player(name, hand){};
         bool isAI() const override { return false; };
 };
 
