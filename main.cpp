@@ -1,10 +1,10 @@
 #include <iostream>
-#include "Board/Board.h"
-#include "Border/Border.h"
-#include "Player/Player.h"
-#include "Card/Card.h"
-#include "Card/Clan/Clan.h"
-#include "Player/Human/Human.h"
+#include "Model/Board/Board.h"
+#include "Model/Border/Border.h"
+#include "Model/Player/Player.h"
+#include "Model/Card/Card.h"
+#include "Model/Card/Clan/Clan.h"
+#include "Model/Player/Human/Human.h"
 #include <vector>
 using namespace std;
 

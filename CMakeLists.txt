@@ -3,4 +3,4 @@ project(schottent_totten)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(schottent_totten main.cpp Game/Game.cpp Game/Game.h Utils/enums.cpp Utils/enums.h Card/Card.cpp Card/Card.h Player/Player.cpp Player/Player.h Board/Board.cpp Board/Board.h Player/Human/Human.cpp Player/Human/Human.h Card/Clan/Clan.cpp Card/Clan/Clan.h "Board/Classique Deck/Deck.cpp" "Board/Classique Deck/Deck.h" Border/Border.cpp Border/Border.h)
+add_executable(schottent_totten main.cpp Model/Game/Game.cpp Model/Game/Game.h Utils/enums.cpp Utils/enums.h Model/Card/Card.cpp Model/Card/Card.h Model/Player/Player.cpp Model/Player/Player.h Model/Board/Board.cpp Model/Board/Board.h Model/Player/Human/Human.cpp Model/Player/Human/Human.h Model/Card/Clan/Clan.cpp Model/Card/Clan/Clan.h "Model/Deck/Deck.cpp" "Model/Deck/Deck.h" Model/Border/Border.cpp Model/Border/Border.h)
