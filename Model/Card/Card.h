@@ -48,7 +48,7 @@ class Card {
         void setOwner(Player* owner) { this->owner = owner; };
 
         //fonctions
-        void showCard() const;
+        virtual void showCard() const = 0;
 
         //fonction
 

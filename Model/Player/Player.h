@@ -46,7 +46,7 @@ class Player {
         void showHand() const;
 
         /* virtual functions */
-        virtual bool isAI() const = 0;
+        virtual bool isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
         virtual ~Player() = default;
 
 
