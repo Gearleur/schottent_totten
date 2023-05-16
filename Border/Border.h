@@ -27,6 +27,7 @@ class Player;
 
 class Border {
 private:
+    int position;
     std::vector<Card*> leftBorder;
     std::vector<Card*> rightBorder;
     int maxCards;
@@ -40,25 +41,29 @@ private:
     bool isWinning(vector<Card*> border);
 
     /* Getter */
-    Player* getOwner();
-    vector<Card*> getLeftBorder();
-    vector<Card*> getRightBorder();
-    int getMaxCards();
-    int getCurrentCardsLeft();
-    int getCurrentCardsRight();
+    int getPosition(){ return position;}
+    Player* getOwner(){ return owner;}
+    vector<Card*> getLeftBorder(){ return leftBorder;}
+    vector<Card*> getRightBorder(){ return rightBorder;} 
+    int getMaxCards(){ return maxCards;}
+    int getCurrentCardsLeft(){ return currentCardsLeft;}
+    int getCurrentCardsRight(){ return currentCardsRight;}
 
     /* Setter */
-    void setOwner(Player* player);
-    void setLeftBorder(vector<Card*> border);
-    void setRightBorder(vector<Card*> border);
-    void setMaxCards(int maxCards);
-    void setCurrentCardsLeft(int currentCardsLeft);
-    void setCurrentCardsRight(int currentCardsRight);
+    void setOwner(Player* player){ owner = player;}
+    void setLeftBorder(vector<Card*> border){ leftBorder = border;}
+    void setRightBorder(vector<Card*> border) { rightBorder = border;}
+    void setMaxCards(int maxCards) { this->maxCards = maxCards;}
+    void setCurrentCardsLeft(int currentCardsLeft) { this->currentCardsLeft = currentCardsLeft;}
+    void setCurrentCardsRight(int currentCardsRight) { this->currentCardsRight = currentCardsRight;}
+
+    void addCardLeft(Card* card){ addCard(card, leftBorder);}
+    void addCardRight(Card* card){ addCard(card, rightBorder);}
 
     friend class Game;
 
 public:
-    Border();
+    Border(int position, Player* owner = nullptr);
     ~Border();
 };
 

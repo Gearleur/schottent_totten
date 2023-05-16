@@ -10,10 +10,13 @@
 #include "../Player.h"
 
 class Player;
+class Border;
+
 
 class Human: public Player {
     public:
-        Human(std::string name, vector<Card *> hand): Player(name, hand){};
+    //constructeur Human avec un nom et une main et un vector borders vide par défaut
+    Human(const string& name, const vector<Card*>& hand, const vector<Border*>& borders = vector<Border*>()): Player(name, hand, borders){};
         bool isAI() const override { return false; };
 };
 
