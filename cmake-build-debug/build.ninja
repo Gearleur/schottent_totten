@@ -109,6 +109,12 @@ build CMakeFiles/schottent_totten.dir/Model/Border/Border.cpp.obj: CXX_COMPILER_
   OBJECT_DIR = CMakeFiles\schottent_totten.dir
   OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Model\Border
 
+build CMakeFiles/schottent_totten.dir/Model/Deck/Clan_Deck/ClanDeck.cpp.obj: CXX_COMPILER__schottent_totten_Debug C$:/Users/alexa/CLionProjects/schottent_totten/Model/Deck/Clan$ Deck/ClanDeck.cpp || cmake_object_order_depends_target_schottent_totten
+  DEP_FILE = CMakeFiles\schottent_totten.dir\Model\Deck\Clan_Deck\ClanDeck.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\schottent_totten.dir
+  OBJECT_FILE_DIR = CMakeFiles\schottent_totten.dir\Model\Deck\Clan_Deck
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target schottent_totten
@@ -117,7 +123,7 @@ build CMakeFiles/schottent_totten.dir/Model/Border/Border.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the executable schottent_totten.exe
 
-build schottent_totten.exe: CXX_EXECUTABLE_LINKER__schottent_totten_Debug CMakeFiles/schottent_totten.dir/main.cpp.obj CMakeFiles/schottent_totten.dir/Model/Game/Game.cpp.obj CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj CMakeFiles/schottent_totten.dir/Model/Card/Card.cpp.obj CMakeFiles/schottent_totten.dir/Model/Player/Player.cpp.obj CMakeFiles/schottent_totten.dir/Model/Board/Board.cpp.obj CMakeFiles/schottent_totten.dir/Model/Player/Human/Human.cpp.obj CMakeFiles/schottent_totten.dir/Model/Card/Clan/Clan.cpp.obj CMakeFiles/schottent_totten.dir/Model/Deck/Deck.cpp.obj CMakeFiles/schottent_totten.dir/Model/Border/Border.cpp.obj
+build schottent_totten.exe: CXX_EXECUTABLE_LINKER__schottent_totten_Debug CMakeFiles/schottent_totten.dir/main.cpp.obj CMakeFiles/schottent_totten.dir/Model/Game/Game.cpp.obj CMakeFiles/schottent_totten.dir/Utils/enums.cpp.obj CMakeFiles/schottent_totten.dir/Model/Card/Card.cpp.obj CMakeFiles/schottent_totten.dir/Model/Player/Player.cpp.obj CMakeFiles/schottent_totten.dir/Model/Board/Board.cpp.obj CMakeFiles/schottent_totten.dir/Model/Player/Human/Human.cpp.obj CMakeFiles/schottent_totten.dir/Model/Card/Clan/Clan.cpp.obj CMakeFiles/schottent_totten.dir/Model/Deck/Deck.cpp.obj CMakeFiles/schottent_totten.dir/Model/Border/Border.cpp.obj CMakeFiles/schottent_totten.dir/Model/Deck/Clan_Deck/ClanDeck.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\schottent_totten.dir

@@ -8,7 +8,11 @@
 
 class Clan : public Card{
 public:
+    friend class ClanDeck;
     Clan(Numbered number, Color color): Card(number, color, Type(0), "","",nullptr){};
+    ~Clan() override = default;
+
+    void showCard() const override;
 };
 
 

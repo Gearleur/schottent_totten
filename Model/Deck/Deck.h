@@ -25,21 +25,22 @@ class Deck {
         static Deck* instance;
         std::vector<Card*> deck;
 
+        //constructeur
         Deck();
         ~Deck();
 
     public:
         //getters
-        static Deck* getInstance();
+        static Deck* getInstance() { return instance;}
         std::vector<Card*> getDeck() const { return deck; };
 
         //fonctions
         void shuffle();
         Card * draw();
         void putBack(Card* card);
-        void isEmpty() const;
-        void addCard(Card *card);
-        void fillClanDeck();
+        bool isEmpty() const;
+        virtual void addCard(Card *card) = 0;
+        virtual void fillDeck() = 0;
 };
 
 
