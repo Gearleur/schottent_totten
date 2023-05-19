@@ -9,16 +9,13 @@
 
 #include "../../Utils/enums.h"
 #include "../Player/Player.h"
-
-class Player;
-
 //la class card est la classe abstraite qui contient les fonctions principales pour generer une carte
 //cette classe abstraite engendre deux classe filles qui sont les deux types de cartes
 //Il y a les cartes numérotées et les cartes spéciales
 //les cartes numérotées sont les cartes de 1 à 9 et 6 couleurs différentes
 //les cartes spéciales sont des cartes avec des pouvoirs spéciaux
 namespace Model{
-    
+    class Player;
     class Card {
         protected:
             Numbered number;

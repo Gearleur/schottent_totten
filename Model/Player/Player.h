@@ -10,11 +10,13 @@
 #include <algorithm>
 #include "../../Utils/enums.h"
 #include "../Card/Card.h"
+#include "../Border/Border.h"
 
-class Card;
-class Border;
+
 
 namespace Model {
+    class Card;
+    class Border;
     class Player {
     protected:
         int id;
@@ -27,8 +29,9 @@ namespace Model {
 
         /* constructors */
         /*les borders ne sont pas demander et initialisées à 0*/
-        Player(const std::string &name, const std::vector<Card *> &hand, const std::vector<Border *> &borders);
-        
+        Player(const std::string& name, const std::vector<Card*>& hand, const std::vector<Border*>& borders)
+                : id(idCounter++), name(name), hand(hand), borders(borders) {
+        }
         /* getters */
         const int &getId() const { return id; };
 

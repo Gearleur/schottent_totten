@@ -32,6 +32,7 @@ namespace Model {
         if (this->deck.empty()) {
             std::cout << "The deck is empty" << std::endl;
         }
+        return this->deck.empty();
     }
 
     void Deck::putBack(Card *card) {

@@ -23,9 +23,10 @@
 #include "../../Utils/enums.h"
 #include "../Player/Player.h"
 
-class Player;
 
 namespace Model {
+    class Card;
+    class Player;
     class Border {
     private:
         int position;
