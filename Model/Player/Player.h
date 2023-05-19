@@ -27,7 +27,7 @@ namespace Model {
 
         /* constructors */
         /*les borders ne sont pas demander et initialisées à 0*/
-        Player(const std::string *name, const std::vector<Card *> *hand, const std::vector<Border *> *borders = nullptr);
+        Player(const std::string &name, const std::vector<Card *> &hand, const std::vector<Border *> &borders);
         
         /* getters */
         const int &getId() const { return id; };
