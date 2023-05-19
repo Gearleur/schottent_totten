@@ -12,8 +12,10 @@
 //affiche le numéro de la carte
 //affiche la couleur de la carte
 
-void Clan::showCard() const{
-    std::cout << "Type : " << getType() << std::endl;
-    std::cout << "Number : " << getNumber() << std::endl;
-    std::cout << "Color : " << getColor() << std::endl;
+namespace Model {
+    void Clan::showCard() const {
+        std::cout << "Type : " << getType() << std::endl;
+        std::cout << "Number : " << getNumber() << std::endl;
+        std::cout << "Color : " << getColor() << std::endl;
+    }
 }

@@ -14,44 +14,54 @@
 class Card;
 class Border;
 
-class Player {
+namespace Model {
+    class Player {
     protected:
         int id;
         std::string name;
-        std::vector<Card*> hand;
-        std::vector<Border*> borders;
+        std::vector<Card *> hand;
+        std::vector<Border *> borders;
 
     public:
         static int idCounter;
 
         /* constructors */
-        Player(const std::string& name, const std::vector<Card*>& hand, const std::vector<Border*>& borders): id(idCounter++), name(name), hand(hand), borders(borders){};
-
+        /*les borders ne sont pas demander et initialisées à 0*/
+        Player(const std::string *name, const std::vector<Card *> *hand, const std::vector<Border *> *borders = nullptr);
+        
         /* getters */
-        const int& getId() const { return id; };
-        const std::string& getName() const { return name; };
-        const std::vector<Card*>& getHand() const { return hand; };
-        const std::vector<Border*>& getBorders() const { return borders; };
+        const int &getId() const { return id; };
+
+        const std::string &getName() const { return name; };
+
+        const std::vector<Card *> &getHand() const { return hand; };
+
+        const std::vector<Border *> &getBorders() const { return borders; };
 
 
         /* fonctions */
-        void addCard(Card* card) { hand.push_back(card); };
-        void removeCard(Card* card) { hand.erase(find(hand.begin(), hand.end(),card)); };
+        void addCard(Card *card) { hand.push_back(card); };
+
+        void removeCard(Card *card) { hand.erase(find(hand.begin(), hand.end(), card)); };
+
         void removeCard(int index) { hand.erase(hand.begin() + index); };
 
-        void addBorder(Border* border) { borders.push_back(border); };
-        void removeBorder(Border* border) { borders.erase(find(borders.begin(), borders.end(),border)); };
+        void addBorder(Border *border) { borders.push_back(border); };
+
+        void removeBorder(Border *border) { borders.erase(find(borders.begin(), borders.end(), border)); };
+
         void removeBorder(int index) { borders.erase(borders.begin() + index); };
 
         void showHand() const;
 
         /* virtual functions */
-        virtual bool isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
+        virtual bool
+        isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
         virtual ~Player() = default;
 
 
-
-};
+    };
+}
 
 
 #endif //SCHOTTENT_TOTTEN_PLAYER_H

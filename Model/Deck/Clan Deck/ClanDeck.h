@@ -13,12 +13,14 @@
 
 #include "../Deck.h"
 
-
-class ClanDeck : public Deck{
+namespace Model {
+    class ClanDeck : public Deck {
     public:
         ClanDeck();
+
         void fillDeck() override;
-};
+    };
+}
 
 
 #endif //SCHOTTENT_TOTTEN_CLANDECK_H

@@ -19,29 +19,39 @@ class Clan;
 //on peut piocher une carte dans le deck
 //on peut mélanger le deck
 //on peut remettre une carte dans le deck
-class Deck {
+namespace Model {
+    class Deck {
     private:
         friend class Game;
-        static Deck* instance;
-        std::vector<Card*> deck;
+
+        static Deck *instance;
+        std::vector<Card *> deck;
 
         //constructeur
         Deck();
+
         ~Deck();
 
     public:
         //getters
-        static Deck* getInstance() { return instance;}
-        std::vector<Card*> getDeck() const { return deck; };
+        static Deck *getInstance() { return instance; }
+
+        std::vector<Card *> getDeck() const { return deck; };
 
         //fonctions
         void shuffle();
-        Card * draw();
-        void putBack(Card* card);
+
+        Card *draw();
+
+        void putBack(Card *card);
+
         bool isEmpty() const;
+
         virtual void addCard(Card *card) = 0;
+
         virtual void fillDeck() = 0;
-};
+    };
+}
 
 
 #endif //SCHOTTENT_TOTTEN_DECK_H

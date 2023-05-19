@@ -5,10 +5,11 @@
 #ifndef SCHOTTENT_TOTTEN_BOARD_H
 #define SCHOTTENT_TOTTEN_BOARD_H
 
+namespace Model{
+    class Board {
 
-class Board {
-
-};
+    };
+}
 
 
 #endif //SCHOTTENT_TOTTEN_BOARD_H
