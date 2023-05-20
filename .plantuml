@@ -1,0 +1,431 @@
+@startuml ex
+skinparam classAttributeIconSize 0
+class GameOption  <<abstract>> {
+# version  : int 
+# mode_de_jeu : string
++ events : EventManager
++ get_version() : int const
++ get_mode_de_jeu() : string const
++ creer_board() : board*
+}
+
+class "Schotten_Totten classique" <<singleton>>{
+- version : int = 1
+- mode_de_jeu : const string = "classique"
++ creer_board() : board* override
+}
+
+class "Schotten_Totten tactique" <<singleton>> {
+- version : int = 1
+- mode_de_jeu : const string = "tactique"
++ creer_board() : board* override
+}
+
+class "Schotten_Totten2 classique" <<singleton>> {
+- version : int = 2
+- mode_de_jeu : const string = "classique"
+- defender : Joueur *
+- assailant: Joueur *
++ creer_board() : board* override
++ set_defender() : Joueur *
++ set_assailant() : Joueur *
+}
+
+class "Schotten_Totten2 tactique" <<singleton>> {
+- version : int = 2
+- mode_de_jeu : const string = "tactique"
+- defender : Joueur *
+- assailant: Joueur *
++ creer_board() : board* override
++ set_defender() : Joueur *
++ set_assailant() : Joueur *
+}
+
+class EventManager <<observer>> {
+-listerners[]
++ revendiquer_borne() : Tile *
++ piocher() : Card *
++ poser_carte() : Card *
+}
+
+class Controller {
++ events : EventManager
++ controle_pioche() : bool
++ controle_poser_carte() : bool
++ controle_revendiquer() : bool
++ compteur_carte_tactique() : int
+}
+
+class Player <<abstract>> {
+# id : int
+# name : string 
+# hand : vector(Card *)
+$ idCounter :  int
+
++ Player(name : const string&,  hand : const vector<Card*>&)
++ getId() : const int& const
++ getName() : const string & const
++ getHand() : const vector<Card*>& const
++ addCard(card : Card *) : void
++ removeCard(card : Card *) : void
++ removeCard(index : int) : void
++ showHand() : void const
++ isAI() : virtual bool const  = 0
++ ~Player() : virtual = default
+}
+
+class Human {
++ Human(name : string, hand : vector<Card *> ) : Player(name, hand)
++  isAI()  : bool const override = 0
+}
+
+class IA {
+- strat : strategie
++ get_strategie() : strategie *const
++ IA(hand : vector<Card *>) : Player("IA", hand)
++ isAI()  : bool const override =  1
+}
+
+
+class SchottenTottenBoard <<singleton>>{
+- tiles : Tiles *
+- deck : Card ** 
+}
+
+class SchottenTotten2Board <<singleton>> {
+- wall : Wall *
+- deck : Card **
+- caldron : Caldron *
+}
+
+class Board <<abstract>> {
+# compteur : int
+# defausse : Defausse
+# deck : Deck
++ events : EventManager
++ creer_deck() : Deck
++ creer_deckTactique() : TacticDeck
+}
+
+class Boarder <<abstract>>{
+# position : int
+# leftBorder : vector<Card*> 
+# rightBorder : vector<Card*> 
+# maxCards : int
+# currentCardsLeft : int
+# currentCardsRight : int
+# owner : Player*
+# emplacementCarteCTactique : CardTactique 
+
+# addCard(card: Card*, border: vector<Card*>) : void
+# isFull(border: vector<Card*>) : bool
+# isEmpty(border: vector<Card*>) : bool
+# isWinning(border: vector<Card*>) : bool
+# getPosition(): int                              
+# getOwner(): Player*                             
+# getLeftBorder(): vector<Card*>              
+# getRightBorder(): vector<Card*>             
+# getMaxCards(): int                              
+# getCurrentCardsLeft(): int                      
+# getCurrentCardsRight(): int                     
+# setOwner(player: Player*) : void                       
+# setLeftBorder(border: vector<Card*>) : void        
+# setRightBorder(border: vector<Card*>) :void       
+# setMaxCards(maxCards: int) : void                      
+# setCurrentCardsLeft(currentCardsLeft: int) : void       
+# setCurrentCardsRight(currentCardsRight: int) : void
+# addCardLeft(card: Card*) : void                        
+# addCardRight(card: Card*) : void
+# get_combinaison() :  Combinaison
+# get_emplacementCarteTactique() : Rule
+
+# Border(position: int, owner: Player*)            
+# ~Border()
+}
+
+class Combinaison <<abstract>> {
+# combinaison : int
++ get_combinaison() : int const 
+}
+
+class "Combinaison cartes couleur" <<singleton>> {
+- combinaison : int ≥ 1 or ≤ 2
++ get_combinaison() : int const override
+}
+
+class "Combinaison cartes force" <<singleton>>{
+- combinaison : int ≥ 3 or ≤ 4
++ get_combinaison() : int const override
+}
+
+class "Combinaison cartes identique" <<singleton>>{
+- combinaison : int ≥ 5 or ≤ 6
++ get_combinaison() : int const override
+}
+
+class Tile {
++ get_combinaison() : Combinaison override
++ creer_frontiere() :  Tile **
+}
+
+class Wall {
++ isDamaged() : bool 
++ get_combinaison() :  Combinaison override
++ creer_walls() : Wall **
+}
+
+class Caldron 
+
+class Strategie 
+
+class Deck <<abstract>> {
+$ instance: Deck* 
+# deck: vector<Card*> 
+# Deck() 
+# ~Deck()
+$ getInstance(): Deck*
+# getDeck(): vector<Card*>
+# shuffle() : void
+# draw(): Card*
+# putBack(card: Card*) : void
+# isEmpty(): bool
+# addCard(card: Card) [virtual]
+# fillDeck() [virtual]
+}
+
+class ClanDeck <<singleton>> {
+- ClanCards : ClansCard*
++ get_deck() : Card* override
++ draw() : Card* override
+}
+
+class TacticDeck <<singleton>>{
+- tacticCards : TacticCard*
+# version : int = 1 OR 2
++ get_deck() : Card* override
++ draw() : Card* override
++get_version() : int const
+} 
+
+class Card <<abstract>> {
+# number: Numbered
+# color: Color
+# type: Type
+# name: string
+# description: string
+# owner: Player*
++ getNumber(): Numbered const
++ getColor(): Color const
++ getType(): Type const
++ getName(): string const
++ getDescription(): string const
++ getOwner(): Player* const
++ setNumber(number: Numbered)
++ setColor(color: Color)
++ setType(type: Type)
++ setOwner(owner: Player*)
++ showCard(): void [virtual] const = 0
+
+}
+
+class ClanCard {
++ Clan(number: Numbered, color: Color)
++ ~Clan() override = default
++ showCard(): void override
+}
+
+enum Color{
+rouge, vert, jaune, bleu, violet, orange
+}
+
+enum Type {
+    NUMBERED = 0
+    SPECIAL = 1
+}
+
+
+enum Numbered {
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
+    FIVE = 5
+    SIX = 6
+    SEVEN = 7
+    EIGHT = 8
+    NINE = 9
+    TEN = 10
+    ELEVEN = 11
+}
+
+enum Special {
+    EliteTroops = 0
+    BattleModes = 1
+    Tricks = 2
+    Action = 3
+}
+
+class TacticCard <<abstract>> {
+# card_type : Special
++ Tactic(number: Numbered, color: Color)
++ ~Tactic() override
++ showCard(): void override
+}
+
+class EliteTroop <<abstract>>{
+# card_type : Special = EliteTroops
++ setColor(color: Color) : const Color override
++ setNumber(number: Numbered) : const Numbered override
+}
+
+class CombatMode <<abstract>> {
+# version : int = 1
+# card_type : Special = battleModes
+}
+
+class Ruse <<abstract>> {
+# version : int = 1
+# - card_type : Special = Tricks
+}
+
+class Defausse <<singleton>> {
+
+}
+
+class Joker {
+- name : const string = "Joker"
++ setColor(color: Color) : const Color override
++ setNumber(number: Numbered) : const Numbered override
+}
+
+class Espion <<singleton>> {
+- name : const string = "Espion"
+- nombre : const Numbered =  7
+}
+
+class "Porte Bouclier" <<singleton>> {
+- name : const string = "Porte Bouclier"
+- nombre : const Numbered 
+}
+
+class "Collin Maillard" <<singleton>> {
+- name : const string = "Collin Maillard"
+}
+
+class "Combat de boue" <<singleton>> {
+- name : const string = "Combat de boue"
+
+}
+
+class "Chasseur de Tête" <<singleton>> {
+- name : const string = "Chasseur de Tête"
+}
+
+class Stratège <<singleton>> {
+- name : const string = "Stratège"
+}
+
+class Banshee <<singleton>> {
+- name : const string = "Banshee"
+}
+
+class Traitre <<singleton>> {
+- name : const string = "Traitre"
+}
+
+
+class Action <<abstract>> {
+# version : int = 2
+    - card_type : Special = Action
+}
+
+class Redéploiement <<singleton>> {
+    - name : const string = "Redéploiement"
+}
+class Recrutement <<singleton>> {
+    - name : const string = "Recrutement"
+}
+class Désertion <<singleton>> {
+    - name : const string = "Désertion"
+}
+class Traîtrise <<singleton>> {
+    - name : const string = "Traîtrise"
+}
+class Explosion <<singleton>> {
+    - name : const string = "Explosion"
+}
+class Soutien <<singleton>> {
+    - name : const string = "Soutien"
+}
+class Échange <<singleton>> {
+    - name : const string = "Échange"
+}
+
+GameOption o--EventManager
+GameOption <|-- "Schotten_Totten classique"
+GameOption <|-- "Schotten_Totten tactique"
+GameOption <|-- "Schotten_Totten2 classique"
+GameOption <|-- "Schotten_Totten2 tactique"
+
+Controller o-- EventManager
+Controller o-- Player
+EventManager o-- Board
+
+Board  *-- Boarder
+Boarder <|-- Tile
+Boarder  <|-- Wall
+Boarder  -- Combinaison 
+Combinaison  <|-- "Combinaison cartes couleur"
+Combinaison  <|-- "Combinaison cartes force" 
+Combinaison <|-- "Combinaison cartes identique" 
+
+Player <|-- Human
+Player <|-- IA
+IA *-- Strategie
+
+Board <|-- SchottenTottenBoard
+Board <|-- SchottenTotten2Board
+SchottenTotten2Board *-- Caldron
+
+Deck <|-- ClanDeck
+Deck <|-- TacticDeck
+Deck *-- Card
+Card <|-- ClanCard
+Card <|-- TacticCard
+Card .. Numbered 
+Card .. Color
+Card .. Type
+
+TacticCard .. Special
+
+ClanDeck *-- ClanCard
+TacticDeck *-- TacticCard
+
+TacticCard <|-- CombatMode
+TacticCard <|-- EliteTroop
+TacticCard <|-- Ruse
+Defausse *-- Ruse
+
+EliteTroop <|-- Joker
+EliteTroop <|-- Espion
+EliteTroop <|-- "Porte Bouclier"
+
+CombatMode <|-- "Combat de boue"
+CombatMode <|-- "Collin Maillard"
+
+Ruse <|-- "Chasseur de Tête"
+Ruse <|-- Stratège
+Ruse <|-- Banshee
+Ruse <|-- Traitre
+
+TacticCard <|-- Action
+Action <|-- Redéploiement
+Action <|-- Recrutement
+Action <|-- Désertion
+Action <|-- Traîtrise
+Action <|-- Explosion
+Action <|-- Soutien
+Action <|-- Échange
+
+@enduml
