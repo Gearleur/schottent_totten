@@ -165,13 +165,13 @@ class "Combinaison cartes identique" <<singleton>>{
 
 class Tile {
 + get_combinaison() : Combinaison override
-+ creer_frontiere() :  Tile **
++ creer_frontieres() :  Boarder(position : int, owner : Player*)
 }
 
 class Wall {
 + isDamaged() : bool 
 + get_combinaison() :  Combinaison override
-+ creer_walls() : Wall **
++ creer_walls() : Boarder(position : int, owner : Player* = defender)
 }
 
 class Caldron 
@@ -372,10 +372,10 @@ Controller o-- EventManager
 Controller o-- Player
 EventManager o-- Board
 
-Board  *-- Boarder
+Board  *-- "1..*" Boarder
 Boarder <|-- Tile
 Boarder  <|-- Wall
-Boarder  -- Combinaison 
+Boarder  -- Combinaison : est la condition de revendication <
 Combinaison  <|-- "Combinaison cartes couleur"
 Combinaison  <|-- "Combinaison cartes force" 
 Combinaison <|-- "Combinaison cartes identique" 
@@ -386,7 +386,7 @@ IA *-- Strategie
 
 Board <|-- SchottenTottenBoard
 Board <|-- SchottenTotten2Board
-SchottenTotten2Board *-- Caldron
+SchottenTotten2Board *-- "3" Caldron
 
 Deck <|-- ClanDeck
 Deck <|-- TacticDeck
@@ -399,8 +399,6 @@ Card .. Type
 
 TacticCard .. Special
 
-ClanDeck *-- ClanCard
-TacticDeck *-- TacticCard
 
 TacticCard <|-- CombatMode
 TacticCard <|-- EliteTroop
@@ -428,4 +426,8 @@ Action <|-- Explosion
 Action <|-- Soutien
 Action <|-- Échange
 
+Board  *-- "1..2" Deck 
+Board -- Defausse
+
+note bottom of Strategie : On basera notre stratégie sur l'aléatoire
 @enduml
