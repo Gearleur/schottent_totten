@@ -195,7 +195,7 @@ class Échange <<singleton>> {
 }
 Deck <|-- ClanDeck
 Deck <|-- TacticDeck
-Deck *-- Card
+Deck *-- "0..*" Card 
 Card <|-- ClanCard
 Card <|-- TacticCard
 Card .. Numbered 
@@ -204,13 +204,11 @@ Card .. Type
 
 TacticCard .. Special
 
-ClanDeck *-- ClanCard
-TacticDeck *-- TacticCard
 
 TacticCard <|-- CombatMode
 TacticCard <|-- EliteTroop
 TacticCard <|-- Ruse
-Defausse *-- Ruse
+Defausse *-- "0..4" Ruse 
 
 EliteTroop <|-- Joker
 EliteTroop <|-- Espion
