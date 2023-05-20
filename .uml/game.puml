@@ -1,0 +1,211 @@
+@startuml ex
+skinparam classAttributeIconSize 0
+package "Choix du jeu" <<Folder>> #BDB7B5 {
+class GameOption  <<abstract>> {
+# version  : int 
+# mode_de_jeu : string
++ events : EventManager
++ get_version() : int const
++ get_mode_de_jeu() : string const
++ creer_board() : board*
+}
+
+class "Schotten_Totten classique" <<singleton>>{
+- version : int = 1
+- mode_de_jeu : const string = "classique"
++ creer_board() : board* override
+}
+
+class "Schotten_Totten tactique" <<singleton>> {
+- version : int = 1
+- mode_de_jeu : const string = "tactique"
++ creer_board() : board* override
+}
+
+class "Schotten_Totten2 classique" <<singleton>> {
+- version : int = 2
+- mode_de_jeu : const string = "classique"
+- defender : Joueur *
+- assailant: Joueur *
++ creer_board() : board* override
++ set_defender() : Joueur *
++ set_assailant() : Joueur *
+}
+
+class "Schotten_Totten2 tactique" <<singleton>> {
+- version : int = 2
+- mode_de_jeu : const string = "tactique"
+- defender : Joueur *
+- assailant: Joueur *
++ creer_board() : board* override
++ set_defender() : Joueur *
++ set_assailant() : Joueur *
+}
+}
+
+package "Frontière" <<Folder>> #5F91FA{
+class Boarder <<abstract>>{
+# position : int
+# leftBorder : vector<Card*> 
+# rightBorder : vector<Card*> 
+# maxCards : int
+# currentCardsLeft : int
+# currentCardsRight : int
+# owner : Player*
+# emplacementCarteCTactique : CardTactique 
+
+# addCard(card: Card*, border: vector<Card*>) : void
+# isFull(border: vector<Card*>) : bool
+# isEmpty(border: vector<Card*>) : bool
+# isWinning(border: vector<Card*>) : bool
+# getPosition(): int                              
+# getOwner(): Player*                             
+# getLeftBorder(): vector<Card*>              
+# getRightBorder(): vector<Card*>             
+# getMaxCards(): int                              
+# getCurrentCardsLeft(): int                      
+# getCurrentCardsRight(): int                     
+# setOwner(player: Player*) : void                       
+# setLeftBorder(border: vector<Card*>) : void        
+# setRightBorder(border: vector<Card*>) :void       
+# setMaxCards(maxCards: int) : void                      
+# setCurrentCardsLeft(currentCardsLeft: int) : void       
+# setCurrentCardsRight(currentCardsRight: int) : void
+# addCardLeft(card: Card*) : void                        
+# addCardRight(card: Card*) : void
+# get_combinaison() :  Combinaison
+# get_emplacementCarteTactique() : Rule
+
+# Border(position: int, owner: Player*)            
+# ~Border()
+}
+
+class Combinaison <<abstract>> {
+# combinaison : int
++ get_combinaison() : int const 
+}
+
+class "Combinaison cartes couleur" <<singleton>> {
+- combinaison : int ≥ 1 or ≤ 2
++ get_combinaison() : int const override
+}
+
+class "Combinaison cartes force" <<singleton>>{
+- combinaison : int ≥ 3 or ≤ 4
++ get_combinaison() : int const override
+}
+
+class "Combinaison cartes identique" <<singleton>>{
+- combinaison : int ≥ 5 or ≤ 6
++ get_combinaison() : int const override
+}
+
+class Tile {
++ get_combinaison() : Combinaison override
++ creer_frontiere() :  Tile **
+}
+
+class Wall {
++ isDamaged() : bool 
++ get_combinaison() :  Combinaison override
++ creer_walls() : Wall **
+}
+}
+
+package "Gestion des Evènements" <<Frame>> #F9F9B9 {
+class EventManager <<observer>> {
+-listerners[]
++ revendiquer_borne() : Tile *
++ piocher() : Card *
++ poser_carte() : Card *
+}
+
+class Board <<abstract>> {
+# compteur : int
+# defausse : Defausse
+# deck : Deck
++ events : EventManager
++ creer_deck() : Deck
++ creer_deckTactique() : TacticDeck
+}
+
+class Controller {
++ events : EventManager
++ controle_pioche() : bool
++ controle_poser_carte() : bool
++ controle_revendiquer() : bool
++ compteur_carte_tactique() : int
+}
+
+class Player <<abstract>> {
+# id : int
+# name : string 
+# hand : vector(Card *)
+$ idCounter :  int
+
++ Player(name : const string&,  hand : const vector<Card*>&)
++ getId() : const int& const
++ getName() : const string & const
++ getHand() : const vector<Card*>& const
++ addCard(card : Card *) : void
++ removeCard(card : Card *) : void
++ removeCard(index : int) : void
++ showHand() : void const
++ isAI() : virtual bool const  = 0
++ ~Player() : virtual = default
+}
+class Human {
++ Human(name : string, hand : vector<Card *> ) : Player(name, hand)
++  isAI()  : bool const override = 0
+}
+
+class IA {
+- strat : strategie
++ get_strategie() : strategie *const
++ IA(hand : vector<Card *>) : Player("IA", hand)
++ isAI()  : bool const override =  1
+}
+
+
+class SchottenTottenBoard <<singleton>>{
+- tiles : Tiles *
+- deck : Card ** 
+}
+
+class SchottenTotten2Board <<singleton>> {
+- wall : Wall *
+- deck : Card **
+- caldron : Caldron *
+}
+class Caldron 
+
+class Strategie 
+}
+
+
+GameOption o--EventManager
+GameOption <|-- "Schotten_Totten classique"
+GameOption <|-- "Schotten_Totten tactique"
+GameOption <|-- "Schotten_Totten2 classique"
+GameOption <|-- "Schotten_Totten2 tactique"
+Controller o-- EventManager
+Controller o-- Player
+EventManager o-- Board
+
+Board  *-- Boarder
+Boarder <|-- Tile
+Boarder  <|-- Wall
+Boarder  -- Combinaison 
+Combinaison  <|-- "Combinaison cartes couleur"
+Combinaison  <|-- "Combinaison cartes force" 
+Combinaison <|-- "Combinaison cartes identique" 
+
+Player <|-- Human
+Player <|-- IA
+IA *-- Strategie
+
+Board <|-- SchottenTottenBoard
+Board <|-- SchottenTotten2Board
+SchottenTotten2Board *-- Caldron
+
+@enduml
