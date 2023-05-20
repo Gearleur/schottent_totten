@@ -29,9 +29,12 @@ namespace Model {
 
         /* constructors */
         /*les borders ne sont pas demander et initialisées à 0*/
+        /*Updated upstream*/
         Player(const std::string& name, const std::vector<Card*>& hand, const std::vector<Border*>& borders)
                 : id(idCounter++), name(name), hand(hand), borders(borders) {
         }
+
+    /*Stashed changes*/
         /* getters */
         const int &getId() const { return id; };
 
