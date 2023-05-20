@@ -1,0 +1,238 @@
+@startuml card
+skinparam classAttributeIconSize 0
+
+package "Différents Decks" <<Folder>> #F8C471 {
+class Deck <<abstract>> {
+$ instance: Deck* 
+# deck: vector<Card*> 
+# Deck() 
+# ~Deck()
+$ getInstance(): Deck*
+# getDeck(): vector<Card*>
+# shuffle() : void
+# draw(): Card*
+# putBack(card: Card*) : void
+# isEmpty(): bool
+# addCard(card: Card) [virtual]
+# fillDeck() [virtual]
+}
+
+class ClanDeck <<singleton>> {
+- ClanCards : ClansCard*
++ get_deck() : Card* override
++ draw() : Card* override
+}
+
+class TacticDeck <<singleton>>{
+- tacticCards : TacticCard*
+# version : int = 1 OR 2
++ get_deck() : Card* override
++ draw() : Card* override
++get_version() : int const
+} 
+class Defausse <<singleton>> {
+
+}
+
+}
+
+package "Différentes Cartes" <<Folder>> #3498DB {
+class Card <<abstract>> {
+# number: Numbered
+# color: Color
+# type: Type
+# name: string
+# description: string
+# owner: Player*
++ getNumber(): Numbered const
++ getColor(): Color const
++ getType(): Type const
++ getName(): string const
++ getDescription(): string const
++ getOwner(): Player* const
++ setNumber(number: Numbered)
++ setColor(color: Color)
++ setType(type: Type)
++ setOwner(owner: Player*)
++ showCard(): void [virtual] const = 0
+
+}
+
+class ClanCard {
++ Clan(number: Numbered, color: Color)
++ ~Clan() override = default
++ showCard(): void override
+}
+
+enum Color{
+rouge, vert, jaune, bleu, violet, orange
+}
+
+enum Type {
+    NUMBERED = 0
+    SPECIAL = 1
+}
+
+
+enum Numbered {
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
+    FIVE = 5
+    SIX = 6
+    SEVEN = 7
+    EIGHT = 8
+    NINE = 9
+    TEN = 10
+    ELEVEN = 11
+}
+
+enum Special {
+    EliteTroops = 0
+    BattleModes = 1
+    Tricks = 2
+    Action = 3
+}
+
+class TacticCard <<abstract>> {
+# card_type : Special
++ Tactic(number: Numbered, color: Color)
++ ~Tactic() override
++ showCard(): void override
+}
+
+class EliteTroop <<abstract>>{
+# card_type : Special = EliteTroops
++ setColor(color: Color) : const Color override
++ setNumber(number: Numbered) : const Numbered override
+}
+
+
+class Joker {
+- name : const string = "Joker"
++ setColor(color: Color) : const Color override
++ setNumber(number: Numbered) : const Numbered override
+}
+
+class Espion <<singleton>> {
+- name : const string = "Espion"
+- nombre : const Numbered =  7 OR 10
++ setVersion() : const int = 1 OR 2
++ setColor() : const Color override
+}
+
+class "Porte Bouclier" <<singleton>> {
+- name : const string = "Porte Bouclier"
+- nombre : const Numbered 
+}
+package "Schotten Totten 1" <<Folder>> #48C9B0{
+class CombatMode <<abstract>> {
+# version : int = 1
+# card_type : Special = battleModes
+}
+
+class Ruse <<abstract>> {
+# version : int = 1
+# - card_type : Special = Tricks
+}
+
+class "Collin Maillard" <<singleton>> {
+- name : const string = "Collin Maillard"
+}
+
+class "Combat de boue" <<singleton>> {
+- name : const string = "Combat de boue"
+
+}
+
+class "Chasseur de Tête" <<singleton>> {
+- name : const string = "Chasseur de Tête"
+}
+
+class Stratège <<singleton>> {
+- name : const string = "Stratège"
+}
+
+class Banshee <<singleton>> {
+- name : const string = "Banshee"
+}
+
+class Traitre <<singleton>> {
+- name : const string = "Traitre"
+}
+}
+
+package "Schotten Totten 2" <<Folder>> #D27DF7{
+class Action <<abstract>> {
+# version : int = 2
+    - card_type : Special = Action
+}
+
+class Redéploiement <<singleton>> {
+    - name : const string = "Redéploiement"
+}
+class Recrutement <<singleton>> {
+    - name : const string = "Recrutement"
+}
+class Désertion <<singleton>> {
+    - name : const string = "Désertion"
+}
+class Traîtrise <<singleton>> {
+    - name : const string = "Traîtrise"
+}
+class Explosion <<singleton>> {
+    - name : const string = "Explosion"
+}
+class Soutien <<singleton>> {
+    - name : const string = "Soutien"
+}
+class Échange <<singleton>> {
+    - name : const string = "Échange"
+}
+}
+}
+Deck <|-- ClanDeck
+Deck <|-- TacticDeck
+Deck *-- Card
+Card <|-- ClanCard
+Card <|-- TacticCard
+Card .. Numbered 
+Card .. Color
+Card .. Type
+
+TacticCard .. Special
+
+ClanDeck *-- ClanCard
+TacticDeck *-- TacticCard
+
+TacticCard <|-- CombatMode
+TacticCard <|-- EliteTroop
+TacticCard <|-- Ruse
+Defausse *-- Ruse
+
+EliteTroop <|-- Joker
+EliteTroop <|-- Espion
+EliteTroop <|-- "Porte Bouclier"
+
+CombatMode <|-- "Combat de boue"
+CombatMode <|-- "Collin Maillard"
+
+Ruse <|-- "Chasseur de Tête"
+Ruse <|-- Stratège
+Ruse <|-- Banshee
+Ruse <|-- Traitre
+
+TacticCard <|-- Action
+Action <|-- Redéploiement
+Action <|-- Recrutement
+Action <|-- Désertion
+Action <|-- Traîtrise
+Action <|-- Explosion
+Action <|-- Soutien
+Action <|-- Échange
+
+
+note bottom of Espion : Attention : si version = 1, nombre = 7. Sinon, nombre = 10.
+@enduml
