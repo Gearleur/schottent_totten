@@ -102,13 +102,13 @@ class "Combinaison cartes identique" <<singleton>>{
 
 class Tile {
 + get_combinaison() : Combinaison override
-+ creer_frontiere() :  Tile **
++ creer_frontieres() :  Boarder(position : int, owner : Player*)
 }
 
 class Wall {
 + isDamaged() : bool 
 + get_combinaison() :  Combinaison override
-+ creer_walls() : Wall **
++ creer_walls() : Boarder(position : int, owner : Player* = defender)
 }
 }
 
@@ -129,7 +129,7 @@ class Board <<abstract>> {
 + creer_deckTactique() : TacticDeck
 }
 
-class Controller {
+class Controller <<singleton>>{
 + events : EventManager
 + controle_pioche() : bool
 + controle_poser_carte() : bool
@@ -183,29 +183,29 @@ class Strategie
 }
 
 
-GameOption o--EventManager
+GameOption o-- "1..*" EventManager
 GameOption <|-- "Schotten_Totten classique"
 GameOption <|-- "Schotten_Totten tactique"
 GameOption <|-- "Schotten_Totten2 classique"
 GameOption <|-- "Schotten_Totten2 tactique"
-Controller o-- EventManager
-Controller o-- Player
+Controller o-- "1..*" EventManager 
+Controller o-- "2" Player
 EventManager o-- Board
 
-Board  *-- Boarder
+Board  *-- "1..*" Boarder
 Boarder <|-- Tile
 Boarder  <|-- Wall
-Boarder  -- Combinaison 
+Boarder  "1" -- "1" Combinaison : est la condition de revendication <
 Combinaison  <|-- "Combinaison cartes couleur"
 Combinaison  <|-- "Combinaison cartes force" 
 Combinaison <|-- "Combinaison cartes identique" 
 
 Player <|-- Human
 Player <|-- IA
-IA *-- Strategie
+IA --  Strategie : L'IA adoptera la stratégie basée sur l'aléatoire
 
 Board <|-- SchottenTottenBoard
 Board <|-- SchottenTotten2Board
-SchottenTotten2Board *-- Caldron
+SchottenTotten2Board *-- "3" Caldron
 
 @enduml
