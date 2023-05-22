@@ -1,3 +1,0 @@
-C:/Users/alexa/CLionProjects/schottent_totten/cmake-build-debug/CMakeFiles/schottent_totten.dir
-C:/Users/alexa/CLionProjects/schottent_totten/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/alexa/CLionProjects/schottent_totten/cmake-build-debug/CMakeFiles/rebuild_cache.dir
