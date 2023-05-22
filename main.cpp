@@ -18,6 +18,7 @@ int main() {
     clanCards.push_back(new Model::Clan(Numbered(0), Color(3)));
     clanCards.push_back(new Model::Clan(Numbered(0), Color(4)));
     clanCards.push_back(new Model::Clan(Numbered(1), Color(5)));
+    clanCards.push_back(new Model::Clan(Numbered(1), Color(0)));
 
     Model::Human* player1 = new Model::Human("Alexandre", clanCards);
 
@@ -25,6 +26,7 @@ int main() {
     cout << player1->getHand().size() << endl;
 
     player1->showHand();
+
 
     // Create 2 Human players
 
