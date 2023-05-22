@@ -1,20 +1,25 @@
-#enlever le dossier cmake-build-debug
-rm -rf cmake-build-debug
+#ignorer le fichier cmake-build-debug
+cmake-build-debug/
 
-#enlever le fichier CMakeLists.txt
-rm CMakeLists.txt
+#ignorer le fichier .idea
+.idea/
 
-#enlever le fichier .idea
-rm -rf .idea
+#ignorer le fichier .gitignore
+.gitignore/
 
-#enlever le fichier .git
-rm -rf .git
+#ignorer le fichier .git
+.git/
 
-#enlever le fichier .gitattributes
-rm .gitattributes
+#ignorer le fichier .gitattributes
+.gitattributes/
 
-#enlever le fichier .gitmodules
-rm .gitmodules
+#ignorer le fichier CMakelists.txt
+CMakeLists.txt/
 
-#enelver le fichier .vscode
-rm -rf .vscode
+#ignorer le fichier External libraries
+External libraries/
+
+#ignorer le .vscode
+.vscode/
+
+
