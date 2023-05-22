@@ -1,9 +1,6 @@
 #ignorer le fichier cmake-build-debug
 cmake-build-debug/
 
-#ignorer le fichier .idea
-.idea/
-
 #ignorer le fichier .gitignore
 .gitignore/
 
@@ -12,12 +9,6 @@ cmake-build-debug/
 
 #ignorer le fichier .gitattributes
 .gitattributes/
-
-#ignorer le fichier CMakelists.txt
-CMakeLists.txt/
-
-#ignorer le fichier External libraries
-External libraries/
 
 #ignorer le .vscode
 .vscode/
