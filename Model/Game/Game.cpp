@@ -3,3 +3,12 @@
 //
 
 #include "Game.h"
+
+namespace Model
+{
+    Game::~Game()
+    {
+        std::cout << "****** Game Destructor ******" << std::endl;
+    }
+}
+
