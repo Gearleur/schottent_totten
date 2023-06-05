@@ -5,6 +5,7 @@
 #include "Model/Card/Card.h"
 #include "Model/Card/Clan/Clan.h"
 #include "Model/Player/Human/Human.h"
+#include "Model/Card/Tactic/Ruse/Ruse.h"
 #include <vector>
 using namespace std;
 
@@ -12,7 +13,7 @@ using namespace std;
 int main() {
     //Create Vector of Clan Cards
     vector<Model::Card *> clanCards;
-    clanCards.push_back(new Model::Clan(Numbered(0), Color(0)));
+    clanCards.push_back(new Model::Banshee());
     clanCards.push_back(new Model::Clan(Numbered(0), Color(1)));
     clanCards.push_back(new Model::Clan(Numbered(0), Color(2)));
     clanCards.push_back(new Model::Clan(Numbered(0), Color(3)));

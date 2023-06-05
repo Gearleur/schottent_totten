@@ -41,8 +41,8 @@ namespace Model{
             Player* getOwner() const { return owner; };
 
             //setters
-            void setNumber(Numbered number) { this->number = number; };
-            void setColor(Color color) { this->color = color; };
+            virtual void setNumber(Numbered number) { this->number = number; };
+            virtual void setColor(Color color) { this->color = color; };
             void setType(Type type) { this->type = type; };
             void setOwner(Player* owner) { this->owner = owner; };
 

@@ -23,25 +23,20 @@ namespace Model {
     class Deck {
     private:
         friend class Game;
-
-        static Deck *instance;
         std::vector<Card *> deck;
 
+    protected:
         //constructeur
         Deck();
-
         ~Deck();
-
     public:
         //getters
-        static Deck *getInstance() { return instance; }
-
-        std::vector<Card *> getDeck() const { return deck; };
+        std::vector<Card *> getDeck() { return deck; };
 
         //fonctions
         void shuffle();
 
-        Card *draw();
+        Card* draw();
 
         void putBack(Card *card);
 

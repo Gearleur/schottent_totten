@@ -15,9 +15,12 @@
 
 namespace Model {
     class ClanDeck : public Deck {
-    public:
+    private:
+        static ClanDeck* Instance_clanDeck;
         ClanDeck();
-
+    public:
+        static ClanDeck* getInstance_clanDeck(){return Instance_clanDeck;};
+        void addCard(Card *card) override;
         void fillDeck() override;
     };
 }

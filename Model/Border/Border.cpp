@@ -2,6 +2,7 @@
 // Created by alexa on 15/05/2023.
 //
 
+#include <stdexcept>
 #include "Border.h"
 
 namespace Model{
@@ -14,18 +15,25 @@ namespace Model{
         this->owner = owner;
     }
 
-    void Border::addCard(Card* card, std::vector<Card*> border) {
-        if(!this->isFull(border)) {
-            border.push_back(card);
+    void Border::addCardLeft(Card *card) {
+        if (!this->isLeftFull()) {
+            leftBorder.push_back(card);
+            currentCardsLeft++;
+        } else {
+            throw std::invalid_argument("Border is full");
+        }
+
+    }
+    void Border::addCardRight(Card *card) {
+        if (!this->isRightFull()) {
+            rightBorder.push_back(card);
+            currentCardsRight++;
+        } else {
+            throw std::invalid_argument("Border is full");
         }
     }
 
-    bool Border::isFull(std::vector<Card*> border) {
-        return border.size() == this->maxCards;
-    }
+    Border::~Border() = default;
 
-    bool Border::isEmpty(std::vector<Card*> border) {
-        return border.size() == 0;
-    }
 
 }

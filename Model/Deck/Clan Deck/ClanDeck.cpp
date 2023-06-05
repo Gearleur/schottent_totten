@@ -12,11 +12,21 @@
 //il y a 9 cartes de chaque couleur et 6 couleurs
 
 namespace Model {
+    static ClanDeck* Instance_clanDeck = nullptr;
     void ClanDeck::fillDeck() {
         for (int i = 0; i < 6; ++i) {
             for (int j = 1; j < 10; ++j) {
                 getDeck().push_back(new Clan(static_cast<Numbered>(j), static_cast<Color>(i)));
             }
         }
+    }
+
+    ClanDeck::ClanDeck() {
+        fillDeck();
+    }
+
+    void ClanDeck::addCard(Card *card) {
+        getDeck().push_back(card);
+
     }
 }
