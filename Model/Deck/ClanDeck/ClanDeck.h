@@ -19,7 +19,10 @@ namespace Model {
         static ClanDeck* Instance_clanDeck;
         ClanDeck();
     public:
-        static ClanDeck* getInstance_clanDeck(){return Instance_clanDeck;};
+        static ClanDeck* getInstance_clanDeck(){
+            if(Instance_clanDeck == nullptr)
+                Instance_clanDeck = new ClanDeck();
+            return Instance_clanDeck;};
         void addCard(Card *card) override;
         void fillDeck() override;
     };

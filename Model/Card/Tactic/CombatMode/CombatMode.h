@@ -5,7 +5,6 @@
 #ifndef SCHOTTENT_TOTTEN_COMBATMODE_H
 #define SCHOTTENT_TOTTEN_COMBATMODE_H
 #include "../Tactic.h"
-#include "../../Card.h"
 namespace Model {
     class CombatMode: public Tactic {
     protected:

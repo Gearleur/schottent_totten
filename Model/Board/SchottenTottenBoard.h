@@ -1,31 +1,30 @@
-//
-// Created by leeyu on 05/06/2023.
-//
+#pragma once
 
-#ifndef SCHOTTENT_TOTTEN_SCHOTTENTOTTENBOARD_H
-#define SCHOTTENT_TOTTEN_SCHOTTENTOTTENBOARD_H
-
-
-#include "../Deck/TacticDeck/TacticDeck.h"
-#include "../Deck/Clan Deck/ClanDeck.h"
-#include "../Deck/DiscardDeck/DiscardDeck.h"
-#include "../Border/Border.h"
-#include "../Player/Player.h"
 #include "Board.h"
 
-namespace Model{
-    class SchottenTottenBoard : public Board {
+namespace Model
+{
+    class SchottenTottenBoard : public Board
+    {
     private:
-        static SchottenTottenBoard* Instance_schottenTottenBoard;
-        SchottenTottenBoard();
+        static DiscardDeck *discardDeck;
+        static ClanDeck *clanDeck;
+        static TacticDeck *tacticDeck;
+        static SchottenTottenBoard *instance;
+
     public:
-        static SchottenTottenBoard* getInstance_schottenTottenBoard(){return Instance_schottenTottenBoard;};
+        static SchottenTottenBoard *getInstance()
+        {
+            if (instance == nullptr)
+                instance = new SchottenTottenBoard();
+            return instance;
+        }
+        static DiscardDeck *getDiscardDeck() { return discardDeck; }
+        static ClanDeck *getClanDeck() { return clanDeck; }
+        static TacticDeck *getTacticDeck() { return tacticDeck; }
         void createClanDeck() override;
         void createTacticDeck() override;
         void createDiscardDeck() override;
-
+        ~SchottenTottenBoard() = default;
     };
 }
-
-
-#endif //SCHOTTENT_TOTTEN_SCHOTTENTOTTENBOARD_H

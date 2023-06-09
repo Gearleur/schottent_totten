@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    Combinaison::~Combinaison() {}
+    Combinaison::~Combinaison() =default;
     bool SuiteCouleur::estValide(const std::vector<Card *> &hand)
     {
         // Vérifier si les trois cartes sont de la même couleur et de valeurs successives
@@ -29,7 +29,6 @@ namespace Model
         }
 
         std::sort(valeurs.begin(), valeurs.end());
-        setPuissance();
         return (valeurs[2] - valeurs[0] == 2 && valeurs[1] - valeurs[0] == 1);
     }
     bool Brelan::estValide(const std::vector<Card *> &hand)
@@ -48,7 +47,6 @@ namespace Model
                 return false;
             }
         }
-        setPuissance();
         return true;
     }
 
@@ -67,7 +65,6 @@ namespace Model
                 return false;
             }
         }
-        setPuissance();
         return true;
     }
     bool Suite::estValide(const std::vector<Card *> &hand)
@@ -83,15 +80,15 @@ namespace Model
         {
             valeurs.push_back(static_cast<int>(card->getNumber()));
         }
-        setPuissance();
         std::sort(valeurs.begin(), valeurs.end());
         return (valeurs[2] - valeurs[0] == 2 && valeurs[1] - valeurs[0] == 1);
     }
     bool Somme::estValide(const std::vector<Card *> &hand)
     {
         // Vérifier si les trois cartes sont quelconques
-        setPuissance();
         return hand.size() == 3;
     }
+
+
 
 }

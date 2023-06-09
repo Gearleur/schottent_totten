@@ -7,9 +7,11 @@
 #include "../../Card/Tactic/EliteTroop/EliteTroop.h"
 #include "../../Card/Tactic/Ruse/Ruse.h"
 
-namespace Model {
-    static TacticDeck* Instance_clanDeck = nullptr;
-    void TacticDeck::fillDeck() {
+namespace Model
+{
+    TacticDeck *TacticDeck::Instance_tacticDeck = nullptr;
+    void TacticDeck::fillDeck()
+    {
         getDeck().push_back(new Combatdeboue());
         getDeck().push_back(new CollinMaillard());
         getDeck().push_back(new Joker());
@@ -22,12 +24,13 @@ namespace Model {
         getDeck().push_back(new Banshee());
     }
 
-    TacticDeck::TacticDeck() {
+    TacticDeck::TacticDeck()
+    {
         fillDeck();
     }
 
-    void TacticDeck::addCard(Card *card) {
+    void TacticDeck::addCard(Card *card)
+    {
         getDeck().push_back(card);
-
     }
 }

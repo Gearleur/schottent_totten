@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "../../Utils/enums.h"
-#include "../Card/Card.h"
 #include "../Border/Border.h"
 
 
@@ -19,6 +17,7 @@ namespace Model {
     class Border;
     class Player {
     protected:
+        friend class Controller;
         int id;
         std::string name;
         std::vector<Card *> hand;
@@ -61,8 +60,7 @@ namespace Model {
         void showHand() const;
 
         /* virtual functions */
-        virtual bool
-        isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
+        virtual bool isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
         virtual ~Player() = default;
 
 

@@ -5,7 +5,6 @@
 #ifndef SCHOTTENT_TOTTEN_RUSE_H
 #define SCHOTTENT_TOTTEN_RUSE_H
 #include "../Tactic.h"
-#include "../../Card.h"
 
 namespace Model {
     class Ruse : public Tactic {

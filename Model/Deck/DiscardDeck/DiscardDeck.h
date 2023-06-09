@@ -14,7 +14,10 @@ namespace Model {
         static DiscardDeck* Instance_discardDeck;
         DiscardDeck();
     public:
-        static DiscardDeck* getInstance_discardDeck(){return Instance_discardDeck;};
+        static DiscardDeck* getInstance_discardDeck(){
+            if(Instance_discardDeck == nullptr)
+                Instance_discardDeck = new DiscardDeck();
+            return Instance_discardDeck;};
         void addCard(Card *card) override;
         void fillDeck() override;
     };

@@ -5,7 +5,6 @@
 #ifndef SCHOTTENT_TOTTEN_ELITETROOP_H
 #define SCHOTTENT_TOTTEN_ELITETROOP_H
 #include "../Tactic.h"
-#include "../../Card.h"
 
 namespace Model {
     class EliteTroop : public Tactic {

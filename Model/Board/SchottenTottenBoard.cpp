@@ -1,36 +1,41 @@
-//
-// Created by leeyu on 05/06/2023.
-//
+// SchottenTottenBoard.cpp
 
 #include "SchottenTottenBoard.h"
-namespace Model {
-    static SchottenTottenBoard* Instance_schottenTottenBoard = nullptr;
-    void SchottenTottenBoard::createClanDeck() {
-        this->clanDeck = ClanDeck::getInstance_clanDeck();
-        this->clanDeck->fillDeck();
-        this->clanDeck->shuffle();
-    }
-    void SchottenTottenBoard::createTacticDeck() {
-        this->tacticDeck = TacticDeck::getInstance_tacticDeck();
-        this->tacticDeck->fillDeck();
-        this->tacticDeck->shuffle();
-    }
-    void SchottenTottenBoard::createDiscardDeck() {
-        this->discardDeck = DiscardDeck::getInstance_discardDeck();
-    }
+#include "../Deck/ClanDeck/ClanDeck.h"
+#include "../Deck/TacticDeck/TacticDeck.h"
+#include "../Deck/DiscardDeck/DiscardDeck.h"
 
-    SchottenTottenBoard::SchottenTottenBoard() {
-        this->compteur = 0;
-        this->createClanDeck();
-        this->createTacticDeck();
-        this->createDiscardDeck();
-        this->borders = std::vector<Border*>();
-        for (int i = 0; i < 9; i++) {
-            this->borders.push_back(new Border(i, nullptr));
+namespace Model
+{
+    DiscardDeck *SchottenTottenBoard::discardDeck = nullptr;
+    ClanDeck *SchottenTottenBoard::clanDeck = nullptr;
+    TacticDeck *SchottenTottenBoard::tacticDeck = nullptr;
+    SchottenTottenBoard *SchottenTottenBoard::instance = nullptr;
+
+    void SchottenTottenBoard::createClanDeck()
+    {
+        if (clanDeck == nullptr)
+        {
+            clanDeck = ClanDeck::getInstance_clanDeck();
+            clanDeck->fillDeck();
+            clanDeck->shuffle();
         }
-
     }
 
+    void SchottenTottenBoard::createTacticDeck()
+    {
+        if (tacticDeck == nullptr)
+        {
+            tacticDeck = TacticDeck::getInstance_tacticDeck();
+            tacticDeck->fillDeck();
+            tacticDeck->shuffle();
+        }
+    }
 
+    void SchottenTottenBoard::createDiscardDeck()
+    {
+        if (discardDeck == nullptr)
+            discardDeck = DiscardDeck::getInstance_discardDeck();
+    }
 }
 

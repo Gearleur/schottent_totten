@@ -3,17 +3,20 @@
 //
 
 #include "DiscardDeck.h"
-namespace Model {
-    static DiscardDeck* Instance_clanDeck = nullptr;
-    void DiscardDeck::fillDeck() {
+namespace Model
+{
+    DiscardDeck *DiscardDeck::Instance_discardDeck = nullptr;
+    void DiscardDeck::fillDeck()
+    {
     }
 
-    DiscardDeck::DiscardDeck() {
+    DiscardDeck::DiscardDeck()
+    {
         fillDeck();
     }
 
-    void DiscardDeck::addCard(Card *card) {
+    void DiscardDeck::addCard(Card *card)
+    {
         getDeck().push_back(card);
-
     }
 }

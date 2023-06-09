@@ -8,7 +8,6 @@
 #include <string>
 
 #include "../../Utils/enums.h"
-#include "../Player/Player.h"
 //la class card est la classe abstraite qui contient les fonctions principales pour generer une carte
 //cette classe abstraite engendre deux classe filles qui sont les deux types de cartes
 //Il y a les cartes numérotées et les cartes spéciales
@@ -39,6 +38,7 @@ namespace Model{
             std::string getName() const { return name; };
             std::string getDescription() const { return description; };
             Player* getOwner() const { return owner; };
+
 
             //setters
             virtual void setNumber(Numbered number) { this->number = number; };

@@ -5,38 +5,49 @@
 #include "Deck.h"
 #include <algorithm>
 #include <iostream>
+#include <random>
 
-namespace Model {
+namespace Model
+{
 
-    Deck::Deck() {
+    Deck::Deck()
+    {
         this->deck = std::vector<Card *>();
     }
 
-    Deck::~Deck() {
-        for (int i = 0; i < this->deck.size(); i++) {
+    Deck::~Deck()
+    {
+        for (int i = 0; i < this->deck.size(); i++)
+        {
             delete this->deck[i];
         }
     }
 
-    void Deck::shuffle() {
-        std::random_shuffle(this->deck.begin(), this->deck.end());
+    void Deck::shuffle()
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::shuffle(this->deck.begin(), this->deck.end(), gen);
     }
 
-    Card *Deck::draw() {
+    Card *Deck::draw()
+    {
         Card *card = this->deck.back();
         this->deck.pop_back();
         return card;
     }
 
-    bool Deck::isEmpty() const {
-        if (this->deck.empty()) {
+    bool Deck::isEmpty() const
+    {
+        if (this->deck.empty())
+        {
             std::cout << "The deck is empty" << std::endl;
         }
         return this->deck.empty();
     }
 
-    void Deck::putBack(Card *card) {
+    void Deck::putBack(Card *card)
+    {
         this->deck.push_back(card);
     }
 }
-

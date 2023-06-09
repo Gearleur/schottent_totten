@@ -14,7 +14,10 @@ namespace Model {
         static TacticDeck* Instance_tacticDeck;
         TacticDeck();
     public:
-        static TacticDeck* getInstance_tacticDeck(){return Instance_tacticDeck ;};
+        static TacticDeck* getInstance_tacticDeck(){
+            if(Instance_tacticDeck == nullptr)
+                Instance_tacticDeck = new TacticDeck();
+            return Instance_tacticDeck ;};
         void addCard(Card *card) override;
         void fillDeck() override;
     };

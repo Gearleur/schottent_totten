@@ -12,22 +12,26 @@
 // un mode de jeu classique et un mode de jeu tactique
 #include <string>
 #include <iostream>
-#include "../Board/Board.h"
+#include <memory>
+#include "../Deck/ClanDeck/ClanDeck.h"
+#include "../Deck/TacticDeck/TacticDeck.h"
+#include "../Board/SchottenTottenBoard.h"
 // J'ai utilisé le design pattern factory, avec une classe mère abstraite et des classes filles singleton
 namespace Model
 {
     class Game
     {
     protected:
+        friend class Controller;
         int version;
         std::string variante;
-        Board *instance;
-        Game(int v, std::string var) : version(v), variante(var)
+        /*Board *board;*/ // attribut uniquement initialisé dans les classes filles, donc le board n'appartient pass à la classe mère
+        std::vector<std::unique_ptr<Deck>> decks; // matrice de decks avec des pointeurs intelligents
+        Game(int v, const std::string& var) : version(v), variante(var)
         {
-
             std::cout << "****** Game Constructor ******" << std::endl;
-            std::cout << "Version: "<< getVersion() << std::endl;
-            std::cout << "Variante: "<< getVariante() << std::endl;
+            std::cout << "Version: " << getVersion() << std::endl;
+            std::cout << "Variante: " << getVariante() << std::endl;
         }
 
     public:
@@ -35,60 +39,73 @@ namespace Model
 
         int getVersion() const { return version; }
         std::string getVariante() const { return variante; }
-        void setVersion(int v) { version = v; }
-        void setVariante(std::string v) { variante = v; }
+        virtual Board *getBoard() const = 0;
     };
 
     class GameV1 : public Game
     {
     private:
-        GameV1(int v, std::string var) : Game(v, var) {}
+        friend class GameControllerFactory;
+        SchottenTottenBoard *board;
+        GameV1(int v, const std::string& var);
 
     public:
-        static GameV1 &getInstance(int v, std::string var)
+        static GameV1 &getInstance(int v, const std::string& var)
         {
             static GameV1 instance(v, var);
             return instance;
         }
+        Board *getBoard() const override;
+        ~GameV1();
     };
 
     class GameV1Tactique : public Game
     {
     private:
-        GameV1Tactique(int v, std::string var) : Game(v, var) {}
+        friend class GameControllerFactory;
+        SchottenTottenBoard *board;
+        GameV1Tactique(int v, const std::string& var);
 
     public:
-        static GameV1Tactique &getInstance(int v, std::string var)
+        static GameV1Tactique &getInstance(int v, const std::string& var)
         {
             static GameV1Tactique instance(v, var);
             return instance;
         }
+        Board *getBoard() const override;
+        ~GameV1Tactique();
     };
 
     class GameV2 : public Game
     {
     private:
-        GameV2(int v, std::string var) : Game(v, var) {}
+        friend class GameControllerFactory;
+        SchottenTottenBoard *board;
+        GameV2(int v, const std::string& var) : Game(v, var) {}
 
     public:
-        static GameV2 &getInstance(int v, std::string var)
+        static GameV2 &getInstance(int v, const std::string& var)
         {
             static GameV2 instance(v, var);
             return instance;
         }
+        Board *getBoard() const override;
     };
 
     class GameV2Tactique : public Game
     {
     private:
-        GameV2Tactique(int v, std::string var) : Game(v, var) {}
+        friend class GameControllerFactory;
+        SchottenTottenBoard *board;
+        GameV2Tactique(int v, const std::string& var) : Game(v, var) {}
 
     public:
-        static GameV2Tactique &getInstance(int v, std::string var)
+        static GameV2Tactique &getInstance(int v, const std::string& var)
         {
             static GameV2Tactique instance(v, var);
             return instance;
         }
+        Board *getBoard() const override;
     };
 }
 

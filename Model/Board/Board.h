@@ -2,48 +2,45 @@
 // Created by alexa on 15/05/2023.
 //
 
-#ifndef SCHOTTENT_TOTTEN_BOARD_H
-#define SCHOTTENT_TOTTEN_BOARD_H
+#pragma once
 
-#include "../Deck/Clan Deck/ClanDeck.h"
+#include "../Deck/Deck.h"
+#include "../Border/Border.h"
+#include "../Deck/ClanDeck/ClanDeck.h"
 #include "../Deck/TacticDeck/TacticDeck.h"
 #include "../Deck/DiscardDeck/DiscardDeck.h"
-#include "../Border/Border.h"
 #include <vector>
 
-namespace Model{
-    class Board {
+namespace Model
+{
+    class Board
+    {
     protected:
+        friend class Game;
+        friend class Controller;
+        friend class Border;
         int compteur;
-        DiscardDeck* discardDeck;
-        ClanDeck* clanDeck;
-        TacticDeck* tacticDeck;
-        std::vector<Border*> borders;
+        std::vector<Border *> borders;
         /*EventManager events;*/
-
     public:
         // Constructor
-        Board();
+        Board() : compteur(0), borders(std::vector<Border *>())
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                borders.push_back(new Border(i, nullptr));
+            }
+        };
 
         // Destructor
-         ~Board() {
-            delete clanDeck;
-            delete tacticDeck;
-            delete discardDeck;
-        }
+        ~Board() = default;
 
         // Getters
         int getCompteur() const { return compteur; }
-        DiscardDeck* getDefausse() const { return discardDeck; }
-        ClanDeck* getClanDeck() const { return clanDeck; }
-        TacticDeck* getTacticDeck() const { return tacticDeck; }
 
         // Method declarations
-         virtual void createClanDeck()=0;
-         virtual void createTacticDeck()=0;
-         virtual void createDiscardDeck()=0;
+        virtual void createClanDeck() = 0;
+        virtual void createTacticDeck() = 0;
+        virtual void createDiscardDeck() = 0;
     };
 }
-
-
-#endif //SCHOTTENT_TOTTEN_BOARD_H

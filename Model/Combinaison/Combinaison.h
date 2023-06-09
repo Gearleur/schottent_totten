@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "../../Utils/enums.h"
 #include "../Card/Card.h"
 namespace Model
 {
@@ -14,7 +13,7 @@ namespace Model
     public:
         virtual bool estValide(const std::vector<Card *> &hand) = 0;
         const int getPuissance() const { return puissance; };
-        virtual void setPuissance(int p) { puissance = p; };
+        void setPuissance(int p) { puissance = p; };
         virtual void afficher() const = 0;
         virtual ~Combinaison();
     };
@@ -23,9 +22,8 @@ namespace Model
     class SuiteCouleur : public Combinaison
     {
     public:
-        void setPuissance(int p = 5) override
-        {
-            p = puissance;
+        SuiteCouleur(){
+            setPuissance(5);
         }
         bool estValide(const std::vector<Card *> &hand) override;
         void afficher() const override
@@ -38,9 +36,8 @@ namespace Model
     class Brelan : public Combinaison
     {
     public:
-        void setPuissance(int p = 4) override
-        {
-            p = puissance;
+        Brelan(){
+            setPuissance(4);
         }
         bool estValide(const std::vector<Card *> &hand) override;
 
@@ -54,9 +51,8 @@ namespace Model
     class Couleur : public Combinaison
     {
     public:
-        void setPuissance(int p = 3) override
-        {
-            p = puissance;
+        Couleur() {
+            setPuissance(3);
         }
         bool estValide(const std::vector<Card *> &hand) override;
 
@@ -70,9 +66,8 @@ namespace Model
     class Suite : public Combinaison
     {
     public:
-        void setPuissance(int p = 2) override
-        {
-            p = puissance;
+        Suite() {
+            setPuissance(2);
         }
         bool estValide(const std::vector<Card *> &hand) override;
 
@@ -86,9 +81,8 @@ namespace Model
     class Somme : public Combinaison
     {
     public:
-        void setPuissance(int p = 1) override
-        {
-            p = puissance;
+        Somme(){
+            setPuissance(1);
         }
         bool estValide(const std::vector<Card *> &hand) override;
 
@@ -97,4 +91,5 @@ namespace Model
             std::cout << "Combinaison : Somme" << std::endl;
         }
     };
+
 }

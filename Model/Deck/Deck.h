@@ -6,37 +6,38 @@
 #define SCHOTTENT_TOTTEN_DECK_H
 
 #include <vector>
-#include "../Card/Clan/Clan.h"
-;
+#include "../Card/Card.h"
 class Clan;
 
-
-//cette classe est un singleton
-//elle contient toutes les cartes clan du jeu (9 cartes par couleur)
-//ou toutes les cartes tactique du jeu
-//la création du deck ce fait par la classe Game
-//on peut vérifier si le deck est vide
-//on peut piocher une carte dans le deck
-//on peut mélanger le deck
-//on peut remettre une carte dans le deck
-namespace Model {
-    class Deck {
+// cette classe est un singleton
+// elle contient toutes les cartes clan du jeu (9 cartes par couleur)
+// ou toutes les cartes tactique du jeu
+// la création du deck ce fait par la classe Game
+// on peut vérifier si le deck est vide
+// on peut piocher une carte dans le deck
+// on peut mélanger le deck
+// on peut remettre une carte dans le deck
+namespace Model
+{
+    class Deck
+    {
     private:
         friend class Game;
+        friend class Board;
         std::vector<Card *> deck;
 
     protected:
-        //constructeur
+        // constructeur
         Deck();
-        ~Deck();
     public:
-        //getters
+        // getters
         std::vector<Card *> getDeck() { return deck; };
+        virtual ~Deck();// obligé de le mettre publique pour utiliser le vecteur de pointeurs intelligents
 
-        //fonctions
+        // fonctions
         void shuffle();
 
-        Card* draw();
+        Card *draw();
 
         void putBack(Card *card);
 
@@ -48,5 +49,4 @@ namespace Model {
     };
 }
 
-
-#endif //SCHOTTENT_TOTTEN_DECK_H
+#endif // SCHOTTENT_TOTTEN_DECK_H
