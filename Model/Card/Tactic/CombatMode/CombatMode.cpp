@@ -8,7 +8,16 @@ namespace Model {
     void Combatdeboue::showCard() const {
         std::cout << "Combatdeboue" << std::endl;
     }
+
+    std::string Combatdeboue::getCardInfo() const {
+        return "Combatdeboue";
+    }
+
     void CollinMaillard::showCard() const {
         std::cout << "CollinMaillard" << std::endl;
+    }
+
+    std::string CollinMaillard::getCardInfo() const {
+        return "CollinMaillard";
     }
 }

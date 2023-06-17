@@ -37,10 +37,17 @@ namespace Model
 
         // Getters
         int getCompteur() const { return compteur; }
+        void setCompteur(int compteur) { this->compteur = compteur; }
+        std::vector<Border *> getBorders() const { return borders; }
+
+
 
         // Method declarations
         virtual void createClanDeck() = 0;
         virtual void createTacticDeck() = 0;
         virtual void createDiscardDeck() = 0;
+        virtual  DiscardDeck *getDiscardDeck() = 0;
+        virtual  ClanDeck *getClanDeck() = 0;
+        virtual  TacticDeck *getTacticDeck() = 0;
     };
 }

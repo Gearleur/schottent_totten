@@ -7,9 +7,7 @@
 
 namespace Model
 {
-    DiscardDeck *SchottenTottenBoard::discardDeck = nullptr;
-    ClanDeck *SchottenTottenBoard::clanDeck = nullptr;
-    TacticDeck *SchottenTottenBoard::tacticDeck = nullptr;
+
     SchottenTottenBoard *SchottenTottenBoard::instance = nullptr;
 
     void SchottenTottenBoard::createClanDeck()

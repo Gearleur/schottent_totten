@@ -14,6 +14,7 @@ namespace Model {
         EliteTroop(Numbered number, Color color): Tactic(number, color,Special::EliteTroops){};
         virtual ~EliteTroop() = default;
         virtual void showCard() const = 0;
+        virtual std::string getCardInfo() const = 0;
 
     };
   class Joker : public EliteTroop {
@@ -23,6 +24,7 @@ namespace Model {
                 Joker(Numbered number=ONE, Color color=RED): EliteTroop(number, color){};
                 ~Joker() override = default;
                 void showCard() const override;
+                std::string getCardInfo() const override;
                 void setColor(Color color) override  {this->color = color;};
                 void setNumber(Numbered number) override  {this->number = number;};
   };
@@ -34,6 +36,7 @@ namespace Model {
                 Espion(Numbered number=SEVEN, Color color=RED): EliteTroop(number, color){};
                 ~Espion() override = default;
                 void showCard() const override;
+                std::string getCardInfo() const override;
                 void setColor(Color color) override  {this->color = color;};
   };
 
@@ -44,6 +47,7 @@ namespace Model {
                 Portebouclier(Numbered number=ONE, Color color=RED): EliteTroop(number, color){};
                 ~Portebouclier() override = default;
                 void showCard() const override;
+                std::string getCardInfo() const override;
                 void setColor(Color color) override  {this->color = color;};
                 void choseNumber(Numbered number);
   };

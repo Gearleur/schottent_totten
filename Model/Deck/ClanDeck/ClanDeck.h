@@ -21,7 +21,7 @@ namespace Model {
     public:
         static ClanDeck* getInstance_clanDeck(){
             if(Instance_clanDeck == nullptr)
-                Instance_clanDeck = new ClanDeck();
+            {Instance_clanDeck = new ClanDeck();}
             return Instance_clanDeck;};
         void addCard(Card *card) override;
         void fillDeck() override;

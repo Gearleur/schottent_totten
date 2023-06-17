@@ -20,8 +20,10 @@ namespace Model {
         friend class Controller;
         int id;
         std::string name;
+        std::string side;
         std::vector<Card *> hand;
         std::vector<Border *> borders;
+
 
     public:
         static int idCounter;
@@ -58,6 +60,8 @@ namespace Model {
         void removeBorder(int index) { borders.erase(borders.begin() + index); };
 
         void showHand() const;
+        void setSide(const std::string& side) { this->side = side; }
+        const std::string& getSide() const { return side; }
 
         /* virtual functions */
         virtual bool isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction

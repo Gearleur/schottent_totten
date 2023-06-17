@@ -5,6 +5,7 @@
 #include "Model/Card/Card.h"
 #include "Model/Game/Game.h"
 #include "Controler/Controler.h"
+#include "Vue/menu.h"
 using namespace std;
 
 int main() {
@@ -93,6 +94,7 @@ int main() {
         std::cout << "Version : " << game->getVersion() << std::endl;
         std::cout << "Variante : " << game->getVariante() << std::endl;
     }
+    Vue::show_menu_principal();
 
     return 0;
 }

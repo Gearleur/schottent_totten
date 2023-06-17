@@ -20,7 +20,7 @@ namespace Model
         {
             for (int j = 1; j < 10; ++j)
             {
-                getDeck().push_back(new Clan(static_cast<Numbered>(j), static_cast<Color>(i)));
+                putBack(new Clan(static_cast<Numbered>(j), static_cast<Color>(i)));
             }
         }
     }

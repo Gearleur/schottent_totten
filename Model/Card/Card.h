@@ -48,6 +48,7 @@ namespace Model{
 
             //fonctions
             virtual void showCard() const = 0;
+            virtual std::string getCardInfo() const = 0;
 
             //fonction
 

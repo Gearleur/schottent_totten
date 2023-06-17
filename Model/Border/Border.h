@@ -60,11 +60,14 @@ namespace Model
         Player *getOwner() const { return owner; }
         const std::vector<Card *> &getLeftBorder() const { return leftBorder; }
         const std::vector<Card *> &getRightBorder() const { return rightBorder; }
+        void putCardLeft(Card *card);
+        void putCardRight(Card *card);
         int getMaxCards() const { return maxCards; }
         int getCurrentCardsLeft() const { return currentCardsLeft; }
         int getCurrentCardsRight() const { return currentCardsRight; }
         explicit Border(int position, Player *owner = nullptr);
         virtual ~Border();
+        void showBorder() const;
     };
 }
 
