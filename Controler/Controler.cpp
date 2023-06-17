@@ -5,7 +5,7 @@ namespace Model
     bool Controller::canDrawClanCard(int idPlayer) const
     {
         size_t i = 0;
-        for (auto it : player[idPlayer]->getHand())
+        for (auto it : observers[idPlayer]->getHand())
             i++;
         if (game->getVariante() == "Classique")
             return i < 6;
@@ -17,7 +17,7 @@ namespace Model
         if (game->getVariante() == "Tactique")
         {
             int tactics = 0;
-            for (auto it : player[idPlayer]->getHand())
+            for (auto it : observers[idPlayer]->getHand())
             {
                 if (it->getType() == SPECIAL)
                     tactics += 1;
@@ -45,7 +45,7 @@ namespace Model
         if (idPlayer == 0) // C'est le joueur à gauche du border
         {
             if (borders[borderPosition]->isLeftFull()) {
-                if (std::any_of(player[idPlayer]->getHand().begin(), player[idPlayer]->getHand().end(), [](const auto& card) {
+                if (std::any_of(observers[idPlayer]->getHand().begin(), observers[idPlayer]->getHand().end(), [](const auto& card) {
                     return card->getName() == "Combat de Boue";
                 })) {
                     borders[borderPosition]->setMaxCards(4);
@@ -60,7 +60,7 @@ namespace Model
         else // C'est le joueur à droite du border
         {
             if (borders[borderPosition]->isRightFull()) {
-                if (std::any_of(player[idPlayer]->getHand().begin(), player[idPlayer]->getHand().end(), [](const auto& card) {
+                if (std::any_of(observers[idPlayer]->getHand().begin(), observers[idPlayer]->getHand().end(), [](const auto& card) {
                     return card->getName() == "Combat de Boue";
                 })) {
                     borders[borderPosition]->setMaxCards(4);

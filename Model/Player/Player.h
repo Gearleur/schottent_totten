@@ -9,13 +9,14 @@
 #include <vector>
 #include <algorithm>
 #include "../Border/Border.h"
+#include "../EventManager/EventManager.h"
 
 
 
 namespace Model {
     class Card;
     class Border;
-    class Player {
+    class Player :public Observer {
     protected:
         friend class Controller;
         int id;
@@ -59,6 +60,7 @@ namespace Model {
 
         void showHand() const;
 
+        void update(const std::string& event) override;
         /* virtual functions */
         virtual bool isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
         virtual ~Player() = default;

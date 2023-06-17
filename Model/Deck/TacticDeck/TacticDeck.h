@@ -9,10 +9,18 @@
 
 
 namespace Model {
+    class SchottenTottenBoard;
     class TacticDeck : public Deck {
     private:
+        friend class SchottenTottenBoard;
         static TacticDeck* Instance_tacticDeck;
         TacticDeck();
+        void operator=(const TacticDeck&);
+        ~TacticDeck() override{
+            for(auto card : Instance_tacticDeck->getDeck())
+                delete card;
+            std::cout <<"***** TacticDeck DESTRUCTOR *****" <<std::endl;
+        }
     public:
         static TacticDeck* getInstance_tacticDeck(){
             if(Instance_tacticDeck == nullptr)
@@ -20,6 +28,7 @@ namespace Model {
             return Instance_tacticDeck ;};
         void addCard(Card *card) override;
         void fillDeck() override;
+        static void freeInstance();
     };
 }
 

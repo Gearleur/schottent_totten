@@ -12,25 +12,32 @@ namespace Model
     TacticDeck *TacticDeck::Instance_tacticDeck = nullptr;
     void TacticDeck::fillDeck()
     {
-        getDeck().push_back(new Combatdeboue());
-        getDeck().push_back(new CollinMaillard());
-        getDeck().push_back(new Joker());
-        getDeck().push_back(new Joker());
-        getDeck().push_back(new Espion());
-        getDeck().push_back(new Portebouclier());
-        getDeck().push_back(new Traitre());
-        getDeck().push_back(new ChasseurdeTete());
-        getDeck().push_back(new Stratege());
-        getDeck().push_back(new Banshee());
+        putBack(new Combatdeboue());
+        putBack(new CollinMaillard());
+        putBack(new Joker());
+        putBack(new Joker());
+        putBack(new Espion());
+        putBack(new Portebouclier());
+        putBack(new Traitre());
+        putBack(new ChasseurdeTete());
+        putBack(new Stratege());
+        putBack(new Banshee());
     }
 
-    TacticDeck::TacticDeck()
+    TacticDeck::TacticDeck() : Deck()
     {
+        std::cout <<"***** TacticDeck CONSTRUCTOR *****" <<std::endl;
         fillDeck();
+        shuffle();
     }
 
     void TacticDeck::addCard(Card *card)
     {
         getDeck().push_back(card);
+    }
+
+    void TacticDeck::freeInstance() {
+        delete Instance_tacticDeck;
+        Instance_tacticDeck = nullptr;
     }
 }

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "../Card/Card.h"
+#include <iostream>
 class Clan;
 
 // cette classe est un singleton
@@ -24,16 +25,15 @@ namespace Model
     private:
         friend class Game;
         friend class Board;
-        std::vector<Card *> deck;
 
     protected:
         // constructeur
+        std::vector<Card *> deck;
         Deck();
     public:
         // getters
-        std::vector<Card *> getDeck() { return deck; };
-        virtual ~Deck();// obligé de le mettre publique pour utiliser le vecteur de pointeurs intelligents
-
+        const std::vector<Card *> getDeck() const { return deck; }
+        std::vector<Card *> getDeck() { return deck; }
         // fonctions
         void shuffle();
 
@@ -41,11 +41,11 @@ namespace Model
 
         void putBack(Card *card);
 
-        bool isEmpty() const;
+        virtual bool isEmpty() const;
 
         virtual void addCard(Card *card) = 0;
-
         virtual void fillDeck() = 0;
+        virtual ~Deck() =default;// obligé de le mettre publique pour utiliser le vecteur de pointeurs intelligents
     };
 }
 

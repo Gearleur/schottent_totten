@@ -5,6 +5,7 @@
 #include "../Model/Game/Game.h"
 #include "../Model/Border/Border.h"
 #include "../Model/Combinaison/Combinaison.h"
+#include "../Model/EventManager/EventManager.h"
 namespace Model
 {
     class GameControllerFactory {
@@ -61,34 +62,36 @@ namespace Model
             return nullptr; // Aucune combinaison valide trouvée
         }
     };
-
 //faut pas oublier de notifier l'eventManager à chaque action
     class Controller {
     private:
         int version_game;
         std::string variante_game;
-        Player* player[4];  //je pense que c'est mieux de faire un std::vecteur plutot qu'un tableau
+        std::vector<Player*> observers;  //je pense que c'est mieux de faire un std::vecteur plutot qu'un tableau
         Border* borders[9]; //idem
-        Game* game;
-
+        Game * game;
+        EventManager eventManager;
     public:
         Controller(int v, const std::string& variante)
                 : version_game(v), variante_game(variante)
         {
             game = GameControllerFactory::createGame(v, variante);
-            player[0] = PlayerControllerFactory::createPlayer("Zak");
-            player[1] = PlayerControllerFactory::createPlayer("Alexandre");
-            player[2] = PlayerControllerFactory::createPlayer("Clément");
-            player[3] = PlayerControllerFactory::createPlayer("Yue");
-            for(int i =0; i<9; i++)
-                borders[i] = BorderControllerFactory::createBorder(i);
-;
+            observers.push_back(new Human("J1", std::vector<Card*> (), std::vector<Border*> ()));
+            observers.push_back(new Human("J2", std::vector<Card*> (), std::vector<Border*> ()));
+            for(size_t i = 0; i<9; i++)
+                borders[i] = new Border((int)i);
         }
         //les 4 méthodes en dessus sont faites pour tester le main
-        Player * getPlayer(const int idPlayer) {return player[idPlayer];}
+        //getters sans modifications
+        const Player * getPlayer(const int idPlayer) const {return observers[idPlayer];}
+        const Border * getBorder(const int position) const {return borders[position];}
+        const Game * getGame() const {return game;}
+        //getters avec modifications
+        Player * getPlayer(const int idPlayer) {return observers[idPlayer];}
         Border * getBorder(const int position) {return borders[position];}
         Game * getGame() {return game;}
-        size_t getPlayerCount() {return sizeof(player);}
+        SchottenTottenBoard* getBoard() {return SchottenTottenBoard::getInstance();}
+        size_t getPlayerCount() {return observers.size();}
         bool canDrawClanCard(int idPlayer) const;
         bool canDrawTactic(int idPlayer) const;
         bool canPlayCard(int idPlayer, int borderPosition) const;
@@ -96,20 +99,67 @@ namespace Model
         int TacticCardCount(int idPlayer) const;
         ~Controller(){
             delete game;
+            for(const auto i : observers)
+                delete i;
+            for(const auto i : borders)
+                delete i;
         }
-        /*void runGame()
-        {
-            std::cout << "Running the game..." << std::endl;
-
-            // Perform game logic and actions
-
-            // Notify events through the event manager
-            eventManager->notifyEvent();
+        /*
+        void init() {
+            game = GameControllerFactory::createGame(version_game, variante_game);
+            for(int i =0; i<2; i++)
+                player[i] = PlayerControllerFactory::createPlayer(std::to_string(i));
+            for(int i =0; i<9; i++)
+                borders[i] = BorderControllerFactory::createBorder(i);
         }
 
-        void registerEventListener(EventListener *listener)
-        {
-            eventManager->registerEventListener(listener);
-        }*/
+        void start() {
+            while (!game->isGameFinished()) {
+                performAction();
+            }
+            std::cout << "Game finished!" << std::endl;
+        }
+
+        void performAction() {
+            int currentPlayerIndex = game->getCurrentPlayerIndex();
+            Player* currentPlayer = player[currentPlayerIndex];
+            Border* currentBorder = nullptr;
+            Combinaison* combinaison = nullptr;
+
+            // Obtenir l'action du joueur (à implémenter)
+            std::string action = currentPlayer->getAction();
+
+            if (action == "PlayCard") {
+                Card* card = currentPlayer->getCardToPlay();
+                currentBorder = currentPlayer->selectBorder(borders);
+
+                // Vérifier si la carte peut être jouée
+                if (currentBorder && card) {
+                    combinaison = CombinaisonControllerFactory::createCombinaison(currentBorder->getCards());
+
+                    // Vérifier si la combinaison est valide
+                    if (combinaison) {
+                        currentPlayer->removeCard(card);
+                        currentBorder->addCard(card);
+                        game->updateGameStatus();
+                        eventManager.notifyEvent("CardPlayed"); // Notifier l'événement "CardPlayed"
+                    } else {
+                        // Combinaison invalide
+                        std::cout << "Invalid combination!" << std::endl;
+                    }
+                } else {
+                    // Border invalide ou carte non sélectionnée
+                    std::cout << "Invalid border or no card selected!" << std::endl;
+                }
+            } else if (action == "DrawCard") {
+                currentPlayer->drawCard(game->getDeck());
+                game->updateGameStatus();
+                eventManager.notifyEvent("CardDrawn"); // Notifier l'événement "CardDrawn"
+            } else {
+                // Action invalide
+                std::cout << "Invalid action!" << std::endl;
+            }
+        }
+         */
     };
 }

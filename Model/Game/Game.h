@@ -16,6 +16,7 @@
 #include "../Deck/ClanDeck/ClanDeck.h"
 #include "../Deck/TacticDeck/TacticDeck.h"
 #include "../Board/SchottenTottenBoard.h"
+#include "../Player/Player.h"
 // J'ai utilisé le design pattern factory, avec une classe mère abstraite et des classes filles singleton
 namespace Model
 {
@@ -23,10 +24,13 @@ namespace Model
     {
     protected:
         friend class Controller;
+        friend class SchottenTottenBoard;
         int version;
         std::string variante;
+        std::vector<Player *> players;
         /*Board *board;*/ // attribut uniquement initialisé dans les classes filles, donc le board n'appartient pass à la classe mère
-        std::vector<std::unique_ptr<Deck>> decks; // matrice de decks avec des pointeurs intelligents
+        std::vector<Deck *> decks;
+        // matrice de decks avec des pointeurs intelligents
         Game(int v, const std::string& var) : version(v), variante(var)
         {
             std::cout << "****** Game Constructor ******" << std::endl;
@@ -39,14 +43,20 @@ namespace Model
 
         int getVersion() const { return version; }
         std::string getVariante() const { return variante; }
-        virtual Board *getBoard() const = 0;
+        virtual SchottenTottenBoard *getBoard() const = 0;
+        bool isGameFinished() const {   //essai
+            return true;
+        }
+        int getCurrentPlayerIndex(const int &i) const {
+            return players[i]->getId();
+        }
     };
 
     class GameV1 : public Game
     {
     private:
         friend class GameControllerFactory;
-        SchottenTottenBoard *board;
+        friend class Controller;
         GameV1(int v, const std::string& var);
 
     public:
@@ -55,7 +65,7 @@ namespace Model
             static GameV1 instance(v, var);
             return instance;
         }
-        Board *getBoard() const override;
+        SchottenTottenBoard *getBoard() const override;
         ~GameV1();
     };
 
@@ -63,7 +73,7 @@ namespace Model
     {
     private:
         friend class GameControllerFactory;
-        SchottenTottenBoard *board;
+        friend class Controller;
         GameV1Tactique(int v, const std::string& var);
 
     public:
@@ -72,7 +82,7 @@ namespace Model
             static GameV1Tactique instance(v, var);
             return instance;
         }
-        Board *getBoard() const override;
+        SchottenTottenBoard *getBoard() const override;
         ~GameV1Tactique();
     };
 
@@ -89,7 +99,7 @@ namespace Model
             static GameV2 instance(v, var);
             return instance;
         }
-        Board *getBoard() const override;
+        SchottenTottenBoard *getBoard() const override;
     };
 
     class GameV2Tactique : public Game
@@ -105,7 +115,7 @@ namespace Model
             static GameV2Tactique instance(v, var);
             return instance;
         }
-        Board *getBoard() const override;
+        SchottenTottenBoard *getBoard() const override;
     };
 }
 

@@ -6,40 +6,30 @@
 
 namespace Model
 {
-    class EventListener
-    {
+    class Observer {
     public:
-        virtual void notify() = 0;
-        virtual ~EventListener();
+        virtual void update(const std::string& event) = 0;
     };
 
-    class EventManager : public EventListener
-    {
+// Classe qui envoie des événements
+    class EventManager {
     private:
-        std::vector<EventListener *> eventListeners;
+        std::unordered_map<std::string, std::vector<Observer*>> observers;
 
     public:
-        void registerEventListener(EventListener *listener)
-        {
-            eventListeners.push_back(listener);
+        void subscribe(const std::string& event, Observer* observer) {
+            observers[event].push_back(observer);
         }
 
-        void notifyEvent()
-        {
-            std::cout << "Notifying all event listeners..." << std::endl;
-
-            // Notify all registered event listeners
-            for (auto listener : eventListeners)
-            {
-                listener->notify();
+        void emitEvent(const std::string& event) {
+            if (observers.count(event) > 0) {
+                for (Observer* observer : observers[event]) {
+                    observer->update(event);
+                }
             }
         }
-        void notify() override
-        {
-            std::cout << "Received notification from Game!" << std::endl;
-            // Handle the notification event
-        }
     };
+
 }
 
 #endif // SCHOTTENT_TOTTEN_EVENTMANAGER_H

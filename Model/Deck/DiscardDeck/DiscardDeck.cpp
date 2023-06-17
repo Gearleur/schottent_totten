@@ -6,15 +6,19 @@
 namespace Model
 {
     DiscardDeck *DiscardDeck::Instance_discardDeck = nullptr;
-    void DiscardDeck::fillDeck()
+    void DiscardDeck::fillDeck()    //à implémenter quand je le joueur joue une carte tactique
     {
     }
 
-    DiscardDeck::DiscardDeck()
+    DiscardDeck::DiscardDeck() : Deck()
     {
-        fillDeck();
+        std::cout <<"***** DiscardDeck CONSTRUCTOR *****" <<std::endl;
     }
 
+    void DiscardDeck::freeInstance() {
+        delete Instance_discardDeck;
+        Instance_discardDeck = nullptr;
+    }
     void DiscardDeck::addCard(Card *card)
     {
         getDeck().push_back(card);

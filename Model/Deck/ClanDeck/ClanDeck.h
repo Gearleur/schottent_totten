@@ -12,19 +12,25 @@
 //on doit impplémenter une fonction qui permet remplir le deck de clan
 
 #include "../Deck.h"
+#include <iostream>
 
 namespace Model {
     class ClanDeck : public Deck {
     private:
+        friend class SchottenTottenBoard;
         static ClanDeck* Instance_clanDeck;
         ClanDeck();
+        void operator=(const ClanDeck&);
+        ~ClanDeck() override{
+            for(auto card : getInstance_clanDeck()->getDeck())
+                delete card;
+            std::cout << "***** ClanDeck DESTRUCTOR *****" << std::endl;
+        }
     public:
-        static ClanDeck* getInstance_clanDeck(){
-            if(Instance_clanDeck == nullptr)
-                Instance_clanDeck = new ClanDeck();
-            return Instance_clanDeck;};
-        void addCard(Card *card) override;
+        static ClanDeck* getInstance_clanDeck();
         void fillDeck() override;
+        void addCard(Card *card) override;
+        static void freeInstance();
     };
 }
 

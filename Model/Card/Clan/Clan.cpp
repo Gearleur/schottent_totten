@@ -18,4 +18,7 @@ namespace Model {
         std::cout << "Number : " << getNumber() << std::endl;
         std::cout << "Color : " << getColor() << std::endl;
     }
+    Clan::~Clan() {
+            std::cout<< "***** CLAN CARD DESTRUCTOR *****"<< std::endl;
+    }
 }

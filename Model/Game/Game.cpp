@@ -12,30 +12,26 @@ namespace Model
     }
     GameV1::GameV1(int v, const std::string& var) : Game(v, var)
     {
-        board = SchottenTottenBoard::getInstance();
-        board->createClanDeck();
-        decks.push_back(std::unique_ptr<Deck>(board->getClanDeck()));
+        SchottenTottenBoard::getInstance();
+        decks.push_back(SchottenTottenBoard::getClanDeck());
     }
-    Board *GameV1::getBoard() const { return board; }
+    SchottenTottenBoard *GameV1::getBoard() const { return SchottenTottenBoard::getInstance(); }
     GameV1::~GameV1(){
-        delete board;
+        SchottenTottenBoard::freeInstance();
     }
     GameV1Tactique::GameV1Tactique(int v, const std::string& var) : Game(v, var)
     {
-        board = SchottenTottenBoard::getInstance();
-        board->createClanDeck();
-        board->createTacticDeck();
-        board->createDiscardDeck();
-        decks.push_back(std::unique_ptr<Deck>(board->getClanDeck()));
-        decks.push_back(std::unique_ptr<Deck>(board->getTacticDeck()));
-        decks.push_back(std::unique_ptr<Deck>(board->getDiscardDeck()));
+        SchottenTottenBoardTactique::getInstance();
+        decks.push_back(SchottenTottenBoardTactique::getClanDeck());
+        decks.push_back(SchottenTottenBoardTactique::getTacticDeck());
+        decks.push_back(SchottenTottenBoardTactique::getDiscardDeck());
     }
-    Board *GameV1Tactique::getBoard() const { return board; }
+    SchottenTottenBoard *GameV1Tactique::getBoard() const { return SchottenTottenBoard::getInstance(); }
 
     GameV1Tactique::~GameV1Tactique() {
-        delete board;
+        SchottenTottenBoardTactique::freeInstance();
     }
-    Board *GameV2::getBoard() const { return board; }
-    Board *GameV2Tactique::getBoard() const { return board; }
+    SchottenTottenBoard *GameV2::getBoard() const { return board; }
+    SchottenTottenBoard *GameV2Tactique::getBoard() const { return board; }
 
 }

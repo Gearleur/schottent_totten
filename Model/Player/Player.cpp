@@ -20,6 +20,15 @@ namespace Model {
         }
         std::cout << std::endl;
     }
+
+    void Player::update(const std::string &event) {
+            if(event == "Piocher carte Tactique") {
+
+            }
+            if(event == "Piocher carte Clan") {
+
+            }
+    }
 }
 
 

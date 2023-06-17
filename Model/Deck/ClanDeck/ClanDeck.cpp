@@ -14,21 +14,31 @@
 namespace Model
 {
     ClanDeck *ClanDeck::Instance_clanDeck = nullptr;
-    void ClanDeck::fillDeck()
-    {
-        for (int i = 0; i < 6; ++i)
-        {
-            for (int j = 1; j < 10; ++j)
-            {
-                getDeck().push_back(new Clan(static_cast<Numbered>(j), static_cast<Color>(i)));
+
+    ClanDeck *ClanDeck::getInstance_clanDeck() {
+        if(Instance_clanDeck == nullptr)
+            Instance_clanDeck = new ClanDeck();
+        return Instance_clanDeck;
+    }
+    void ClanDeck::freeInstance() {
+        delete Instance_clanDeck;
+        Instance_clanDeck = nullptr;
+    }
+    ClanDeck::ClanDeck() : Deck() {
+        std::cout << "***** ClanDeck CONSTRUCTOR *****" << std::endl;
+        fillDeck();
+        shuffle();
+    }
+
+    void ClanDeck::fillDeck() {
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 1; j < 10; ++j) {
+                putBack(new Clan(static_cast<Numbered>(j), static_cast<Color>(i)));
             }
         }
     }
 
-    ClanDeck::ClanDeck() = default;
-
-    void ClanDeck::addCard(Card *card)
-    {
+    void ClanDeck::addCard(Card *card) {
         getDeck().push_back(card);
     }
 }

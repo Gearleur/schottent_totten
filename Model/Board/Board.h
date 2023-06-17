@@ -9,11 +9,12 @@
 #include "../Deck/ClanDeck/ClanDeck.h"
 #include "../Deck/TacticDeck/TacticDeck.h"
 #include "../Deck/DiscardDeck/DiscardDeck.h"
+#include "../EventManager/EventManager.h"
 #include <vector>
 
 namespace Model
 {
-    class Board
+    class Board : public Observer
     {
     protected:
         friend class Game;
@@ -31,6 +32,11 @@ namespace Model
                 borders.push_back(new Border(i, nullptr));
             }
         };
+        void update(const std::string& event) override{
+            if(event == "Revendiquer") {
+
+            }
+        }
 
         // Destructor
         ~Board() = default;
@@ -39,8 +45,8 @@ namespace Model
         int getCompteur() const { return compteur; }
 
         // Method declarations
-        virtual void createClanDeck() = 0;
+        /*virtual void createClanDeck() = 0;
         virtual void createTacticDeck() = 0;
-        virtual void createDiscardDeck() = 0;
+        virtual void createDiscardDeck() = 0;*/
     };
 }
