@@ -83,6 +83,7 @@ namespace Model
             game = GameControllerFactory::createGame(v, variante);
             for(size_t i = 0; i<9; i++)
                 borders.push_back(new Border((int)i));
+
         }
         //les 4 méthodes en dessus sont faites pour tester le main
         //getters sans modifications
@@ -96,13 +97,14 @@ namespace Model
         Border * getBorder(const int position) {return borders[position];}
         Game * getGame() {return game;}
         void addPlayer(Player* player) {observers.push_back(player);}
-        SchottenTottenBoard* getBoard() {return SchottenTottenBoard::getInstance();}
+        static SchottenTottenBoard* getBoard() {return SchottenTottenBoard::getInstance();}
         size_t getPlayerCount() {return observers.size();}
         bool canDrawClanCard(int idPlayer) const;
         bool canDrawTactic(int idPlayer) const;
+        bool win(Player* Player1,  Player *Player2,Board *board) const;
+        int getDifferenceTacticalCard() const;
         bool canPlayCard(int idPlayer, int borderPosition) const;
         bool canClaimBorder(int idPlayer, Model::Board *pBoard, int borderPosition) const;
-        bool win(Player *Player1,  Player *Player2,Model::Board *board) const;
         int TacticCardCount(int idPlayer) const;
         ~Controller(){
             delete game;

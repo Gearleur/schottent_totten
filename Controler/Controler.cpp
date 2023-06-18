@@ -37,6 +37,48 @@ namespace Model
         else
             return false;
     }
+    bool Controller::win(Player* Player1,  Player *Player2,Board *board) const {
+        if (this->game->getVariante() == "Classique")
+        {   int point1=0;
+            int point2=0;
+            int adjacent1=0;
+            int adjacent2=0;
+            for (int i = 0; i < 9; i++){
+                if(adjacent1==3){
+                    this->game->setWinner(Player1);
+                    return true;
+                }
+                if(adjacent2==3){
+                    this->game->setWinner(Player2);
+                    return true;
+                }
+                if (board->getBorders()[i]->getOwner() == Player1) {
+                    point1++;
+                    adjacent1++;
+                    adjacent2 = 0;
+                } else if (board->getBorders()[i]->getOwner() == Player2) {
+                    point2++;
+                    adjacent2++;
+                    adjacent1 = 0;
+                } else {
+                    adjacent1 = 0;
+                    adjacent2 = 0;
+                }
+            }
+            if(point1>=5){
+                this->game->setWinner(Player1);
+                return true;
+            }
+            else if(point2>=5){
+                this->game->setWinner(Player2);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
     bool Controller::canPlayCard(int idPlayer, int borderPosition) const  //on peut la découper en 2 méthodes right et left
     {
         if (idPlayer == 0) // C'est le joueur à gauche du border
@@ -75,12 +117,31 @@ namespace Model
         {
             Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getLeftBorder());
             Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getRightBorder());
-            if(idPlayer == 0)
-                return comboA->getPuissance() > comboB->getPuissance();
+            if(comboA->getPuissance() == comboB->getPuissance()){
+                std::cout<<"Les puissance sont égales, on somme les valeurs des cartes."<<std::endl;
+                int sumA = 0;
+                int sumB = 0;
+                for(auto card : pBoard->getBorders()[borderPosition]->getLeftBorder())
+                    sumA += (int) card->getNumber();
+                for(auto card : pBoard->getBorders()[borderPosition]->getRightBorder())
+                    sumB += (int) card->getNumber();
+                if(sumA == sumB)    //dans le cas d'égalité totale, on retourne vrai pour le joueur appelant
+                    return true;
+                else if(idPlayer == 0)
+                    return sumA > sumB;
+                else
+                    return sumB > sumA;
+            }
+            else if(idPlayer == 0)
+            {
+                return comboA->getPuissance() > comboB->getPuissance();}
             else
                 return comboB->getPuissance() > comboA->getPuissance();
         }
         else    //flemme de faire le cas irréfutable c'est relou
             return false;
+    }
+    int Controller::getDifferenceTacticalCard() const{    //retourne TacticalCardPlayedJ1 - TacticalCardPlayedJ2
+        return observers[0]->tacticalCardPlayed - observers[1]->tacticalCardPlayed;
     }
 }

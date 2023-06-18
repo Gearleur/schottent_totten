@@ -26,8 +26,7 @@ namespace Model
 
     TacticDeck::TacticDeck() : Deck()
     {
-        fillDeck();
-        shuffle();
+
     }
 
     void TacticDeck::addCard(Card *card)

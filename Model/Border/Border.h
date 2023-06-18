@@ -36,6 +36,8 @@ namespace Model
         int position;
         std::vector<Card *> leftBorder = std::vector<Card *>();
         std::vector<Card *> rightBorder = std::vector<Card *>();
+        std::vector<Card *> borne = std::vector<Card *>();
+
         int maxCards = 3;
         int currentCardsLeft;
         int currentCardsRight;
@@ -52,7 +54,6 @@ namespace Model
 
         void addCardLeft(Card *card);
         void addCardRight(Card *card);
-
     public:
         void setOwner(Player *player) { owner = player; }
         void setMaxCards(int Maxcards) { this->maxCards = Maxcards; }
@@ -65,12 +66,15 @@ namespace Model
         const std::vector<Card *> &getRightBorder() const { return rightBorder; }
         void putCardLeft(Card *card);
         void putCardRight(Card *card);
+        void removeCardLeft(Card *card);
+        void removeCardRight(Card *card);
         int getMaxCards() const { return maxCards; }
         int getCurrentCardsLeft() const { return currentCardsLeft; }
         int getCurrentCardsRight() const { return currentCardsRight; }
         explicit Border(int position, Player *owner = nullptr);
         virtual ~Border();
         void showBorder() const;
+        void showBorderTactically() const;
     };
 }
 
