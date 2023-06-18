@@ -104,6 +104,7 @@ namespace Model
         const int getDifferenceTacticalCard() const;
         bool canPlayCard(int idPlayer, int borderPosition) const;
         bool canClaimBorder(int idPlayer, Model::Board *pBoard, int borderPosition) const;
+        bool win(Player *Player1,  Player *Player2,Model::Board *board) const;
         int TacticCardCount(int idPlayer) const;
         ~Controller(){
             delete game;
