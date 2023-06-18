@@ -23,7 +23,7 @@ namespace Model {
         std::string side;
         std::vector<Card *> hand;
         std::vector<Border *> borders;
-        int tacticalCardPlayed = 0;
+
 
     public:
         static int idCounter;
@@ -44,11 +44,11 @@ namespace Model {
         const std::vector<Card *> &getHand() const { return hand; };
 
         const std::vector<Border *> &getBorders() const { return borders; };
-        const int &getTacticalCardPlayed() const {return tacticalCardPlayed;};
+
 
         /* fonctions */
         void addCard(Card *card) { hand.push_back(card); };
-        void incrementTacticalCardPlayed() { tacticalCardPlayed++;};
+
         void removeCard(Card *card) { hand.erase(find(hand.begin(), hand.end(), card)); };
 
         void removeCard(int index) { hand.erase(hand.begin() + index); };
