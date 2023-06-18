@@ -90,7 +90,249 @@ namespace Vue{
 
 
     }
-    void show_board_tactical() {
+    void show_board_tactical(Model::Player *pPlayer, Model::Board *board) {
+        std::cout << "\033[1;32mPlateau de jeu SchottenTotten en mode normal :\033[0m" << std::endl;
+        std::cout << "\033[1;35m---------------------------\033[0m" << std::endl;
+        std::vector<Model::Border*> borders = board->getBorders();
+        for (const auto& border : borders) {
+            border->showBorder();
+        }
+        std::cout << "\033[1;35m---------------------------\033[0m" << std::endl;
+        std::cout << "\033[1;32m"<< "Cartes Clan restantes dans la pioche : " << "\033[1;35m"<< board->getClanDeck()->getDeck().size() << "\033[0m"<< "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "Main du joueur : "<< "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m" << "Vous avez " << "\033[1;35m" << pPlayer->getHand().size() << "\033[0m" << "\033[1;32m" << " cartes dans votre main." << "\033[0m" << "\033[0m" << std::endl;
+        int index = 1;
+        int changeline = 0;
+        for (const auto& card : pPlayer->getHand()) {
+            std::cout<< "\033[1;35m"<< "[ Carte "<<index++<<" : "<< "\033[0m";
+            card->showCard();
+            std::cout<< "\033[1;35m"<< "] "<< "\033[0m";
+            if(changeline == 1){
+                std::cout << std::endl;
+                changeline = 0;
+            }
+            else{
+                changeline++;
+            }
+        }
+        std::cout << std::endl<< std::endl;
+        std::cout << "\033[1;32m"<< "Main de l'IA : "<< "\033[0m"<< std::endl;
+        std::cout << "\033[1;35mVous ne pouvez pas voir.\033[0m" << std::endl;
+        std::cout << std::endl;
+
+    }
+    void show_action_possible_tactique(Model::Player *pPlayer, Model::Player *adversaire,Model::Board *board,Model::Controller *controller) {
+        int compteur = board->getCompteur();
+        int count_action = 0;
+        std::string result;
+        bool playcard = false;
+        bool pioche = false;
+        bool pass = false;
+        if(board->getClanDeck()->getDeck().empty())
+        {std::cout << "\033[1;31m" << "Le deck de clan est vide" << "\033[0m" << std::endl;
+            count_action++;}
+        while (!pass) {
+            int choice;
+            action:
+            show_board_tactical(pPlayer, board);
+            std::cout << "\033[1;32m" << "Le compteur est à " << "\033[1;35m"<< compteur << "\033[0m"<< "\033[0m" << std::endl;
+            std::cout << "\033[1;32m" << "Votre côté est : " << "\033[1;35m"<< pPlayer->getSide() << "\033[0m"<< "\033[0m" << std::endl;
+            std::cout << "\033[1;32m" << "C'est à "<< "\033[1;35m"<<pPlayer->getName()<< "\033[0m"<< "\033[1;32m"<< " de jouer" << "\033[0m" << std::endl;
+            std::cout << "\033[1;32m" << "Pour vous les actions possibles sont : " << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "----------------------------------------------" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "1. Jouer une carte" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "2. Piocher une carte" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "3. Déclarer remporter une frontière" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "4. Abandonner" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "----------------------------------------------" << "\033[0m" << std::endl;
+            std::cout<<result;
+            std::cout << "\033[1;32m" << "Veuillez sélectionner une action : " << "\033[0m" << std::endl;
+            std::cin >> choice;
+            while (choice < 1 || choice > 5) {
+                std::cout << "\033[1;31m" << "Choix invalide. Veuillez sélectionner une action valide." << "\033[0m"
+                          << std::endl;
+                std::cout << "\033[1;32m" << "Veuillez sélectionner une action : " << "\033[0m" << std::endl;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cin >> choice;
+            }
+
+            switch (choice) {
+                case 1:
+                    if(playcard)
+                    {
+                        std::cout << "\033[1;31m" << "Vous avez déjà joué une carte" << "\033[0m" << std::endl;
+                        result = "\033[1;31m" + std::string("Vous avez déjà joué une carte") + "\033[0m"+ "\n";
+                        break;
+                    }
+                    // Action 1: Jouer une carte
+                    std::cout << "\033[1;32m" << "Veuillez sélectionner une carte à jouer : " << "\033[0m" << std::endl;
+                    int cardChoice;
+                    std::cin >> cardChoice;
+                    while (cardChoice < 1 || cardChoice > pPlayer->getHand().size()) {
+                        std::cout << "\033[1;32m" << "Choix invalide. Veuillez sélectionner une carte valide."
+                                  << "\033[0m" << std::endl;
+                        std::cout << "\033[1;32m" << "Veuillez sélectionner une carte à jouer : " << "\033[0m"
+                                  << std::endl;
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cin >> cardChoice;
+                    }
+                    cardChoice--;
+                    std::cout << "\033[1;32m" << "Veuillez sélectionner une frontière : " << "\033[0m" << std::endl;
+                    int borderChoice;
+                    std::cin >> borderChoice;
+                    while (borderChoice < 1 || borderChoice > 9) {
+                        std::cout << "\033[1;31m" << "Choix invalide. Veuillez sélectionner une frontière valide."
+                                  << "\033[0m" << std::endl;
+                        std::cout << "\033[1;32m" << "Veuillez sélectionner une frontière : " << "\033[0m" << std::endl;
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cin >> borderChoice;
+                    }
+                    borderChoice--;
+                    if (!handleplaycard(pPlayer, board, cardChoice, borderChoice)) {
+                        std::cout << "\033[1;31m" << "Vous ne pouvez pas jouer cette carte sur cette frontière."
+                                  << "\033[0m" << std::endl;
+                        result = "\033[1;31m" + std::string("Vous ne pouvez pas jouer cette carte sur cette frontière.") + "\033[0m"+ "\n";
+                        break;
+                    } else {
+                        std::cout << "\033[1;32m" << "Vous avez joué la carte " << ++cardChoice << " sur la frontière "
+                                  << ++borderChoice << "\033[0m" << std::endl;
+                        result = "\033[1;32m" + std::string("Vous avez joué la carte ") + std::to_string(cardChoice) + std::string(" sur la frontière ") + std::to_string(borderChoice) + "\033[0m"+ "\n";
+                        playcard = true;
+                        count_action++;
+                    }
+
+                    break;
+
+                case 2:
+                    if(pioche)
+                    {
+                        std::cout << "\033[1;31m" << "Vous avez déjà pioché une carte" << "\033[0m" << std::endl;
+                        result= "\033[1;31m" + std::string("Vous avez déjà pioché une carte") + "\033[0m"+ "\n";
+                        break;
+                    }
+                    // Action 2: Piocher une carte
+                    if (!handlepioche(pPlayer, board)||pPlayer->getHand().size()>6) {
+                        std::cout << "\033[1;31m" << "Vous ne pouvez pas piocher de carte." << "\033[0m" << std::endl;
+                        result = "\033[1;31m" + std::string("Vous ne pouvez pas piocher de carte.") + "\033[0m"+ "\n";
+                        break;
+                    } else { std::cout << "\033[1;32m" << "Vous avez pioché une carte." << "\033[0m" << std::endl;
+                        pioche = true;
+                        result = "\033[1;32m" + std::string("Vous avez pioché une carte.") + "\033[0m"+ "\n";
+                        count_action++;}
+
+                    break;
+
+                case 3:
+                    // Action 3 : Déclarer remporter une frontière
+                    std::cout << "\033[1;32m" << "Veuillez sélectionner une frontière : " << "\033[0m" << std::endl;
+                    int borderChoice2;
+                    std::cin >> borderChoice2;
+                    while (borderChoice2 < 1 || borderChoice2 > 9) {
+                        std::cout << "\033[1;31m" << "Choix invalide. Veuillez sélectionner une frontière valide."
+                                  << "\033[0m" << std::endl;
+                        std::cout << "\033[1;32m" << "Veuillez sélectionner une frontière : " << "\033[0m" << std::endl;
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cin >> borderChoice2;
+                    }
+                    borderChoice2--;
+                    if (!handledeclare(pPlayer, board, borderChoice2,controller)) {
+                        std::cout << "\033[1;31m" << "Vous ne pouvez pas déclarer cette frontière." << "\033[0m"
+                                  << std::endl;
+                        result = "\033[1;31m" + std::string("Vous ne pouvez pas déclarer cette frontière.") + "\033[0m"+ "\n";
+                        break;
+                    } else {
+                        controller->getBoard()->getBorders()[borderChoice2]->setOwner(pPlayer);
+                        std::cout << "\033[1;32m" << "Vous avez déclaré la frontière " << ++borderChoice2 << "\033[0m"
+                                  << std::endl;
+                        result = "\033[1;32m" + std::string("Vous avez déclaré la frontière ") + std::to_string(borderChoice2) + "\033[0m"+ "\n";
+                    }
+
+                    break;
+
+                case 4:
+                    // Action 4: Abandonner
+                    std::cout << "\033[1;32m"
+                              << "Vous êtes sur le point d'abandonner. Voulez-vous vraiment abandonner ? (y/n)"
+                              << "\033[0m" << std::endl;
+                    char abandonChoice;
+                    std::cin >> abandonChoice;
+                    while (abandonChoice != 'y' && abandonChoice != 'n') {
+                        std::cout << "\033[1;31m" << "Choix invalide. Veuillez sélectionner une action valide."
+                                  << "\033[0m" << std::endl;
+                        std::cout << "\033[1;32m" << "Voulez-vous vraiment abandonner ? (y/n)" << "\033[0m"
+                                  << std::endl;
+                        std::cin >> abandonChoice;
+                    }
+                    if (abandonChoice == 'y') {
+                        std::cout << "\033[1;32m" << "Vous avez abandonné. L'IA remporte la partie." << "\033[0m"
+                                  << std::endl;
+                        exit(0);
+                    } else {
+                        choice = 0;
+                        goto action;
+                    }
+                default:
+                    std::cout << "\033[1;31m" << "Choix invalide. Veuillez sélectionner une action valide." << "\033[0m"
+                              << std::endl;
+                    break;
+            }
+            if(count_action == 2){
+                std::cout << "\033[1;32m" << "Vous avez effectué les actions necessaires. Vous voulez passer votre tour ? (y/n)" << "\033[0m" << std::endl;
+                char passChoice;
+                std::cin >> passChoice;
+                while (passChoice != 'y' && passChoice != 'n') {
+                    std::cout << "\033[1;31m" << "Choix invalide. Veuillez sélectionner une action valide."
+                              << "\033[0m" << std::endl;
+                    std::cout << "\033[1;32m" << "Voulez-vous vraiment passer votre tour ? (y/n)" << "\033[0m"
+                              << std::endl;
+                    std::cin >> passChoice;
+                }
+                if (passChoice == 'y') {
+                    std::cout << "\033[1;32m" << "Vous avez passé votre tour." << "\033[0m"
+                              << std::endl;
+                    pass=true;
+                    break;
+                } else {
+                    std::cout << "\033[1;32m" << "Vous n'avez pas passé votre tour." << "\033[0m"
+                              << std::endl;
+                    result = "\033[1;32m" + std::string("Vous n'avez pas passé votre tour.") + "\033[0m"+ "\n";
+                }
+            }
+
+        }
+
+        for (int i = 0; i < 9; ++i) {
+            if(board->getBorders()[i]->isLeftFull()&&board->getBorders()[i]->isRightFull()&&board->getBorders()[i]->getOwner()==nullptr){
+                if(handledeclare(pPlayer,board,i,controller)){
+                    controller->getBoard()->getBorders()[i]->setOwner(pPlayer);
+                    std::cout  << "\033[1;35m"<< pPlayer->getName() << "\033[0m"<< "\033[1;32m"<<" a gagné la frontière "<< "\033[0m" << "\033[1;35m"<< ++i << "\033[0m"
+                               << std::endl;
+                    std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin.get();
+                } else
+                {
+                    controller->getBoard()->getBorders()[i]->setOwner(adversaire);
+                    std::cout  << "\033[1;35m"<< adversaire->getName() << "\033[0m"<< "\033[1;32m"<<" a gagné la frontière "<< "\033[0m" << "\033[1;35m"<< ++i << "\033[0m"
+                               << std::endl;
+                    std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin.get();
+                }
+
+            }
+        }
+        std::cout<<controller->getGame()->getWinner()<<std::endl;
+        if(controller->win(pPlayer,adversaire,board)){
+            std::cout << "\033[1;32m" << "\033[1;35m"<<controller->getGame()->getWinner()->getName()<< "\033[0m"<<" a gagné la partie." << "\033[0m"
+                      << std::endl;
+            exit(0);
+        }
+        board->setCompteur(board->getCompteur()+1);
 
     }
 
@@ -366,8 +608,10 @@ namespace Vue{
     }
 
 
+
+
     void version1_tactique() {
-        Model::Controller *  controller=  new Model::Controller(1, "Classique");
+        Model::Controller *  controller=  new Model::Controller(1, "Tactique");
         int choix;
         Model::Player* human = new Model::Human("", std::vector<Model::Card *>());
         Model::Player* AI = new Model::Human("", std::vector<Model::Card *>());
@@ -375,6 +619,8 @@ namespace Vue{
         controller->addPlayer(AI);
         Model::Board *board = Model::SchottenTottenBoard::getInstance();
         board->createClanDeck();
+        board->createTacticDeck();
+        board->createDiscardDeck();
         std::cout << "\033[1;32m"<< "Le jeu commence" << "\033[0m"<< std::endl;
         std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
         std::cout << "\033[1;32m"<< "Quel est votre nom?" << "\033[0m"<< std::endl;
@@ -441,7 +687,7 @@ namespace Vue{
         while(1)
         {   if(controller->getPlayer()[0]->getSide()=="gauche")
             {
-                AI_action_possible_normal(human, AI,board,controller);
+               show_action_possible_tactique(human, AI,board,controller);
 
                 AI_action_possible_normal(AI, human,board,controller);}
             else
