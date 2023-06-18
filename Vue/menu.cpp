@@ -2,20 +2,15 @@
 // Created by leeyu on 14/06/2023.
 //
 #include <iostream>
-#include <limits>
-#include "menu.h"
-#include "../Model/Board/Board.h"
-#include "../Model/Player/Player.h"
-#include "../Model/Board/SchottenTottenBoard.h"
-#include "../Controler/Controler.h"
-#include "../Model/Card/Clan/Clan.h"
+#include "Vue.h"
 
 namespace Vue{
 
-
-    bool handlepalycard(Model::Player *pPlayer, Model::Board *pBoard, int cardChoice, int borderChoice) {
+    Model::Controller *controller;
+    bool handleplaycard(Model::Player *pPlayer, Model::Board *pBoard, int cardChoice, int borderChoice) {
         if(pPlayer->getSide()=="gauche") {
             if (pBoard->getBorders()[borderChoice]->isLeftFull()) {
+
                 std::cout << "La bordure est pleine" << std::endl;
                 return false;
             } else {
@@ -38,7 +33,7 @@ namespace Vue{
     }
 
     bool handlepioche(Model::Player *pPlayer, Model::Board *pBoard) {
-        if(!pBoard->getClanDeck()->getDeck().empty()&&pPlayer->getHand().size()<6) {
+        if(!pBoard->getClanDeck()->getDeck().empty()&& controller->canDrawClanCard(pPlayer->getId())) {
             pPlayer->addCard(pBoard->getClanDeck()->draw());
             return true;
         }
@@ -46,8 +41,17 @@ namespace Vue{
             return false;
     }
 
-    bool handledeclare(Model::Player *pPlayer, Model::Board *pBoard) {
-        return false;
+    bool handlepiocheTactic(Model::Player * pPlayer, Model::Board *pBoard){
+        if(!pBoard->getTacticDeck()->getDeck().empty()&&pPlayer->getHand().size() < 7 && !controller->canDrawTactic(pPlayer->getId())){
+            pPlayer->addCard(pBoard->getTacticDeck()->draw());
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool handledeclare(Model::Player *pPlayer, Model::Board *pBoard, int borderChoice) {
+        return controller->canClaimBorder(pPlayer->getId(), pBoard, borderChoice);
     }
     void show_board_normal(Model::Player *pPlayer, Model::Board *board) {
         std::cout << "\033[1;32mPlateau de jeu SchottenTotten en mode normal :\033[0m" << std::endl;
@@ -82,8 +86,7 @@ namespace Vue{
 
 
     }
-    void show_board_tactical() {
-
+    void show_board_tactical(){
     }
 
     void show_action_possible_normal(Model::Player *pPlayer, Model::Board *board)
@@ -157,10 +160,10 @@ namespace Vue{
                         std::cin >> borderChoice;
                     }
                     borderChoice--;
-                    if (!handlepalycard(pPlayer, board, cardChoice, borderChoice)) {
+                    if (!handleplaycard(pPlayer, board, cardChoice, borderChoice)) {
                         std::cout << "\033[1;31m" << "Vous ne pouvez pas jouer cette carte sur cette frontière."
                                   << "\033[0m" << std::endl;
-                         result = "\033[1;31m" + std::string("Vous ne pouvez pas jouer cette carte sur cette frontière.") + "\033[0m"+ "\n";
+                        result = "\033[1;31m" + std::string("Vous ne pouvez pas jouer cette carte sur cette frontière.") + "\033[0m"+ "\n";
                         break;
                     } else {
                         std::cout << "\033[1;32m" << "Vous avez joué la carte " << ++cardChoice << " sur la frontière "
@@ -205,7 +208,7 @@ namespace Vue{
                         std::cin >> borderChoice2;
                     }
                     borderChoice2--;
-                    if (!handledeclare(pPlayer, board)) {
+                    if (!handledeclare(pPlayer, board, borderChoice2)) {
                         std::cout << "\033[1;31m" << "Vous ne pouvez pas déclarer cette frontière." << "\033[0m"
                                   << std::endl;
                         result = "\033[1;31m" + std::string("Vous ne pouvez pas déclarer cette frontière.") + "\033[0m"+ "\n";
@@ -378,8 +381,10 @@ namespace Vue{
         }
         version1_normal:
         Model::Controller controller(1, "Classique");
-        Model::Player* human = controller.getPlayer(0);
-        Model::Player* AI = controller.getPlayer(1);
+        Model::Player* human = new Model::Human("", std::vector<Model::Card *>());
+        Model::Player* AI = new Model::Human("", std::vector<Model::Card *>());
+        controller.addPlayer(human);
+        controller.addPlayer(AI);
         Model::Board *board = Model::SchottenTottenBoard::getInstance();
         board->createClanDeck();
         std::cout << "\033[1;32m"<< "Le jeu commence" << "\033[0m"<< std::endl;
@@ -388,6 +393,7 @@ namespace Vue{
         std::string pname;
         std::cin >> pname;
         human->setName(pname);
+        controller.getPlayer()[0]->setName(human->getName());
         std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
         std::cout << "\033[1;32m"<< "Vous avez 6 cartes dans votre main" << "\033[0m"<< std::endl;
         std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
@@ -407,19 +413,19 @@ namespace Vue{
         switch (choix) {
             case 1:
                 std::cout << "\033[1;32m" << "Vous avez choisi de commencer en premier" << "\033[0m"<<"\n"<< std::endl;
-                human->setSide("gauche");
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[0]->setSide("gauche");
+                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
                 board->getBorders()[1]->putCardLeft(board->getClanDeck()->draw());
                 board->getBorders()[1]->putCardRight(board->getClanDeck()->draw());
@@ -451,7 +457,7 @@ namespace Vue{
 
 
         while(1)
-        {   if(human->getSide()=="gauche")
+        {   if(controller.getPlayer()[0]->getSide()=="gauche")
             {
                 show_action_possible_normal(human, board);
 
@@ -463,7 +469,8 @@ namespace Vue{
                 show_action_possible_normal(human, board);}
         }
 
-
+        version1_tactic:
+            std::cout << "bonjour";
 
     }
 
