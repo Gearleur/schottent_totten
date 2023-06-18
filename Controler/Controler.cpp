@@ -100,7 +100,22 @@ namespace Model
         {
             Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getLeftBorder());
             Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getRightBorder());
-            if(idPlayer == 0)
+            if(comboA->getPuissance() == comboB->getPuissance()){
+                std::cout<<"Les puissance sont égales, on somme les valeurs des cartes."<<std::endl;
+                int sumA = 0;
+                int sumB = 0;
+                for(auto card : pBoard->getBorders()[borderPosition]->getLeftBorder())
+                    sumA += (int) card->getNumber();
+                for(auto card : pBoard->getBorders()[borderPosition]->getRightBorder())
+                    sumB += (int) card->getNumber();
+                if(sumA == sumB)    //dans le cas d'égalité totale, on retourne vrai pour le joueur appelant 
+                    return true;
+                else if(idPlayer == 0)
+                    return sumA > sumB;
+                else
+                    return sumB > sumA;
+            }
+            else if(idPlayer == 0)
             {std::cout<<"test"<<std::endl;
                 return comboA->getPuissance() > comboB->getPuissance();}
             else
