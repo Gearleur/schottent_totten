@@ -44,7 +44,12 @@ namespace Model
             int adjacent1=0;
             int adjacent2=0;
            for (int i = 0; i < 9; i++){
-               if(adjacent1==3||adjacent2==3){
+               if(adjacent1==3){
+                   this->game->setWinner(Player1);
+                   return true;
+               }
+               if(adjacent2==3){
+                   this->game->setWinner(Player2);
                    return true;
                }
                if (board->getBorders()[i]->getOwner() == Player1) {
@@ -112,8 +117,23 @@ namespace Model
         {
             Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getLeftBorder());
             Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getRightBorder());
-            if(idPlayer == 0)
-            {std::cout<<"test"<<std::endl;
+            if(comboA->getPuissance() == comboB->getPuissance()){
+                std::cout<<"Les puissance sont égales, on somme les valeurs des cartes."<<std::endl;
+                int sumA = 0;
+                int sumB = 0;
+                for(auto card : pBoard->getBorders()[borderPosition]->getLeftBorder())
+                    sumA += (int) card->getNumber();
+                for(auto card : pBoard->getBorders()[borderPosition]->getRightBorder())
+                    sumB += (int) card->getNumber();
+                if(sumA == sumB)    //dans le cas d'égalité totale, on retourne vrai pour le joueur appelant
+                    return true;
+                else if(idPlayer == 0)
+                    return sumA > sumB;
+                else
+                    return sumB > sumA;
+            }
+            else if(idPlayer == 0)
+            {
                 return comboA->getPuissance() > comboB->getPuissance();}
             else
                 return comboB->getPuissance() > comboA->getPuissance();

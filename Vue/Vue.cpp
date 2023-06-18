@@ -7,12 +7,15 @@
 
 namespace Vue{
 
-    Model::Controller *controller;
+
+    int getRandomNumber(int max) {
+        return rand() % (max + 1);  // +1 pour inclure le max
+    }
     bool handleplaycard(Model::Player *pPlayer, Model::Board *pBoard, int cardChoice, int borderChoice) {
         if(pPlayer->getSide()=="gauche") {
             if (pBoard->getBorders()[borderChoice]->isLeftFull()) {
 
-                std::cout << "La bordure est pleine" << std::endl;
+                //std::cout << "La bordure est pleine" << std::endl;
                 return false;
             } else {
                 pBoard->getBorders()[borderChoice]->putCardLeft(pPlayer->getHand()[cardChoice]);
@@ -42,16 +45,16 @@ namespace Vue{
             return false;
     }
 
-    bool handlepiocheTactic(Model::Player * pPlayer, Model::Board *pBoard){
+    /*bool handlepiocheTactic(Model::Player * pPlayer, Model::Board *pBoard){
         if(!pBoard->getTacticDeck()->getDeck().empty()&&pPlayer->getHand().size() < 7 && !controller->canDrawTactic(pPlayer->getId())){
             pPlayer->addCard(pBoard->getTacticDeck()->draw());
             return true;
         }
         else
             return false;
-    }
+    }*/
 
-    bool handledeclare(Model::Player *pPlayer, Model::Board *pBoard, int borderChoice) {
+    bool handledeclare(Model::Player *pPlayer, Model::Board *pBoard, int borderChoice,Model::Controller *controller) {
         return controller->canClaimBorder(pPlayer->getId(), pBoard, borderChoice);
     }
     void show_board_normal(Model::Player *pPlayer, Model::Board *board) {
@@ -210,7 +213,7 @@ namespace Vue{
                         std::cin >> borderChoice2;
                     }
                     borderChoice2--;
-                    if (!handledeclare(pPlayer, board, borderChoice2)) {
+                    if (!handledeclare(pPlayer, board, borderChoice2,controller)) {
                         std::cout << "\033[1;31m" << "Vous ne pouvez pas déclarer cette frontière." << "\033[0m"
                                   << std::endl;
                         result = "\033[1;31m" + std::string("Vous ne pouvez pas déclarer cette frontière.") + "\033[0m"+ "\n";
@@ -278,18 +281,18 @@ namespace Vue{
 
         for (int i = 0; i < 9; ++i) {
               if(board->getBorders()[i]->isLeftFull()&&board->getBorders()[i]->isRightFull()&&board->getBorders()[i]->getOwner()==nullptr){
-                if(handledeclare(pPlayer,board,i)){
+                if(handledeclare(pPlayer,board,i,controller)){
                  controller->getBoard()->getBorders()[i]->setOwner(pPlayer);
-                 std::cout << "\033[1;32m" << "Vous avez gagné la frontière " << "\033[1;35m"<< ++i << "\033[0m"<< "\033[0m"
-                           << std::endl;
+                    std::cout  << "\033[1;35m"<< pPlayer->getName() << "\033[0m"<< "\033[1;32m"<<" a gagné la frontière "<< "\033[0m" << "\033[1;35m"<< ++i << "\033[0m"
+                               << std::endl;
                  std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     std::cin.get();
                 } else
                {
                  controller->getBoard()->getBorders()[i]->setOwner(adversaire);
-                    std::cout << "\033[1;32m" << "L'IA a gagné la frontière " << "\033[1;35m"<< ++i << "\033[0m"<< "\033[0m"
-                            << std::endl;
+                   std::cout  << "\033[1;35m"<< adversaire->getName() << "\033[0m"<< "\033[1;32m"<<" a gagné la frontière "<< "\033[0m" << "\033[1;35m"<< ++i << "\033[0m"
+                             << std::endl;
                  std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                    std::cin.get();
@@ -299,12 +302,69 @@ namespace Vue{
         }
         std::cout<<controller->getGame()->getWinner()<<std::endl;
         if(controller->win(pPlayer,adversaire,board)){
-            std::cout << "\033[1;32m" << "\033[1;35m"<<controller->getGame()->getWinner()<< "\033[0m"<<" a gagné la partie." << "\033[0m"
+            std::cout << "\033[1;32m" << "\033[1;35m"<<controller->getGame()->getWinner()->getName()<< "\033[0m"<<" a gagné la partie." << "\033[0m"
                       << std::endl;
             exit(0);
         }
         board->setCompteur(board->getCompteur()+1);
     }
+    void AI_action_possible_normal(Model::Player *pPlayer, Model::Player *adversaire,Model::Board *board,Model::Controller *controller) {
+        int compteur = board->getCompteur();
+        bool playcard = false;
+        // Action 1: Jouer une carte
+        while (!playcard) {
+            int cardChoice = getRandomNumber(pPlayer->getHand().size() - 1);
+            int borderChoice = getRandomNumber(8);
+            if (handleplaycard(pPlayer, board, cardChoice, borderChoice)) {
+                show_board_normal(adversaire, board);
+                std::cout << "\033[1;35m" << "AI" << "\033[0m" << "\033[1;32m" << " a joué la carte " << "\033[0m"
+                          << "\033[1;35m" << ++cardChoice << "\033[0m" << "\033[1;32m" << " sur la frontière "
+                          << "\033[0m"
+                          << "\033[1;35m" << ++borderChoice << "\033[0m" << std::endl;
+                playcard = true;
+            }
+        }
+        // Action 2: Piocher une carte
+        if (!board->getClanDeck()->isEmpty() &&pPlayer->getHand().size() < 6) {
+            handlepioche(pPlayer, board);
+            std::cout << "\033[1;35m" << "AI" << "\033[0m" << "\033[1;32m" << " a pioché une carte." << "\033[0m"
+                      << std::endl;
+        }
+        for (int i = 0; i < 9; ++i) {
+            if(board->getBorders()[i]->isLeftFull()&&board->getBorders()[i]->isRightFull()&&board->getBorders()[i]->getOwner()==nullptr){
+                if(handledeclare(pPlayer,board,i,controller)){
+                    controller->getBoard()->getBorders()[i]->setOwner(pPlayer);
+                    std::cout  << "\033[1;35m"<< pPlayer->getName() << "\033[0m"<< "\033[1;32m"<<" a gagné la frontière "<< "\033[0m" << "\033[1;35m"<< ++i << "\033[0m"
+                               << std::endl;
+                    std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin.get();
+                } else
+                {
+                    controller->getBoard()->getBorders()[i]->setOwner(adversaire);
+                    std::cout  << "\033[1;35m"<< adversaire->getName() << "\033[0m"<< "\033[1;32m"<<" a gagné la frontière "<< "\033[0m" << "\033[1;35m"<< ++i << "\033[0m"
+                               << std::endl;
+                    std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin.get();
+                }
+
+            }
+        }
+
+        if(controller->win(pPlayer,adversaire,board)){
+            std::cout << "\033[1;32m" << "\033[1;35m"<<controller->getGame()->getWinner()->getName()<< "\033[0m"<<" a gagné la partie." << "\033[0m"
+                      << std::endl;
+            exit(0);
+        }
+        /*std::cout  << "\033[1;35m"<< pPlayer->getName() << "\033[0m"<< "\033[1;32m"<<" a fini le tour ."<< "\033[0m"
+                   << std::endl;
+        std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.get();*/
+        board->setCompteur(board->getCompteur()+1);
+    }
+
 
 
 
@@ -459,33 +519,23 @@ namespace Vue{
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardRight(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardRight(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardRight(board->getClanDeck()->draw());
                 break;
             case 2:
                 std::cout << "\033[1;32m" << "Vous avez choisi de commencer en deuxième" << "\033[0m"<<"\n"<< std::endl;
-                human->setSide("droite");
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                human->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                AI->addCard(board->getClanDeck()->draw());
-                board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[1]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[1]->putCardRight(board->getClanDeck()->draw());
-                board->getBorders()[1]->putCardLeft(board->getClanDeck()->draw());
-                show_board_normal(AI,board);
+                controller->getPlayer()[0]->setSide("droite");
+                controller->getPlayer()[1]->setSide("gauche");
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 break;
 
         }
@@ -494,14 +544,14 @@ namespace Vue{
         while(1)
         {   if(controller->getPlayer()[0]->getSide()=="gauche")
             {
-                show_action_possible_normal(human, AI,board,controller);
+                AI_action_possible_normal(human, AI,board,controller);
 
-                show_action_possible_normal(AI, human,board,controller);}
+                AI_action_possible_normal(AI, human,board,controller);}
             else
             {
-                show_action_possible_normal(AI, human,board,controller);
+                AI_action_possible_normal(AI, human,board,controller);
 
-                show_action_possible_normal(human, AI,board,controller);}
+                AI_action_possible_normal(human, AI,board,controller);}
         }
 
 
