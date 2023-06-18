@@ -39,8 +39,7 @@ namespace Model
         int currentCardsLeft;
         int currentCardsRight;
         Player *owner;
-        bool isLeftFull() const { return currentCardsLeft == maxCards; }
-        bool isRightFull() const { return currentCardsRight == maxCards; }
+
         bool isEmpty() const { return currentCardsLeft == 0 && currentCardsRight == 0; }
 
         /* Setter */
@@ -55,6 +54,8 @@ namespace Model
         void addCardRight(Card *card);
 
     public:
+        bool isLeftFull() const { return currentCardsLeft == maxCards; }
+        bool isRightFull() const { return currentCardsRight == maxCards; }
         /* Getter */
         int getPosition() const { return position; }
         Player *getOwner() const { return owner; }
