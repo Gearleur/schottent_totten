@@ -2,6 +2,7 @@
 // Created by leeyu on 14/06/2023.
 //
 #include <iostream>
+#include <limits>
 #include "Vue.h"
 
 namespace Vue{
@@ -33,7 +34,7 @@ namespace Vue{
     }
 
     bool handlepioche(Model::Player *pPlayer, Model::Board *pBoard) {
-        if(!pBoard->getClanDeck()->getDeck().empty()&& controller->canDrawClanCard(pPlayer->getId())) {
+        if(!pBoard->getClanDeck()->getDeck().empty()) {
             pPlayer->addCard(pBoard->getClanDeck()->draw());
             return true;
         }
@@ -90,7 +91,7 @@ namespace Vue{
 
     }
 
-    void show_action_possible_normal(Model::Player *pPlayer, Model::Board *board)
+    void show_action_possible_normal(Model::Player *pPlayer, Model::Player *adversaire,Model::Board *board)
     {
         int compteur = board->getCompteur();
         int count_action = 0;
@@ -184,7 +185,7 @@ namespace Vue{
                         break;
                     }
                     // Action 2: Piocher une carte
-                    if (!handlepioche(pPlayer, board)) {
+                    if (!handlepioche(pPlayer, board)||pPlayer->getHand().size()>6) {
                         std::cout << "\033[1;31m" << "Vous ne pouvez pas piocher de carte." << "\033[0m" << std::endl;
                         result = "\033[1;31m" + std::string("Vous ne pouvez pas piocher de carte.") + "\033[0m"+ "\n";
                         break;
@@ -215,7 +216,8 @@ namespace Vue{
                         result = "\033[1;31m" + std::string("Vous ne pouvez pas déclarer cette frontière.") + "\033[0m"+ "\n";
                         break;
                     } else {
-                        std::cout << "\033[1;32m" << "Vous avez déclaré la frontière " << borderChoice2 << "\033[0m"
+                        controller->getBoard()->getBorders()[borderChoice2]->setOwner(pPlayer);
+                        std::cout << "\033[1;32m" << "Vous avez déclaré la frontière " << ++borderChoice2 << "\033[0m"
                                   << std::endl;
                         result = "\033[1;32m" + std::string("Vous avez déclaré la frontière ") + std::to_string(borderChoice2) + "\033[0m"+ "\n";
                     }
@@ -273,6 +275,33 @@ namespace Vue{
             }
 
         }
+
+        /*for (int i = 0; i < 9; ++i) {
+              if(board->getBorders()[i]->isLeftFull()&&board->getBorders()[i]->isRightFull()&&board->getBorders()[i]->getOwner()==nullptr){
+                if(handledeclare(pPlayer,board,i)){
+                 controller->getBoard()->getBorders()[i]->setOwner(pPlayer);
+                 std::cout << "\033[1;32m" << "Vous avez gagné la frontière " << "\033[1;35m"<< ++i << "\033[0m"<< "\033[0m"
+                           << std::endl;
+                 std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin.get();
+                } else
+               {
+                 controller->getBoard()->getBorders()[i]->setOwner(adversaire);
+                    std::cout << "\033[1;32m" << "L'IA a gagné la frontière " << "\033[1;35m"<< ++i << "\033[0m"<< "\033[0m"
+                            << std::endl;
+                 std::cout<< "\033[1;32m"<<"Tappez sur une touche pour continuer"<< "\033[0m"<<std::endl;
+                   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                   std::cin.get();
+                }
+
+               }
+        }
+        if(controller->win(pPlayer->getId(),adversaire->getId(),board)){
+            std::cout << "\033[1;32m" << "\033[1;35m"<<controller->getGame()->getWinner()<< "\033[0m"<<" a gagné la partie." << "\033[0m"
+                      << std::endl;
+            exit(0);
+        }*/
         board->setCompteur(board->getCompteur()+1);
     }
 
@@ -395,6 +424,8 @@ namespace Vue{
         std::cin >> pname;
         human->setName(pname);
         controller.getPlayer()[0]->setName(human->getName());
+        controller.getPlayer()[1]->setName("AI");
+
         std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
         std::cout << "\033[1;32m"<< "Vous avez 6 cartes dans votre main" << "\033[0m"<< std::endl;
         std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
@@ -428,9 +459,11 @@ namespace Vue{
                 controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[1]->putCardLeft(board->getClanDeck()->draw());
-                board->getBorders()[1]->putCardRight(board->getClanDeck()->draw());
-                board->getBorders()[1]->putCardLeft(board->getClanDeck()->draw());
+                board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
+                board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
+                board->getBorders()[0]->putCardRight(board->getClanDeck()->draw());
+                board->getBorders()[0]->putCardRight(board->getClanDeck()->draw());
+                board->getBorders()[0]->putCardRight(board->getClanDeck()->draw());
                 break;
             case 2:
                 std::cout << "\033[1;32m" << "Vous avez choisi de commencer en deuxième" << "\033[0m"<<"\n"<< std::endl;
@@ -460,14 +493,14 @@ namespace Vue{
         while(1)
         {   if(controller.getPlayer()[0]->getSide()=="gauche")
             {
-                show_action_possible_normal(human, board);
+                show_action_possible_normal(human, AI,board);
 
-                show_action_possible_normal(AI, board);}
+                show_action_possible_normal(AI, human,board);}
             else
             {
-                show_action_possible_normal(AI, board);
+                show_action_possible_normal(AI, human,board);
 
-                show_action_possible_normal(human, board);}
+                show_action_possible_normal(human, AI,board);}
         }
 
 

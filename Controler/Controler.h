@@ -102,6 +102,7 @@ namespace Model
         bool canDrawTactic(int idPlayer) const;
         bool canPlayCard(int idPlayer, int borderPosition) const;
         bool canClaimBorder(int idPlayer, Model::Board *pBoard, int borderPosition) const;
+        bool win(int idPlayer1,int idPlayer2,Board *board) const;
         int TacticCardCount(int idPlayer) const;
         ~Controller(){
             delete game;

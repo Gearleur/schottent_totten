@@ -44,7 +44,7 @@ namespace Model
         bool isEmpty() const { return currentCardsLeft == 0 && currentCardsRight == 0; }
 
         /* Setter */
-        void setOwner(Player *player) { owner = player; }
+
         void setLeftBorder(std::vector<Card *> border) { leftBorder = border; }
         void setRightBorder(std::vector<Card *> border) { rightBorder = border; }
         void setCurrentCardsLeft(int CurrentCardsLeft) { this->currentCardsLeft = CurrentCardsLeft; }
@@ -54,6 +54,7 @@ namespace Model
         void addCardRight(Card *card);
 
     public:
+        void setOwner(Player *player) { owner = player; }
         void setMaxCards(int Maxcards) { this->maxCards = Maxcards; }
         bool isLeftFull() const { return currentCardsLeft == maxCards; }
         bool isRightFull() const { return currentCardsRight == maxCards; }

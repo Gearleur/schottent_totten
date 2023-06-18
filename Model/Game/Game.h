@@ -25,6 +25,7 @@ namespace Model
         friend class Controller;
         int version;
         std::string variante;
+        Player *winner=nullptr;
         /*Board *board;*/ // attribut uniquement initialisé dans les classes filles, donc le board n'appartient pass à la classe mère
         std::vector<std::unique_ptr<Deck>> decks; // matrice de decks avec des pointeurs intelligents
         Game(int v, const std::string& var) : version(v), variante(var)
@@ -38,6 +39,8 @@ namespace Model
         int getVersion() const { return version; }
         std::string getVariante() const { return variante; }
         virtual Board *getBoard() const = 0;
+        Player *getWinner() const { return winner; }
+        void setWinner(Player *p) { winner = p; }
     };
 
     class GameV1 : public Game

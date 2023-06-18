@@ -37,6 +37,31 @@ namespace Model
         else
             return false;
     }
+    bool Controller::win(int idPlayer1, int idPlayer2,Board *board) const {
+        if (game->getVariante() == "Classique")
+        {   int point1=0;
+            int point2=0;
+           for (int i = 0; i < 9; i++){
+               if(board->getBorders()[i]->getOwner()==observers[idPlayer1]){
+                     point1++;
+                }
+                else if(board->getBorders()[i]->getOwner()==observers[idPlayer2]){
+                     point2++;
+               }
+           }
+              if(point1>=5){
+                  game->setWinner(observers[idPlayer1]);
+                return true;
+              }
+              else if(point2>=5){
+                  game->setWinner(observers[idPlayer2]);
+                return true;
+              }
+              else{
+                return false;
+              }
+        }
+    }
     bool Controller::canPlayCard(int idPlayer, int borderPosition) const  //on peut la découper en 2 méthodes right et left
     {
         if (idPlayer == 0) // C'est le joueur à gauche du border
@@ -76,7 +101,8 @@ namespace Model
             Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getLeftBorder());
             Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getRightBorder());
             if(idPlayer == 0)
-                return comboA->getPuissance() > comboB->getPuissance();
+            {std::cout<<"test"<<std::endl;
+                return comboA->getPuissance() > comboB->getPuissance();}
             else
                 return comboB->getPuissance() > comboA->getPuissance();
         }
