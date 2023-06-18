@@ -91,7 +91,7 @@ namespace Vue{
 
     }
 
-    void show_action_possible_normal(Model::Player *pPlayer, Model::Player *adversaire,Model::Board *board)
+    void show_action_possible_normal(Model::Player *pPlayer, Model::Player *adversaire,Model::Board *board,Model::Controller *controller)
     {
         int compteur = board->getCompteur();
         int count_action = 0;
@@ -276,7 +276,7 @@ namespace Vue{
 
         }
 
-        /*for (int i = 0; i < 9; ++i) {
+        for (int i = 0; i < 9; ++i) {
               if(board->getBorders()[i]->isLeftFull()&&board->getBorders()[i]->isRightFull()&&board->getBorders()[i]->getOwner()==nullptr){
                 if(handledeclare(pPlayer,board,i)){
                  controller->getBoard()->getBorders()[i]->setOwner(pPlayer);
@@ -297,11 +297,12 @@ namespace Vue{
 
                }
         }
-        if(controller->win(pPlayer->getId(),adversaire->getId(),board)){
+        std::cout<<controller->getGame()->getWinner()<<std::endl;
+        if(controller->win(pPlayer,adversaire,board)){
             std::cout << "\033[1;32m" << "\033[1;35m"<<controller->getGame()->getWinner()<< "\033[0m"<<" a gagné la partie." << "\033[0m"
                       << std::endl;
             exit(0);
-        }*/
+        }
         board->setCompteur(board->getCompteur()+1);
     }
 
@@ -410,11 +411,11 @@ namespace Vue{
 
         }
         version1_normal:
-        Model::Controller controller(1, "Classique");
+        Model::Controller *  controller=  new Model::Controller(1, "Classique");
         Model::Player* human = new Model::Human("", std::vector<Model::Card *>());
         Model::Player* AI = new Model::Human("", std::vector<Model::Card *>());
-        controller.addPlayer(human);
-        controller.addPlayer(AI);
+        controller->addPlayer(human);
+        controller->addPlayer(AI);
         Model::Board *board = Model::SchottenTottenBoard::getInstance();
         board->createClanDeck();
         std::cout << "\033[1;32m"<< "Le jeu commence" << "\033[0m"<< std::endl;
@@ -423,8 +424,8 @@ namespace Vue{
         std::string pname;
         std::cin >> pname;
         human->setName(pname);
-        controller.getPlayer()[0]->setName(human->getName());
-        controller.getPlayer()[1]->setName("AI");
+        controller->getPlayer()[0]->setName(human->getName());
+        controller->getPlayer()[1]->setName("AI");
 
         std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
         std::cout << "\033[1;32m"<< "Vous avez 6 cartes dans votre main" << "\033[0m"<< std::endl;
@@ -445,19 +446,19 @@ namespace Vue{
         switch (choix) {
             case 1:
                 std::cout << "\033[1;32m" << "Vous avez choisi de commencer en premier" << "\033[0m"<<"\n"<< std::endl;
-                controller.getPlayer()[0]->setSide("gauche");
-                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[0]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
-                controller.getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->setSide("gauche");
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
                 board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
                 board->getBorders()[0]->putCardLeft(board->getClanDeck()->draw());
@@ -491,16 +492,16 @@ namespace Vue{
 
 
         while(1)
-        {   if(controller.getPlayer()[0]->getSide()=="gauche")
+        {   if(controller->getPlayer()[0]->getSide()=="gauche")
             {
-                show_action_possible_normal(human, AI,board);
+                show_action_possible_normal(human, AI,board,controller);
 
-                show_action_possible_normal(AI, human,board);}
+                show_action_possible_normal(AI, human,board,controller);}
             else
             {
-                show_action_possible_normal(AI, human,board);
+                show_action_possible_normal(AI, human,board,controller);
 
-                show_action_possible_normal(human, AI,board);}
+                show_action_possible_normal(human, AI,board,controller);}
         }
 
 

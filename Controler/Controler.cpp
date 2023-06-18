@@ -37,30 +37,42 @@ namespace Model
         else
             return false;
     }
-    bool Controller::win(int idPlayer1, int idPlayer2,Board *board) const {
-        if (game->getVariante() == "Classique")
+    bool Controller::win(Player* Player1,  Player *Player2,Board *board) const {
+        if (this->game->getVariante() == "Classique")
         {   int point1=0;
             int point2=0;
+            int adjacent1=0;
+            int adjacent2=0;
            for (int i = 0; i < 9; i++){
-               if(board->getBorders()[i]->getOwner()==observers[idPlayer1]){
-                     point1++;
-                }
-                else if(board->getBorders()[i]->getOwner()==observers[idPlayer2]){
-                     point2++;
+               if(adjacent1==3||adjacent2==3){
+                   return true;
+               }
+               if (board->getBorders()[i]->getOwner() == Player1) {
+                   point1++;
+                   adjacent1++;
+                   adjacent2 = 0;
+               } else if (board->getBorders()[i]->getOwner() == Player2) {
+                   point2++;
+                   adjacent2++;
+                   adjacent1 = 0;
+               } else {
+                   adjacent1 = 0;
+                   adjacent2 = 0;
                }
            }
               if(point1>=5){
-                  game->setWinner(observers[idPlayer1]);
+                  this->game->setWinner(Player1);
                 return true;
               }
               else if(point2>=5){
-                  game->setWinner(observers[idPlayer2]);
+                  this->game->setWinner(Player2);
                 return true;
               }
               else{
                 return false;
               }
         }
+        return false;
     }
     bool Controller::canPlayCard(int idPlayer, int borderPosition) const  //on peut la découper en 2 méthodes right et left
     {
