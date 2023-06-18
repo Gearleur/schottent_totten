@@ -76,6 +76,35 @@ namespace Model{
         std::cout << "\033[1;32mCartes actuelles - Gauche : " << "\033[1;35m"<< currentCardsLeft<< "\033[0m" << "\033[1;32m"<< " / Droite : "<< "\033[0m"<< "\033[1;35m" << currentCardsRight << "\033[0m"<< "\033[0m" << std::endl;
     }
 
+    void Border::showBorderTactically() const {
+        std::cout << "\033[1;32mPosition : " << "\033[1;35m"<< position + 1 << "\033[0m"<< "\033[0m" << std::endl;
+        std::cout << "\033[1;32mPropriétaire : " << "\033[1;35m"<< (owner ? owner->getName() : "Aucun") << "\033[0m"<< "\033[0m" << std::endl;
+        int index = 1;
+        std::cout << "\033[1;32mBordure gauche : \033[0m";
+        for (const auto& card : leftBorder) {
+            std::cout << "\033[1;35m[ Carte " << index++ << " : \033[0m";
+            card->showCard();
+            std::cout << "\033[1;35m] \033[0m";
+        }
+        std::cout << std::endl;
+        index = 1;
+        std::cout << "\033[1;32mBordure droite : \033[0m";
+        for (const auto& card : rightBorder) {
+            std::cout << "\033[1;35m[ Carte " << index++ << " : \033[0m";
+            card->showCard();
+            std::cout << "\033[1;35m] \033[0m";
+        }
+        std::cout << std::endl;
+        index = 1;
+        std::cout << "\033[1;32mTuile Borne : \033[0m";
+        for (const auto& card : borne) {
+            std::cout << "\033[1;35m[ Carte " << index++ << " : \033[0m";
+            card->showCard();
+            std::cout << "\033[1;35m] \033[0m";
+        }
+        std::cout << std::endl;
+        std::cout << "\033[1;32mCartes actuelles - Gauche : " << "\033[1;35m"<< currentCardsLeft<< "\033[0m" << "\033[1;32m"<< " / Droite : "<< "\033[0m"<< "\033[1;35m" << currentCardsRight << "\033[0m"<< "\033[0m" << "\033[1;32m / Borne : " << "\033[1;35m"<< borne.size()<< "\033[0m"<< std::endl;
+    }
 
 
     Border::~Border() = default;

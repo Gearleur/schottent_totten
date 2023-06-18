@@ -36,6 +36,8 @@ namespace Model
         int position;
         std::vector<Card *> leftBorder = std::vector<Card *>();
         std::vector<Card *> rightBorder = std::vector<Card *>();
+        std::vector<Card *> borne = std::vector<Card *>();
+
         int maxCards = 3;
         int currentCardsLeft;
         int currentCardsRight;
@@ -71,6 +73,7 @@ namespace Model
         explicit Border(int position, Player *owner = nullptr);
         virtual ~Border();
         void showBorder() const;
+        void showBorderTactically() const;
     };
 }
 

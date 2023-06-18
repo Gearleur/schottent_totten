@@ -91,14 +91,16 @@ namespace Vue{
 
     }
     void show_board_tactical(Model::Player *pPlayer, Model::Board *board) {
-        std::cout << "\033[1;32mPlateau de jeu SchottenTotten en mode normal :\033[0m" << std::endl;
+        std::cout << "\033[1;32mPlateau de jeu SchottenTotten en mode tactique :\033[0m" << std::endl;
         std::cout << "\033[1;35m---------------------------\033[0m" << std::endl;
         std::vector<Model::Border*> borders = board->getBorders();
         for (const auto& border : borders) {
-            border->showBorder();
+            border->showBorderTactically();
         }
         std::cout << "\033[1;35m---------------------------\033[0m" << std::endl;
         std::cout << "\033[1;32m"<< "Cartes Clan restantes dans la pioche : " << "\033[1;35m"<< board->getClanDeck()->getDeck().size() << "\033[0m"<< "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "Cartes Tactique restantes dans la pioche : " << "\033[1;35m"<< board->getTacticDeck()->getDeck().size() << "\033[0m"<< "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "Cartes défaussées restantes dans la pioche : " << "\033[1;35m"<< board->getDiscardDeck()->getDeck().size() << "\033[0m"<< "\033[0m"<< std::endl;
         std::cout << "\033[1;32m"<< "Main du joueur : "<< "\033[0m"<< std::endl;
         std::cout << "\033[1;32m" << "Vous avez " << "\033[1;35m" << pPlayer->getHand().size() << "\033[0m" << "\033[1;32m" << " cartes dans votre main." << "\033[0m" << "\033[0m" << std::endl;
         int index = 1;
@@ -140,10 +142,11 @@ namespace Vue{
             std::cout << "\033[1;32m" << "C'est à "<< "\033[1;35m"<<pPlayer->getName()<< "\033[0m"<< "\033[1;32m"<< " de jouer" << "\033[0m" << std::endl;
             std::cout << "\033[1;32m" << "Pour vous les actions possibles sont : " << "\033[0m" << std::endl;
             std::cout << "\033[1;35m" << "----------------------------------------------" << "\033[0m" << std::endl;
-            std::cout << "\033[1;35m" << "1. Jouer une carte" << "\033[0m" << std::endl;
-            std::cout << "\033[1;35m" << "2. Piocher une carte" << "\033[0m" << std::endl;
-            std::cout << "\033[1;35m" << "3. Déclarer remporter une frontière" << "\033[0m" << std::endl;
-            std::cout << "\033[1;35m" << "4. Abandonner" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "1. Jouer une carte Clan" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "2. Jouer une carte Tactique" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "3. Piocher une carte" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "4. Déclarer remporter une frontière" << "\033[0m" << std::endl;
+            std::cout << "\033[1;35m" << "5. Abandonner" << "\033[0m" << std::endl;
             std::cout << "\033[1;35m" << "----------------------------------------------" << "\033[0m" << std::endl;
             std::cout<<result;
             std::cout << "\033[1;32m" << "Veuillez sélectionner une action : " << "\033[0m" << std::endl;
@@ -207,6 +210,12 @@ namespace Vue{
                     break;
 
                 case 2:
+
+
+
+                        break;
+
+                case 3:
                     if(pioche)
                     {
                         std::cout << "\033[1;31m" << "Vous avez déjà pioché une carte" << "\033[0m" << std::endl;
@@ -225,7 +234,7 @@ namespace Vue{
 
                     break;
 
-                case 3:
+                case 4:
                     // Action 3 : Déclarer remporter une frontière
                     std::cout << "\033[1;32m" << "Veuillez sélectionner une frontière : " << "\033[0m" << std::endl;
                     int borderChoice2;
@@ -253,7 +262,7 @@ namespace Vue{
 
                     break;
 
-                case 4:
+                case 5:
                     // Action 4: Abandonner
                     std::cout << "\033[1;32m"
                               << "Vous êtes sur le point d'abandonner. Voulez-vous vraiment abandonner ? (y/n)"
@@ -662,6 +671,8 @@ namespace Vue{
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 break;
             case 2:
                 std::cout << "\033[1;32m" << "Vous avez choisi de commencer en deuxième" << "\033[0m"<<"\n"<< std::endl;
@@ -679,6 +690,8 @@ namespace Vue{
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
                 break;
 
         }
@@ -689,117 +702,20 @@ namespace Vue{
             {
                show_action_possible_tactique(human, AI,board,controller);
 
-                AI_action_possible_normal(AI, human,board,controller);}
+                show_action_possible_tactique(AI, human,board,controller);}
             else
             {
-                AI_action_possible_normal(AI, human,board,controller);
+                show_action_possible_tactique(AI, human,board,controller);
 
-                AI_action_possible_normal(human, AI,board,controller);}
+                show_action_possible_tactique(human, AI,board,controller);}
         }
 
 
     }
 
-    void show_menu_principal() {
-        int choix;
-
-        std::cout << "\033[1;31m" << R"(
-    ____       _           _   _               _____     _   _
- / ___|  ___| |__   ___ | |_| |_ ___ _ __   |_   _|__ | |_| |_ ___ _ __
- \___ \ / __| '_ \ / _ \| __| __/ _ \ '_ \    | |/ _ \| __| __/ _ \ '_ \
-  ___) | (__| | | | (_) | |_| ||  __/ | | |   | | (_) | |_| ||  __/ | | |
- |____/ \___|_| |_|\___/ \__|\__\___|_| |_|   |_|\___/ \__|\__\___|_| |_|
-
-)" << "\033[0m" << std::endl;
-
-        menu_principal:
-        std::cout << "\033[1;35m" << "Vous pouvez choisir une option dans le menu suivant" << std::endl;
-        std::cout << "----------------------------------------------" << std::endl;
-        std::cout << "\033[1;35m"<< "1. " << "Commencer une nouvelle partie (version 1)" << "\033[0m" << std::endl;
-        std::cout << "\033[1;35m"<< "2. " << "Commencer une nouvelle partie (version 2)" << "\033[0m" << std::endl;
-        std::cout << "\033[1;35m"<< "3. " << "Quitter" << "\033[0m" << std::endl;
-        std::cout << "----------------------------------------------" << std::endl;
-        std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
-        std::cin >> choix;
-        while (choix < 1 || choix > 3) {
-            std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
-            std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cin >> choix;
-
-        }
-        switch (choix) {
-            case 1:
-                std::cout << "\033[1;35m"<< "Vous avez choisi de commencer une nouvelle partie (version 1)" << std::endl;
-                std::cout << "\033[1;35m"<< "----------------------------------------------" << std::endl;
-                std::cout << "\033[1;35m"<< "1. " << "Commencer une nouvelle partie comme la mode normale" << "\033[0m" << std::endl;
-                std::cout << "\033[1;35m"<< "2. " << "Commencer une nouvelle partie comme la mode tactique" << "\033[0m" << std::endl;
-                std::cout << "\033[1;35m"<< "3. " << "Retour" << "\033[0m" << std::endl;
-                std::cin >> choix;
-                while (choix < 1 || choix > 3) {
-                    std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
-                    std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cin >> choix;
-                }
-                switch (choix) {
-                    case 1:
-                        std::cout << "\033[1;32m" << "Vous avez choisi de commencer une nouvelle partie comme la mode normale" << "\033[0m"<<"\n"<< std::endl;
-                        goto  version1_normal;
-                        break;
-                    case 2:
-                        std::cout<< "\033[1;32m"  << "Vous avez choisi de commencer une nouvelle partie comme la mode tactique"<< "\033[0m" <<"\n"<< std::endl;
-                        version1_tactique();
-                        break;
-                    case 3:
-                        std::cout<< "\033[1;32m"  << "Vous avez choisi de retourner" << "\033[0m"<<"\n"<< std::endl;
-                        goto menu_principal;
-                    default:
-                        std::cout << "Vous n'avez pas choisi une option valide" <<"\n"<< std::endl;
-                        break;
-                }
-                break;
-            case 2:
-                std::cout << "\033[1;35m"<< "Vous avez choisi de commencer une nouvelle partie (version 2)" << std::endl;
-                std::cout << "\033[1;35m"<< "----------------------------------------------" << std::endl;
-                std::cout << "\033[1;35m"<< "1. " << "Commencer une nouvelle partie comme la mode normale" << "\033[0m" << std::endl;
-                std::cout << "\033[1;35m"<< "2. " << "Commencer une nouvelle partie comme la mode tactique" << "\033[0m" << std::endl;
-                std::cout << "\033[1;35m"<< "3. " << "Retour" << "\033[0m" << std::endl;
-                std::cin >> choix;
-                while (choix < 1 || choix > 3) {
-                    std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
-                    std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    std::cin >> choix;
-                }
-                switch (choix) {
-                    case 1:
-                        std::cout << "\033[1;32m" << "Vous avez choisi de commencer une nouvelle partie comme la mode normale" << "\033[0m"<<"\n"<< std::endl;
-                        break;
-                    case 2:
-                        std::cout<< "\033[1;32m"  << "Vous avez choisi de commencer une nouvelle partie comme la mode tactique"<< "\033[0m" <<"\n"<< std::endl;
-                        break;
-                    case 3:
-                        std::cout<< "\033[1;32m"  << "Vous avez choisi de retourner" << "\033[0m"<<"\n"<< std::endl;
-                        goto menu_principal;
-                    default:
-                        std::cout << "Vous n'avez pas choisi une option valide" <<"\n"<< std::endl;
-                        break;
-                }
-                break;
-            case 3:
-                std::cout << "Vous avez choisi de quitter" << std::endl;
-                exit(0);
-            default:
-                std::cout << "Vous n'avez pas choisi une option valide" << std::endl;
-                break;
-
-        }
-        version1_normal:
+    void version1_normal() {
         Model::Controller *  controller=  new Model::Controller(1, "Classique");
+        int choix;
         Model::Player* human = new Model::Human("", std::vector<Model::Card *>());
         Model::Player* AI = new Model::Human("", std::vector<Model::Card *>());
         controller->addPlayer(human);
@@ -883,8 +799,106 @@ namespace Vue{
         }
 
 
+    }
 
+    void show_menu_principal() {
+        int choix;
 
+        std::cout << "\033[1;31m" << R"(
+    ____       _           _   _               _____     _   _
+ / ___|  ___| |__   ___ | |_| |_ ___ _ __   |_   _|__ | |_| |_ ___ _ __
+ \___ \ / __| '_ \ / _ \| __| __/ _ \ '_ \    | |/ _ \| __| __/ _ \ '_ \
+  ___) | (__| | | | (_) | |_| ||  __/ | | |   | | (_) | |_| ||  __/ | | |
+ |____/ \___|_| |_|\___/ \__|\__\___|_| |_|   |_|\___/ \__|\__\___|_| |_|
+
+)" << "\033[0m" << std::endl;
+
+        menu_principal:
+        std::cout << "\033[1;35m" << "Vous pouvez choisir une option dans le menu suivant" << std::endl;
+        std::cout << "----------------------------------------------" << std::endl;
+        std::cout << "\033[1;35m"<< "1. " << "Commencer une nouvelle partie (version 1)" << "\033[0m" << std::endl;
+        std::cout << "\033[1;35m"<< "2. " << "Commencer une nouvelle partie (version 2)" << "\033[0m" << std::endl;
+        std::cout << "\033[1;35m"<< "3. " << "Quitter" << "\033[0m" << std::endl;
+        std::cout << "----------------------------------------------" << std::endl;
+        std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
+        std::cin >> choix;
+        while (choix < 1 || choix > 3) {
+            std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
+            std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin >> choix;
+
+        }
+        switch (choix) {
+            case 1:
+                std::cout << "\033[1;35m"<< "Vous avez choisi de commencer une nouvelle partie (version 1)" << std::endl;
+                std::cout << "\033[1;35m"<< "----------------------------------------------" << std::endl;
+                std::cout << "\033[1;35m"<< "1. " << "Commencer une nouvelle partie comme la mode normale" << "\033[0m" << std::endl;
+                std::cout << "\033[1;35m"<< "2. " << "Commencer une nouvelle partie comme la mode tactique" << "\033[0m" << std::endl;
+                std::cout << "\033[1;35m"<< "3. " << "Retour" << "\033[0m" << std::endl;
+                std::cin >> choix;
+                while (choix < 1 || choix > 3) {
+                    std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
+                    std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin >> choix;
+                }
+                switch (choix) {
+                    case 1:
+                        std::cout << "\033[1;32m" << "Vous avez choisi de commencer une nouvelle partie comme la mode normale" << "\033[0m"<<"\n"<< std::endl;
+                        version1_normal();
+                        break;
+                    case 2:
+                        std::cout<< "\033[1;32m"  << "Vous avez choisi de commencer une nouvelle partie comme la mode tactique"<< "\033[0m" <<"\n"<< std::endl;
+                        version1_tactique();
+                        break;
+                    case 3:
+                        std::cout<< "\033[1;32m"  << "Vous avez choisi de retourner" << "\033[0m"<<"\n"<< std::endl;
+                        goto menu_principal;
+                    default:
+                        std::cout << "Vous n'avez pas choisi une option valide" <<"\n"<< std::endl;
+                        break;
+                }
+                break;
+            case 2:
+                std::cout << "\033[1;35m"<< "Vous avez choisi de commencer une nouvelle partie (version 2)" << std::endl;
+                std::cout << "\033[1;35m"<< "----------------------------------------------" << std::endl;
+                std::cout << "\033[1;35m"<< "1. " << "Commencer une nouvelle partie comme la mode normale" << "\033[0m" << std::endl;
+                std::cout << "\033[1;35m"<< "2. " << "Commencer une nouvelle partie comme la mode tactique" << "\033[0m" << std::endl;
+                std::cout << "\033[1;35m"<< "3. " << "Retour" << "\033[0m" << std::endl;
+                std::cin >> choix;
+                while (choix < 1 || choix > 3) {
+                    std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
+                    std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cin >> choix;
+                }
+                switch (choix) {
+                    case 1:
+                        std::cout << "\033[1;32m" << "Vous avez choisi de commencer une nouvelle partie comme la mode normale" << "\033[0m"<<"\n"<< std::endl;
+                        break;
+                    case 2:
+                        std::cout<< "\033[1;32m"  << "Vous avez choisi de commencer une nouvelle partie comme la mode tactique"<< "\033[0m" <<"\n"<< std::endl;
+                        break;
+                    case 3:
+                        std::cout<< "\033[1;32m"  << "Vous avez choisi de retourner" << "\033[0m"<<"\n"<< std::endl;
+                        goto menu_principal;
+                    default:
+                        std::cout << "Vous n'avez pas choisi une option valide" <<"\n"<< std::endl;
+                        break;
+                }
+                break;
+            case 3:
+                std::cout << "Vous avez choisi de quitter" << std::endl;
+                exit(0);
+            default:
+                std::cout << "Vous n'avez pas choisi une option valide" << std::endl;
+                break;
+
+        }
     }
 
 
