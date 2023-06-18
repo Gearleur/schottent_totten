@@ -366,11 +366,93 @@ namespace Vue{
     }
 
 
+    void version1_tactique() {
+        Model::Controller *  controller=  new Model::Controller(1, "Classique");
+        int choix;
+        Model::Player* human = new Model::Human("", std::vector<Model::Card *>());
+        Model::Player* AI = new Model::Human("", std::vector<Model::Card *>());
+        controller->addPlayer(human);
+        controller->addPlayer(AI);
+        Model::Board *board = Model::SchottenTottenBoard::getInstance();
+        board->createClanDeck();
+        std::cout << "\033[1;32m"<< "Le jeu commence" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "Quel est votre nom?" << "\033[0m"<< std::endl;
+        std::string pname;
+        std::cin >> pname;
+        human->setName(pname);
+        controller->getPlayer()[0]->setName(human->getName());
+        controller->getPlayer()[1]->setName("AI");
+
+        std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "Vous avez 6 cartes dans votre main" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "Vous voulez commencer à jouer en premier ou en deuxième?" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;35m"<< "----------------------------------------------" << "\033[0m"<< std::endl;
+        std::cout << "\033[1;32m"<< "1. " << "Commencer en premier(La place de la carte que vous jouez est à gauche)" << "\033[0m" << std::endl;
+        std::cout << "\033[1;32m"<< "2. " << "Commencer en deuxième(La place de la carte que vous jouez est à droite)" << "\033[0m" << std::endl;
+        std::cin >> choix;
+        while (choix < 1 || choix > 2) {
+            std::cout << "\033[1;31m" << "Vous n'avez pas choisi une option valide" << "\033[0m" << std::endl;
+            std::cout << "\033[1;32m" << "Votre choix : " << "\033[0m";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin >> choix;
+
+        }
+        switch (choix) {
+            case 1:
+                std::cout << "\033[1;32m" << "Vous avez choisi de commencer en premier" << "\033[0m"<<"\n"<< std::endl;
+                controller->getPlayer()[0]->setSide("gauche");
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                break;
+            case 2:
+                std::cout << "\033[1;32m" << "Vous avez choisi de commencer en deuxième" << "\033[0m"<<"\n"<< std::endl;
+                controller->getPlayer()[0]->setSide("droite");
+                controller->getPlayer()[1]->setSide("gauche");
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
+                break;
+
+        }
 
 
+        while(1)
+        {   if(controller->getPlayer()[0]->getSide()=="gauche")
+            {
+                AI_action_possible_normal(human, AI,board,controller);
+
+                AI_action_possible_normal(AI, human,board,controller);}
+            else
+            {
+                AI_action_possible_normal(AI, human,board,controller);
+
+                AI_action_possible_normal(human, AI,board,controller);}
+        }
 
 
-
+    }
 
     void show_menu_principal() {
         int choix;
@@ -423,7 +505,7 @@ namespace Vue{
                         break;
                     case 2:
                         std::cout<< "\033[1;32m"  << "Vous avez choisi de commencer une nouvelle partie comme la mode tactique"<< "\033[0m" <<"\n"<< std::endl;
-                        show_board_tactical();
+                        version1_tactique();
                         break;
                     case 3:
                         std::cout<< "\033[1;32m"  << "Vous avez choisi de retourner" << "\033[0m"<<"\n"<< std::endl;
@@ -556,7 +638,9 @@ namespace Vue{
 
 
 
+
     }
+
 
 
 
