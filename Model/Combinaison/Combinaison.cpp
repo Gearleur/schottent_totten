@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Combinaison.h"
 
 namespace Model

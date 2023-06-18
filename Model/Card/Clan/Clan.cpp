@@ -6,6 +6,7 @@
 #include "../Card.h"
 
 #include <iostream>
+#include <sstream>
 
 //affiche les informations de la carte clan
 //affiche le type de carte
@@ -14,11 +15,16 @@
 
 namespace Model {
     void Clan::showCard() const {
-        std::cout << "Type : " << getType() << std::endl;
-        std::cout << "Number : " << getNumber() << std::endl;
-        std::cout << "Color : " << getColor() << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Clan)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Number(" << getNumber()<<")"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Color(" <<  colorNames[getColor()]<<") "<< "\033[0m";
     }
-    Clan::~Clan() {
-            std::cout<< "***** CLAN CARD DESTRUCTOR *****"<< std::endl;
+
+    std::string Clan::getCardInfo() const {
+        std::ostringstream oss;
+        oss << "\033[1;35m" << "Type(Clan)" << "\033[0m";
+        oss << "\033[1;35m" << "  Number(" << getNumber() << ")" << "\033[0m";
+        oss << "\033[1;35m" << "  Color(" << colorNames[getColor()] << ") " << "\033[0m";
+        return oss.str();
     }
 }

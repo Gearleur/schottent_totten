@@ -16,6 +16,7 @@ namespace Model {
         virtual ~Ruse() = default;
 
         virtual void showCard() const = 0;
+        virtual std::string getCardInfo() const = 0;
     };
 
     class Traitre : public Ruse {
@@ -27,6 +28,7 @@ namespace Model {
         ~Traitre() override = default;
 
         void showCard() const override;
+        std::string getCardInfo() const override;
 
         void setColor(Color color) override { this->color = color; };
     };
@@ -40,6 +42,7 @@ namespace Model {
         ~ChasseurdeTete() override = default;
 
         void showCard() const override;
+        std::string getCardInfo() const override;
     };
 
     class Stratege : public Ruse {
@@ -51,6 +54,7 @@ namespace Model {
         ~Stratege() override = default;
 
         void showCard() const override;
+        std::string getCardInfo() const override;
     };
 
     class Banshee: public Ruse {
@@ -62,6 +66,7 @@ namespace Model {
         ~Banshee() override = default;
 
         void showCard() const override;
+        std::string getCardInfo() const override;
     };
 
 

@@ -15,6 +15,14 @@ namespace Model
         this->deck = std::vector<Card *>();
     }
 
+    Deck::~Deck()
+    {
+        for (int i = 0; i < this->deck.size(); i++)
+        {
+            delete this->deck[i];
+        }
+    }
+
     void Deck::shuffle()
     {
         std::random_device rd;

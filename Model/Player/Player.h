@@ -2,27 +2,28 @@
 // Created by alexa on 15/05/2023.
 //
 
-#ifndef SCHOTTENT_TOTTEN_PLAYER_H
-#define SCHOTTENT_TOTTEN_PLAYER_H
+#pragma once
 
 #include <string>
 #include <vector>
 #include <algorithm>
 #include "../Border/Border.h"
 #include "../EventManager/EventManager.h"
-
+#include "../Card/Card.h"
 
 
 namespace Model {
     class Card;
     class Border;
-    class Player :public Observer {
+    class Player /*: public Observer*/{
     protected:
         friend class Controller;
         int id;
         std::string name;
+        std::string side;
         std::vector<Card *> hand;
         std::vector<Border *> borders;
+
 
     public:
         static int idCounter;
@@ -34,7 +35,7 @@ namespace Model {
                 : id(idCounter++), name(name), hand(hand), borders(borders) {
         }
 
-    /*Stashed changes*/
+        /*Stashed changes*/
         /* getters */
         const int &getId() const { return id; };
 
@@ -59,8 +60,13 @@ namespace Model {
         void removeBorder(int index) { borders.erase(borders.begin() + index); };
 
         void showHand() const;
-
-        void update(const std::string& event) override;
+        void setSide(const std::string& side) { this->side = side; }
+        const std::string& getSide() const { return side; }
+        void setName(const std::string &n) {this->name = n;}
+        void Notify(const std::string& message){
+            std::cout << "Notification received: " << message << std::endl;
+        }
+        //void update(const std::string &event) override;
         /* virtual functions */
         virtual bool isAI() const = 0;//rend la classe abstraite et les classes filles doivent implémenter cette fonction
         virtual ~Player() = default;
@@ -68,6 +74,3 @@ namespace Model {
 
     };
 }
-
-
-#endif //SCHOTTENT_TOTTEN_PLAYER_H

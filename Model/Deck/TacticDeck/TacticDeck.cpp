@@ -26,7 +26,6 @@ namespace Model
 
     TacticDeck::TacticDeck() : Deck()
     {
-        std::cout <<"***** TacticDeck CONSTRUCTOR *****" <<std::endl;
         fillDeck();
         shuffle();
     }
@@ -34,10 +33,5 @@ namespace Model
     void TacticDeck::addCard(Card *card)
     {
         getDeck().push_back(card);
-    }
-
-    void TacticDeck::freeInstance() {
-        delete Instance_tacticDeck;
-        Instance_tacticDeck = nullptr;
     }
 }

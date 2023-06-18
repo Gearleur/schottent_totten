@@ -1,35 +1,34 @@
-#ifndef SCHOTTENT_TOTTEN_EVENTMANAGER_H
-#define SCHOTTENT_TOTTEN_EVENTMANAGER_H
+#pragma once
 
 #include <iostream>
 #include <vector>
-
+#include "../Player/Player.h"
 namespace Model
 {
-    class Observer {
+    class Player;
+    /*class Observer {
     public:
         virtual void update(const std::string& event) = 0;
-    };
+    };*/
 
 // Classe qui envoie des événements
     class EventManager {
     private:
-        std::unordered_map<std::string, std::vector<Observer*>> observers;
-
+        std::vector<Player*> observers;
     public:
-        void subscribe(const std::string& event, Observer* observer) {
-            observers[event].push_back(observer);
+        void RegisterObserver(Player* player) {
+            observers.push_back(player);
         }
 
-        void emitEvent(const std::string& event) {
-            if (observers.count(event) > 0) {
-                for (Observer* observer : observers[event]) {
-                    observer->update(event);
-                }
-            }
+        void UnregisterObserver(Player* player) {
+            // Implémentez ici la logique pour supprimer un observateur de la liste
         }
+
+        /*void NotifyPlayers(const std::string& message) {
+            for (auto observer : observers) {
+                observer->Notify(message);
+            }
+        }*/
     };
 
 }
-
-#endif // SCHOTTENT_TOTTEN_EVENTMANAGER_H

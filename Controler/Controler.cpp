@@ -9,23 +9,20 @@ namespace Model
             i++;
         if (game->getVariante() == "Classique")
             return i < 6;
+        if(game->getVariante() == "Tactique")
+            return i <7;
         else
             return false;
     }
     int Controller::TacticCardCount(int idPlayer) const
     {
-        if (game->getVariante() == "Tactique")
+        int tactics = 0;
+        for (auto it : observers[idPlayer]->getHand())
         {
-            int tactics = 0;
-            for (auto it : observers[idPlayer]->getHand())
-            {
-                if (it->getType() == SPECIAL)
-                    tactics += 1;
-            }
-            return tactics;
+            if (it->getType() == SPECIAL)
+                tactics += 1;
         }
-        else
-            return 0;
+        return tactics;
     }
     bool Controller::canDrawTactic(int idPlayer) const
     {
@@ -72,12 +69,12 @@ namespace Model
                 return true;
         }
     }
-    bool Controller::canClaimBorder(int idPlayer, int borderPosition) const
+    bool Controller::canClaimBorder(int idPlayer, Model::Board *pBoard, int borderPosition) const
     {
-        if(borders[borderPosition]->isLeftFull() && borders[borderPosition]->isRightFull()) //on peut plus poser de carte des deux côtés
+        if(pBoard->getBorders()[borderPosition]->isLeftFull() && pBoard->getBorders()[borderPosition]->isRightFull())
         {
-            Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(borders[borderPosition]->getLeftBorder());
-            Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(borders[borderPosition]->getRightBorder());
+            Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getLeftBorder());
+            Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getRightBorder());
             if(idPlayer == 0)
                 return comboA->getPuissance() > comboB->getPuissance();
             else

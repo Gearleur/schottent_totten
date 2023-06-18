@@ -5,6 +5,9 @@
 #ifndef SCHOTTENT_TOTTEN_ENUMS_H
 #define SCHOTTENT_TOTTEN_ENUMS_H
 
+#include <map>
+#include <string>
+
 enum Color {
     RED, // 0
     BLUE, // 1
@@ -13,6 +16,8 @@ enum Color {
     PURPLE, // 4
     ORANGE // 5
 };
+
+extern std::map<Color, std::string> colorNames;
 
 enum Type {
     NUMBERED, // 0
