@@ -83,6 +83,7 @@ namespace Model
             game = GameControllerFactory::createGame(v, variante);
             for(size_t i = 0; i<9; i++)
                 borders.push_back(new Border((int)i));
+
         }
         //les 4 méthodes en dessus sont faites pour tester le main
         //getters sans modifications
@@ -100,6 +101,7 @@ namespace Model
         size_t getPlayerCount() {return observers.size();}
         bool canDrawClanCard(int idPlayer) const;
         bool canDrawTactic(int idPlayer) const;
+        const int getDifferenceTacticalCard() const;
         bool canPlayCard(int idPlayer, int borderPosition) const;
         bool canClaimBorder(int idPlayer, Model::Board *pBoard, int borderPosition) const;
         int TacticCardCount(int idPlayer) const;

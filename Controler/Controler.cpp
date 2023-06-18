@@ -5,7 +5,9 @@ namespace Model
     bool Controller::canDrawClanCard(int idPlayer) const
     {
         size_t i = 0;
-        for (auto it : observers[idPlayer]->getHand())
+        for (auto it : observers[idPlayer]->getHand()) {
+
+        }
             i++;
         if (game->getVariante() == "Classique")
             return i < 6;
@@ -74,13 +76,36 @@ namespace Model
         if(pBoard->getBorders()[borderPosition]->isLeftFull() && pBoard->getBorders()[borderPosition]->isRightFull())
         {
             Combinaison *comboA = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getLeftBorder());
+            comboA->afficher();
             Combinaison *comboB = CombinaisonControllerFactory::createCombinaison(pBoard->getBorders()[borderPosition]->getRightBorder());
-            if(idPlayer == 0)
+            comboB->afficher();
+            if(comboA->getPuissance() == comboB->getPuissance()){
+                std::cout << "Les combinaisons sont les mêmes, on décide de sommer la valeur des cartes." <<std::endl;
+                int sumA = 0;
+                int sumB = 0;
+                for(auto card : pBoard->getBorders()[borderPosition]->getLeftBorder())
+                    sumA += (int) card->getNumber();
+                for(auto card : pBoard->getBorders()[borderPosition]->getRightBorder())
+                    sumB += (int) card->getNumber();
+                std::cout << "Somme du joueur 1 : " << sumA<<std::endl;
+                std::cout << "Somme du joueur 2 : " << sumB<<std::endl;
+                if(sumA == sumB)    //dans le cas d'égalité totale, on retourne vrai pour le joueur appelant
+                    return true;
+                else if(idPlayer == 0)
+                    return sumA > sumB;
+                else
+                    return sumB > sumA;
+            }
+            else if(idPlayer == 0)
                 return comboA->getPuissance() > comboB->getPuissance();
             else
                 return comboB->getPuissance() > comboA->getPuissance();
         }
         else    //flemme de faire le cas irréfutable c'est relou
             return false;
+    }
+
+    const int Controller::getDifferenceTacticalCard() const{    //retourne TacticalCardPlayedJ1 - TacticalCardPlayedJ2
+        return observers[0]->tacticalCardPlayed - observers[1]->tacticalCardPlayed;
     }
 }
