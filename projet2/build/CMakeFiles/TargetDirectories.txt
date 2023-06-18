@@ -1,0 +1,3 @@
+/Users/azmanizakary/Desktop/GI02/LO21/Projet/Schotten_Totten/build/CMakeFiles/schottent_totten.dir
+/Users/azmanizakary/Desktop/GI02/LO21/Projet/Schotten_Totten/build/CMakeFiles/edit_cache.dir
+/Users/azmanizakary/Desktop/GI02/LO21/Projet/Schotten_Totten/build/CMakeFiles/rebuild_cache.dir
