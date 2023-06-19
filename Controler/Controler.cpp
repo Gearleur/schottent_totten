@@ -38,7 +38,7 @@ namespace Model
             return false;
     }
     bool Controller::win(Player* Player1,  Player *Player2,Board *board) const {
-        if (this->game->getVariante() == "Classique")
+        if (this->game->getVariante() == "Classique"||this->game->getVariante() == "Tactique")
         {   int point1=0;
             int point2=0;
             int adjacent1=0;

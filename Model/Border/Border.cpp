@@ -131,6 +131,13 @@ namespace Model{
         currentCardsLeft--;
 
     }
+    void  Border::removeCardRight(int index) {
+        if (index < 0 || index >= rightBorder.size()) {
+            throw std::invalid_argument("Index out of range");
+        }
+        rightBorder.erase(rightBorder.begin() + index);
+        currentCardsRight--;
+    }
 
 
     Border::~Border() = default;
