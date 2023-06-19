@@ -89,14 +89,13 @@ namespace Vue{
             std::cin >> bordernumber2;
         }
         if(pPlayer->getSide()=="gaunche"){
-            std::cout << "test" << std::endl;
-            pBoard->getBorders()[--bordernumber2]->putCardLeft(pBoard->getBorders()[bordernumber]->getRightBorder()[--cardnumber]);
-            //pBoard->getBorders()[bordernumber]->removeCardRight(pBoard->getBorders()[bordernumber]->getRightBorder()[cardnumber]);
 
-        }
-        else
+            pBoard->getBorders()[--bordernumber2]->putCardLeft(pBoard->getBorders()[bordernumber]->getRightBorder()[--cardnumber]);
+            pBoard->getBorders()[bordernumber]->removeCardLeft(cardnumber);
+          }
+          else
         {pBoard->getBorders()[--bordernumber2]->putCardRight(pBoard->getBorders()[bordernumber]->getLeftBorder()[--cardnumber]);
-            pBoard->getBorders()[bordernumber]->removeCardLeft(pBoard->getBorders()[bordernumber]->getLeftBorder()[cardnumber]);
+            pBoard->getBorders()[bordernumber]->removeCardLeft(cardnumber);
         }
     }
     void handleStratege(Model::Player *pPlayer, Model::Board *pBoard, Model::Controller *controller)
@@ -186,12 +185,11 @@ namespace Vue{
         if(pPlayer->getSide()=="gauche"){
             std::cout << "test" << std::endl;
             pBoard->getBorders()[--bordernumber2]->putCardLeft(pBoard->getBorders()[bordernumber]->getLeftBorder()[--cardnumber]);
-            pBoard->getBorders()[bordernumber]->removeCardLeft(pBoard->getBorders()[bordernumber]->getLeftBorder()[cardnumber]);
+            pBoard->getBorders()[bordernumber]->removeCardLeft(cardnumber);
 
-        }
-        else
+        }else
         {pBoard->getBorders()[--bordernumber2]->putCardRight(pBoard->getBorders()[bordernumber]->getRightBorder()[--cardnumber]);
-            pBoard->getBorders()[bordernumber]->removeCardRight(pBoard->getBorders()[bordernumber]->getRightBorder()[cardnumber]);
+            pBoard->getBorders()[bordernumber]->removeCardLeft(cardnumber);
         }
 
 
@@ -1306,11 +1304,11 @@ void version1_normal() {
 
     while (1) {
         if (controller->getPlayer()[0]->getSide() == "gauche") {
-            AI_action_possible_normal(human, AI, board, controller);
+            show_action_possible_normal(human, AI, board, controller);
 
             AI_action_possible_normal(AI, human, board, controller);
         } else {
-            show_action_possible_normal(AI, human, board, controller);
+            AI_action_possible_normal(AI, human, board, controller);
 
             show_action_possible_normal(human, AI, board, controller);
         }
@@ -1366,17 +1364,11 @@ void version1_tactique()
             controller->getPlayer()[1]->setSide("droite");
             controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
             controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
-            //controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
-            //controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
-            //controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
-            //controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
-            //controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
-            controller->getPlayer()[0]->addCard( new Model::Combatdeboue());
-            controller->getPlayer()[0]->addCard( new Model::ChasseurdeTete());
-            controller->getPlayer()[0]->addCard( new Model::Banshee());
-            controller->getPlayer()[0]->addCard( new Model::Stratege());
-            controller->getPlayer()[0]->addCard( new Model::Traitre());
-
+            controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+            controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+            controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+            controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
+            controller->getPlayer()[0]->addCard(board->getClanDeck()->draw());
             controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
             controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());
             controller->getPlayer()[1]->addCard(board->getClanDeck()->draw());

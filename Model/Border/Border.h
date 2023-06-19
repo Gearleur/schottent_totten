@@ -70,6 +70,7 @@ namespace Model
         void putCardLeft(Card *card);
         void putCardRight(Card *card);
         void removeCardLeft(Card *card);
+        void removeCardLeft(int index);
         void removeCardRight(Card *card);
         int getMaxCards() const { return maxCards; }
         int getCurrentCardsLeft() const { return currentCardsLeft; }

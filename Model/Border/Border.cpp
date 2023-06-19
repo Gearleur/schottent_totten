@@ -123,6 +123,15 @@ namespace Model{
         std::cout << "\033[1;32mCartes actuelles - Gauche : " << "\033[1;35m"<< currentCardsLeft<< "\033[0m" << "\033[1;32m"<< " / Droite : "<< "\033[0m"<< "\033[1;35m" << currentCardsRight << "\033[0m"<< "\033[0m" << "\033[1;32m / Borne : " << "\033[1;35m"<< borne.size()<< "\033[0m"<< std::endl;
     }
 
+    void Border::removeCardLeft(int index) {
+        if (index < 0 || index >= leftBorder.size()) {
+            throw std::invalid_argument("Index out of range");
+        }
+        leftBorder.erase(leftBorder.begin() + index);
+        currentCardsLeft--;
+
+    }
+
 
     Border::~Border() = default;
 
