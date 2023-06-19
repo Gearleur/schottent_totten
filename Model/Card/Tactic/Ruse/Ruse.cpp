@@ -7,7 +7,8 @@
 
 namespace Model {
     void Traitre::showCard() const {
-        std::cout << "Traitre" << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Traitre"<<") "<< "\033[0m";
     }
 
     std::string Traitre::getCardInfo() const {
@@ -15,7 +16,8 @@ namespace Model {
     }
 
     void ChasseurdeTete::showCard() const {
-        std::cout << "Chasseur de Tête" << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Chasseur de Tête"<<") "<< "\033[0m";
     }
 
     std::string ChasseurdeTete::getCardInfo() const {
@@ -23,7 +25,8 @@ namespace Model {
     }
 
     void Stratege::showCard() const {
-        std::cout << "Stratège" << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Stratège"<<") "<< "\033[0m";
     }
 
     std::string Stratege::getCardInfo() const {
@@ -31,7 +34,8 @@ namespace Model {
     }
 
     void Banshee::showCard() const {
-        std::cout << "Banshee" << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Banshee"<<") "<< "\033[0m";
     }
 
     std::string Banshee::getCardInfo() const {

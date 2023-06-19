@@ -6,7 +6,8 @@
 #include <iostream>
 namespace Model {
     void Joker::showCard() const {
-        std::cout<<"joker"<<std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "joker"<<") "<< "\033[0m";
     }
 
     std::string Joker::getCardInfo() const {
@@ -14,7 +15,8 @@ namespace Model {
     }
 
     void Espion::showCard() const {
-        std::cout<<"Espion"<<std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Espion"<<") "<< "\033[0m";
     }
 
     std::string Espion::getCardInfo() const {
@@ -22,7 +24,8 @@ namespace Model {
     }
 
     void Portebouclier::showCard() const {
-        std::cout<<"Portebouclier"<<std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Porte bouclier"<<") "<< "\033[0m";
     }
     void Portebouclier::choseNumber(Numbered number) {
         if(number == ONE || number == TWO || number == THREE){

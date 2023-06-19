@@ -102,7 +102,7 @@ namespace Model
         bool canDrawClanCard(int idPlayer) const;
         bool canDrawTactic(int idPlayer) const;
         bool win(Player* Player1,  Player *Player2,Board *board) const;
-        int getDifferenceTacticalCard() const;
+        int getDifferenceTacticalCard(Player* player) const;
         bool canPlayCard(int idPlayer, int borderPosition) const;
         bool canClaimBorder(int idPlayer, Model::Board *pBoard, int borderPosition) const;
         int TacticCardCount(int idPlayer) const;

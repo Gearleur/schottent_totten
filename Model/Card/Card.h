@@ -35,9 +35,10 @@ namespace Model{
         Numbered getNumber() const { return number; };
         Color getColor() const { return color; };
         Type getType() const { return type; };
-        std::string getName() const { return name; };
         std::string getDescription() const { return description; };
         Player* getOwner() const { return owner; };
+        int getTypeInt() const { return type; };
+
 
 
         //setters
@@ -49,6 +50,7 @@ namespace Model{
         //fonctions
         virtual void showCard() const = 0;
         virtual std::string getCardInfo() const = 0;
+        virtual  std::string getNom() const = 0;
 
         //fonction
 

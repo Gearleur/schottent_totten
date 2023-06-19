@@ -85,7 +85,7 @@ namespace Model
         {
             if (borders[borderPosition]->isLeftFull()) {
                 if (std::any_of(observers[idPlayer]->getHand().begin(), observers[idPlayer]->getHand().end(), [](const auto& card) {
-                    return card->getName() == "Combat de Boue";
+                    return card->getNom() == "Combat de Boue";
                 })) {
                     borders[borderPosition]->setMaxCards(4);
                     return true;
@@ -100,7 +100,7 @@ namespace Model
         {
             if (borders[borderPosition]->isRightFull()) {
                 if (std::any_of(observers[idPlayer]->getHand().begin(), observers[idPlayer]->getHand().end(), [](const auto& card) {
-                    return card->getName() == "Combat de Boue";
+                    return card->getNom() == "Combat de Boue";
                 })) {
                     borders[borderPosition]->setMaxCards(4);
                     return true;
@@ -141,7 +141,10 @@ namespace Model
         else    //flemme de faire le cas irréfutable c'est relou
             return false;
     }
-    int Controller::getDifferenceTacticalCard() const{    //retourne TacticalCardPlayedJ1 - TacticalCardPlayedJ2
-        return observers[0]->tacticalCardPlayed - observers[1]->tacticalCardPlayed;
+    int Controller::getDifferenceTacticalCard(Player* player) const{    //retourne TacticalCardPlayedJ1 - TacticalCardPlayedJ2
+        if(player == this->observers[0])
+            return this->observers[0]->getTacticalCardPlayed() - this->observers[1]->getTacticalCardPlayed();
+        else
+            return this->observers[1]->getTacticalCardPlayed() - this->observers[0]->getTacticalCardPlayed();
     }
 }

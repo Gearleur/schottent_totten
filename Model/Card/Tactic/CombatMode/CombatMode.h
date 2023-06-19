@@ -13,6 +13,7 @@ namespace Model {
         CombatMode(Numbered number, Color color): Tactic(number, color,Special::BattleModes){};
         virtual ~CombatMode() = default;
         virtual void showCard() const = 0;
+        virtual  std::string getNom() const = 0;
         std::string getCardInfo() const = 0;
     };
     class Combatdeboue : public CombatMode {
@@ -22,6 +23,7 @@ namespace Model {
         Combatdeboue(Numbered number=ONE, Color color=RED): CombatMode(number, color){};
         ~Combatdeboue() override = default;
         void showCard() const override;
+        std::string getNom() const override {return name;};
         std::string getCardInfo() const override;
         void setColor(Color color) override  {this->color = color;};
     };
@@ -32,6 +34,7 @@ namespace Model {
         CollinMaillard(Numbered number=ONE, Color color=RED): CombatMode(number, color){};
         ~CollinMaillard() override = default;
         void showCard() const override;
+        std::string getNom() const override {return name;};
         std::string getCardInfo() const override;
     };
 }

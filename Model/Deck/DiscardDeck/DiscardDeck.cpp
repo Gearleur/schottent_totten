@@ -17,6 +17,6 @@ namespace Model
 
     void DiscardDeck::addCard(Card *card)
     {
-        getDeck().push_back(card);
+        putBack(card);
     }
 }

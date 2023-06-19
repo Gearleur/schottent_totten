@@ -39,6 +39,7 @@ namespace Model
         std::vector<Card *> borne = std::vector<Card *>();
 
         int maxCards = 3;
+        int CollinMaillard = 0;
         int currentCardsLeft;
         int currentCardsRight;
         Player *owner;
@@ -57,11 +58,13 @@ namespace Model
     public:
         void setOwner(Player *player) { owner = player; }
         void setMaxCards(int Maxcards) { this->maxCards = Maxcards; }
+        void setColinMaillard(int CollinMaillard) { this->CollinMaillard = CollinMaillard; }
         bool isLeftFull() const { return currentCardsLeft == maxCards; }
         bool isRightFull() const { return currentCardsRight == maxCards; }
         /* Getter */
         int getPosition() const { return position; }
         Player *getOwner() const { return owner; }
+        int getColinMaillard() const { return CollinMaillard; }
         const std::vector<Card *> &getLeftBorder() const { return leftBorder; }
         const std::vector<Card *> &getRightBorder() const { return rightBorder; }
         void putCardLeft(Card *card);
@@ -71,6 +74,7 @@ namespace Model
         int getMaxCards() const { return maxCards; }
         int getCurrentCardsLeft() const { return currentCardsLeft; }
         int getCurrentCardsRight() const { return currentCardsRight; }
+        bool setBorne(Card *card){ borne.push_back(card); return true; }
         explicit Border(int position, Player *owner = nullptr);
         virtual ~Border();
         void showBorder() const;

@@ -14,6 +14,7 @@ namespace Model{
         ~Clan() override = default;
 
         void showCard() const override;
+        std::string getNom() const override {return "Clan";};
         std::string getCardInfo() const override;
     };
 }

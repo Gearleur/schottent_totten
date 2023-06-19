@@ -6,7 +6,8 @@
 #include <iostream>
 namespace Model {
     void Combatdeboue::showCard() const {
-        std::cout << "Combatdeboue" << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "Combatdeboue"<<") "<< "\033[0m";
     }
 
     std::string Combatdeboue::getCardInfo() const {
@@ -14,7 +15,8 @@ namespace Model {
     }
 
     void CollinMaillard::showCard() const {
-        std::cout << "CollinMaillard" << std::endl;
+        std::cout << "\033[1;35m"<< "Type(Tactique)"<< "\033[0m";
+        std::cout << "\033[1;35m"<< "  Nom(" << "CollinMaillard"<<") "<< "\033[0m";
     }
 
     std::string CollinMaillard::getCardInfo() const {

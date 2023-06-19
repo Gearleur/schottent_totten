@@ -14,7 +14,7 @@ namespace Model {
         for (auto &i: hand) {
             std::cout << i->getNumber() << " " << i->getColor() << " " << i->getType();
             if (i->getType() == 1) {
-                std::cout << " " << i->getName();
+                std::cout << " " << i->getNom();
             }
             std::cout << " | ";
         }
